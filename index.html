@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>မြန်မာ့ရိုးရာ အင်းကွက် စနစ်</title>
+  <style>
+    /* Custom Font (အင်္ဂလန်ဖောင့်) ချိတ်ဆက်ခြင်း */
+    @font-face {
+      font-family: 'InnFont';
+      src: url('Calligraphr-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    :root {
+      --primary: #8b0000;
+      --primary-dark: #5c0000;
+      --accent: #d4af37; /* ရွှေရောင်ဆန်ဆန် အရောင် */
+      --bg: #f9f6f0;
+      --card-bg: #ffffff;
+      --border: #4a3b32;
+    }
+
+    * { 
+      box-sizing: border-box; 
+      font-family: 'Pyidaungsu', 'Padauk', sans-serif; 
+    }
+
+    body {
+      margin: 0;
+      padding: 10px;
+      background: var(--bg);
+      color: #2c221e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* ခေါင်းစဉ်ပိုင်းဆိုင်ရာ ဒီဇိုင်း */
+    .header-container {
+      text-align: center;
+      margin-bottom: 12px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 6px;
+      width: 100%;
+      max-width: 450px;
+    }
+
+    h2 { 
+      margin: 5px 0; 
+      color: var(--primary); 
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    /* အမြန်ရွေးချယ်စရာ ခလုတ်များ (Toolbar) */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      justify-content: center;
+      margin-bottom: 10px;
+      max-width: 450px;
+    }
+
+    .toolbar button {
+      background: #fff;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .toolbar button:hover {
+      background: #f2dede;
+    }
+
+    .toolbar button.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 5px rgba(139, 0, 0, 0.3);
+    }
+
+    /* ကိုယ်တိုင် အကွက်အရွယ်အစား ရိုက်ထည့်ရန် Box */
+    .custom-size-box {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 15px;
+      align-items: center;
+      background: var(--card-bg);
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid #d1c7bc;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .custom-size-box input {
+      width: 65px;
+      padding: 6px;
+      font-size: 16px;
+      text-align: center;
+      border: 1px solid #999;
+      border-radius: 4px;
+    }
+
+    .custom-size-box button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* ဇယားပြမည့် ပုံစံ (Grid Container) */
+    .grid-container {
+      background: var(--card-bg);
+      padding: 12px;
+      border: 3px double var(--border);
+      border-radius: 8px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .grid {
+      display: grid;
+      border: 2px solid var(--border);
+      width: 100%;
+      background: #fff;
+    }
+
+    .cell {
+      border: 1px solid #b8aca1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      background: #faf8f5;
+      user-select: none;
+      cursor: pointer;
+      aspect-ratio: 1 / 1;
+      width: 100%;
+      font-family: 'InnFont', 'Pyidaungsu', sans-serif;
+      transition: background 0.15s;
+    }
+
+    .cell:hover {
+      background: #fdf5e6;
+    }
+
+    .cell.selected {
+      background: #ffe4b5 !important;
+      outline: 2px solid var(--primary);
+      z-index: 2;
+    }
+
+    /* ထပ်ဆောင်း ထိန်းချုပ်ခလုတ်များ (Actions) */
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      width: 100%;
+      max-width: 420px;
+      justify-content: center;
+    }
+
+    .action-buttons button {
+      flex: 1;
+      background: #555;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .action-buttons button.clear-btn {
+      background: #a94442;
+    }
+
+    .action-buttons button.save-btn {
+      background: #2e6f40;
+    }
+
+    /* Keypad Modal UI (အောက်ခြေမှ တက်လာမည့် Keypad) */
+    .keypad-modal {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border-top: 4px solid var(--primary);
+      box-shadow: 0 -6px 20px rgba(0,0,0,0.25);
+      padding: 15px;
+      z-index: 1000;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+
+    .keypad-modal.show { 
+      display: block; 
+      animation: slideUp 0.2s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .keypad-title {
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--primary);
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+    }
+
+    .key-group {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .key-btn {
+      background: #f4f0eb;
+      border: 1px solid #d1c7bc;
+      border-radius: 6px;
+      padding: 12px 0;
+      font-size: 19px;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+      font-family: 'InnFont', 'Pyidaungsu', sans-serif;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .key-btn.default-font {
+      font-family: 'Pyidaungsu', sans-serif;
+      font-size: 15px;
+    }
+
+    .key-btn:active { 
+      background: #e2dcd6; 
+    }
+
+    .key-btn.special {
+      background: #fae1e1;
+      color: var(--primary);
+      border-color: #f2c6c6;
+    }
+
+    .custom-input-box {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .custom-input-box input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-family: 'InnFont', 'Pyidaungsu', sans-serif;
+    }
+
+    .custom-input-box button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: 'Pyidaungsu', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-container">
+    <h2>အင်းကွက် ဖန်တီးရေးစနစ်</h2>
+  </div>
+
+  <!-- အမြန်ရွေးချယ်စရာ ခလုတ်များ (၂ ကွက်မှ ၉ ကွက်) -->
+  <div class="toolbar" id="toolbar"></div>
+
+  <!-- ကိုယ်တိုင် အကွက်အရွယ်အစား (ဥပမာ ၁၀၊ ၁၂ စသည်ဖြင့်) ရိုက်ထည့်ရန် Tool -->
+  <div class="custom-size-box">
+    <label for="customSizeInput" style="font-weight:bold; font-size:14px;">အကွက်အရွယ်အစား:</label>
+    <input type="number" id="customSizeInput" min="2" max="25" value="9">
+    <span style="font-size:14px;">ပတ်လည်</span>
+    <button onclick="applyCustomSize()">ဖန်တီး</button>
+  </div>
+
+  <!-- ဇယားပြမည့်နေရာ -->
+  <div class="grid-container">
+    <div class="grid" id="gridDisplay"></div>
+  </div>
+
+  <!-- ထပ်ဆောင်း ထိန်းချုပ်ခလုတ်များ -->
+  <div class="action-buttons">
+    <button onclick="clearGrid()" class="clear-btn">ဇယားရှင်းမည်</button>
+    <button onclick="saveGridData()" class="save-btn">သိမ်းဆည်းမည်</button>
+  </div>
+
+  <!-- Keypad Pop-up -->
+  <div class="keypad-modal" id="keypadModal">
+    <div class="keypad-title">
+      <span id="activeCellInfo">ကွက်လပ်ဖြည့်စွက်ရန်</span>
+      <span style="cursor:pointer; color: #8b0000; font-weight:bold;" onclick="closeKeypad()">✕ ပိတ်မည်</span>
+    </div>
+
+    <!-- ပင်မအင်းဆံအက္ခရာများ -->
+    <div class="key-group" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="key-btn special" onclick="fillValue('ဈ')">ဈ</div>
+      <div class="key-btn special" onclick="fillValue('တ')">တ</div>
+      <div class="key-btn special" onclick="fillValue('ဘ')">ဘ</div>
+      <div class="key-btn special" onclick="fillValue('ယ')">ယ</div>
+    </div>
+
+    <!-- မြန်မာဂဏန်းများ -->
+    <div class="key-group">
+      <div class="key-btn" onclick="fillValue('၁')">၁</div>
+      <div class="key-btn" onclick="fillValue('၂')">၂</div>
+      <div class="key-btn" onclick="fillValue('၃')">၃</div>
+      <div class="key-btn" onclick="fillValue('၄')">၄</div>
+      <div class="key-btn" onclick="fillValue('၅')">၅</div>
+      <div class="key-btn" onclick="fillValue('၆')">၆</div>
+      <div class="key-btn" onclick="fillValue('၇')">၇</div>
+      <div class="key-btn" onclick="fillValue('၈')">၈</div>
+      <div class="key-btn" onclick="fillValue('၉')">၉</div>
+      <div class="key-btn" onclick="fillValue('၀')">၀</div>
+      <div class="key-btn default-font" style="background:#ffdddd;" onclick="fillValue('')">ဖျက်</div>
+      <div class="key-btn default-font" style="background:#d4edda;" onclick="closeKeypad()">ပြီး</div>
+    </div>
+
+    <!-- စိတ်ကြိုက်စာလုံး/မန္တန်လုံး ရိုက်ထည့်ရန် -->
+    <div class="custom-input-box">
+      <input type="text" id="customInput" placeholder="စာရိုက်ထည့်ပါ...">
+      <button onclick="fillCustom()">သွင်း</button>
+    </div>
+  </div>
+
+  <script>
+    let currentSize = 9; 
+    let selectedCell = null;
+    let gridData = {};
+
+    // LocalStorage မှ သိမ်းဆည်းထားသည်များကို ဖတ်ရှုခြင်း
+    const savedData = localStorage.getItem('amulet_grid_data');
+    if (savedData) {
+      try {
+        gridData = JSON.parse(savedData);
+      } catch (e) {
+        gridData = {};
+      }
+    }
+
+    // ရွေးချယ်စရာ ခလုတ်များ ဖန်တီးခြင်း (၂ ကွက်မှ ၉ ကွက်)
+    const toolbar = document.getElementById('toolbar');
+    for (let s = 2; s <= 9; s++) {
+      const btn = document.createElement('button');
+      btn.innerText = `${s}x${s}`;
+      if (s === currentSize) btn.classList.add('active');
+      btn.onclick = () => switchGrid(s);
+      toolbar.appendChild(btn);
+    }
+
+    function switchGrid(size) {
+      currentSize = size;
+      document.getElementById('customSizeInput').value = size;
+      document.querySelectorAll('.toolbar button').forEach(b => {
+        b.classList.toggle('active', b.innerText === `${size}x${size}`);
+      });
+      renderGrid();
+      closeKeypad();
+    }
+
+    function applyCustomSize() {
+      const val = parseInt(document.getElementById('customSizeInput').value);
+      if (val && val >= 2 && val <= 30) {
+        currentSize = val;
+        document.querySelectorAll('.toolbar button').forEach(b => b.classList.remove('active'));
+        renderGrid();
+        closeKeypad();
+      } else {
+        alert('ကျေးဇူးပြု၍ ၂ မှ ၃၀ အတွင်း ဂဏန်းထည့်ပါ။');
+      }
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('gridDisplay');
+      grid.innerHTML = '';
+      grid.style.gridTemplateColumns = `repeat(${currentSize}, 1fr)`;
+      grid.style.gridTemplateRows = `repeat(${currentSize}, 1fr)`;
+
+      if (!gridData[currentSize]) {
+        gridData[currentSize] = Array(currentSize * currentSize).fill('');
+      }
+
+      for (let i = 0; i < currentSize * currentSize; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.innerText = gridData[currentSize][i];
+        cell.dataset.index = i;
+        cell.onclick = () => openKeypad(cell, i);
+        grid.appendChild(cell);
+      }
+    }
+
+    function openKeypad(cellElement, index) {
+      if (selectedCell) selectedCell.classList.remove('selected');
+      selectedCell = cellElement;
+      selectedCell.classList.add('selected');
+
+      const r = Math.floor(index / currentSize) + 1;
+      const c = (index % currentSize) + 1;
+      document.getElementById('activeCellInfo').innerText = `${currentSize}x${currentSize} (တန်း ${r}၊ တိုင် ${c})`;
+      document.getElementById('keypadModal').classList.add('show');
+      document.getElementById('customInput').value = '';
+    }
+
+    function closeKeypad() {
+      if (selectedCell) selectedCell.classList.remove('selected');
+      selectedCell = null;
+      document.getElementById('keypadModal').classList.remove('show');
+    }
+
+    function fillValue(val) {
+      if (!selectedCell) return;
+      const idx = selectedCell.dataset.index;
+      gridData[currentSize][idx] = val; 
+      selectedCell.innerText = val;     
+    }
+
+    function fillCustom() {
+      const txt = document.getElementById('customInput');
+      if (txt && txt.value.trim()) {
+        fillValue(txt.value.trim());
+      }
+    }
+
+    function clearGrid() {
+      if (confirm('ဤဇယားကွက်ရှိ အချက်အလက်များကို အကုန်ဖျက်မည်မှာ သေချာပါသလား?')) {
+        gridData[currentSize] = Array(currentSize * currentSize).fill('');
+        renderGrid();
+        closeKeypad();
+      }
+    }
+
+    function saveGridData() {
+      localStorage.setItem('amulet_grid_data', JSON.stringify(gridData));
+      alert('ဇယားအချက်အလက်များကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!');
+    }
+
+    renderGrid();
+  </script>
+</body>
+</html>
