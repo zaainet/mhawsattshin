@@ -4,9 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>မြန်မာ့ရိုးရာ အင်းကွက် ဖန်တီးရေးစနစ်</title>
-  <!-- html2canvas for saving grid as an image -->
+  <!-- html2canvas for saving grid/canvas as an image -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
+    /* သင့်ရဲ့ TTF ဖိုင်ကို ချိတ်ဆက်ခြင်း */
+    @font-face {
+      font-family: 'CalligraphrRegular';
+      src: url('Calligraphr-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     :root {
       --primary: #8b0000;
       --primary-dark: #5c0000;
@@ -33,7 +41,7 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      padding-bottom: 280px; 
+      padding-bottom: 340px; /* Keypad အတွက် အောက်ဘက်တွင် နေရာချန်ထားခြင်း */
       transition: background 0.3s ease;
     }
 
@@ -100,10 +108,7 @@
       font-size: 13px;
     }
 
-    .toolbar button:hover {
-      background: #f2dede;
-    }
-
+    .toolbar button:hover { background: #f2dede; }
     .toolbar button.active {
       background: var(--primary);
       color: #fff;
@@ -209,6 +214,7 @@
       aspect-ratio: 1 / 1;
       min-width: 38px;
       min-height: 38px;
+      font-family: 'CalligraphrRegular', 'Pyidaungsu', sans-serif;
       transition: background 0.15s, color 0.15s;
     }
 
@@ -239,10 +245,7 @@
       font-size: 13px;
     }
 
-    .canvas-tools button.active {
-      background: var(--primary);
-      color: #fff;
-    }
+    .canvas-tools button.active { background: var(--primary); color: #fff; }
 
     canvas {
       background: #fff;
@@ -277,17 +280,17 @@
     .action-buttons button.save-btn { background: #2e6f40; }
     .action-buttons button.img-btn { background: #17a2b8; }
 
-    /* Keypad Modal UI */
+    /* Custom Real Keyboard Modal UI */
     .keypad-modal {
       display: none;
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: #ffffff;
+      background: #fdfbf7;
       border-top: 4px solid var(--primary);
       box-shadow: 0 -6px 20px rgba(0,0,0,0.25);
-      padding: 12px 15px;
+      padding: 10px;
       z-index: 1000;
       border-top-left-radius: 16px;
       border-top-right-radius: 16px;
@@ -305,44 +308,75 @@
       to { transform: translateY(0); }
     }
 
-    .keypad-title {
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 8px;
+    .keypad-header {
       display: flex;
       justify-content: space-between;
-      color: var(--primary);
-      border-bottom: 1px solid #eee;
+      align-items: center;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #d1c7bc;
       padding-bottom: 4px;
     }
 
-    .key-group {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
+    .kb-tabs {
+      display: flex;
       gap: 5px;
-      margin-bottom: 6px;
+    }
+
+    .kb-tab-btn {
+      background: #e2dcd6;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+      color: #4a3b32;
+    }
+
+    .kb-tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .kb-layout {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .kb-layout.active {
+      display: flex;
+    }
+
+    .kb-row {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
     }
 
     .key-btn {
-      background: #f4f0eb;
-      border: 1px solid #d1c7bc;
-      border-radius: 6px;
+      background: #ffffff;
+      border: 1px solid #b8aca1;
+      border-radius: 5px;
+      flex: 1;
       padding: 10px 0;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: bold;
       text-align: center;
       cursor: pointer;
+      font-family: 'CalligraphrRegular', 'Pyidaungsu', sans-serif;
       box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      user-select: none;
     }
 
-    .key-btn.default-font { font-size: 13px; }
     .key-btn:active { background: #e2dcd6; }
-    .key-btn.special { background: #fae1e1; color: var(--primary); border-color: #f2c6c6; }
+    .key-btn.action-key { background: #fae1e1; color: var(--primary); font-size: 13px; font-family: 'Pyidaungsu', sans-serif; }
+    .key-btn.space-key { flex: 4; }
 
     .custom-input-box {
       display: flex;
       gap: 6px;
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
     .custom-input-box input {
@@ -351,6 +385,7 @@
       font-size: 15px;
       border: 1px solid #ccc;
       border-radius: 6px;
+      font-family: 'CalligraphrRegular', 'Pyidaungsu', sans-serif;
     }
 
     .custom-input-box button {
@@ -370,7 +405,6 @@
     <h2>အင်းကွက် ဖန်တီးရေးစနစ်</h2>
   </div>
 
-  <!-- မုဒ်ရွေးချယ်ရန် (ဇယားကွက် / စက်ဝိုင်းအင်း / လွတ်လပ်စွာဆွဲရန်) -->
   <div class="mode-switcher">
     <button id="gridModeBtn" class="active" onclick="switchMode('grid')">ဇယားကွက်</button>
     <button id="circleModeBtn" onclick="switchMode('circle')">စက်ဝိုင်းအင်း</button>
@@ -388,14 +422,13 @@
     </div>
   </div>
 
-  <!-- စက်ဝိုင်းအင်း Mode အတွက် ညွှန်ကြားချက် -->
   <div id="circleInfoContainer" style="display:none; text-align:center; font-size:13px; color:#666; margin-bottom:10px; max-width:600px;">
-    * ပုံပါကဲ့သို့ စက်ဝိုင်းအင်း (စိတ္တကံ) ပုံစံများကို ကင်းဗတ်ပေါ်တွင် အလွယ်တကူ ရေးဆွဲနိုင်ပါသည်။
+    * စက်ဝိုင်းအင်း ပုံစံများကို ကင်းဗတ်ပေါ်တွင် ရေးဆွဲနိုင်ပါသည်။
   </div>
 
   <div id="canvasToolsContainer" class="canvas-tools" style="display: none;">
     <button id="toolPen" class="active" onclick="setCanvasTool('pen')">ဘောပင် (Pen)</button>
-    <button id="toolDot" onclick="setCanvasTool('dot')">အစက်ချ/စက်ဝိုင်း (Circle Grid)</button>
+    <button id="toolDot" onclick="setCanvasTool('dot')">အစက်ချ (Dot Grid)</button>
     <button id="toolEraser" onclick="setCanvasTool('eraser')">ဖျက်ဆေး (Eraser)</button>
   </div>
 
@@ -419,7 +452,7 @@
       </select>
     </div>
     <div class="custom-control">
-      <label for="borderColorSelect">ဘောင်/စက်ဝိုင်းအရောင်:</label>
+      <label for="borderColorSelect">ဘောင်အရောင်:</label>
       <select id="borderColorSelect" onchange="changeBorderColor()">
         <option value="#4a3b32">အညိုရင့် (Default)</option>
         <option value="#8b0000">အနီရောင်</option>
@@ -444,49 +477,93 @@
     <button onclick="saveAsImage()" class="img-btn">ပုံထုတ်မည်</button>
   </div>
 
-  <!-- Keypad Pop-up -->
+  <!-- Real Keyboard Layout Modal (TTF Font Integrated) -->
   <div class="keypad-modal" id="keypadModal">
-    <div class="keypad-title">
-      <span id="activeCellInfo">ကွက်လပ်ဖြည့်စွက်ရန်</span>
-      <span style="cursor:pointer; color: #8b0000; font-weight:bold;" onclick="closeKeypad()">✕ ပိတ်မည်</span>
+    <div class="keypad-header">
+      <span id="activeCellInfo" style="font-size:13px; font-weight:bold; color:var(--primary);">ကွက်လပ်ဖြည့်စွက်ရန်</span>
+      <div class="kb-tabs">
+        <button class="kb-tab-btn active" onclick="switchKbTab('myanmar')">မြန်မာ (က-ခ)</button>
+        <button class="kb-tab-btn" onclick="switchKbTab('amulet')">အင်းဆံ & ဂဏန်း</button>
+      </div>
+      <span style="cursor:pointer; color: #8b0000; font-weight:bold; font-size:13px;" onclick="closeKeypad()">✕ ပိတ်</span>
     </div>
 
-    <div class="key-group" style="grid-template-columns: repeat(4, 1fr);">
-      <div class="key-btn special" onclick="fillValue('ဈ')">ဈ</div>
-      <div class="key-btn special" onclick="fillValue('တ')">တ</div>
-      <div class="key-btn special" onclick="fillValue('ဘ')">ဘ</div>
-      <div class="key-btn special" onclick="fillValue('ယ')">ယ</div>
+    <!-- Layout 1: မြန်မာစာ (ကကြီး ခခွေး ကီးဘုတ်ပုံစံ) -->
+    <div id="kbMyanmar" class="kb-layout active">
+      <div class="kb-row">
+        <div class="key-btn" onclick="fillValue('ဆ')">ဆ</div>
+        <div class="key-btn" onclick="fillValue('တ')">တ</div>
+        <div class="key-btn" onclick="fillValue('န')">န</div>
+        <div class="key-btn" onclick="fillValue('မ')">မ</div>
+        <div class="key-btn" onclick="fillValue('အ')">အ</div>
+        <div class="key-btn" onclick="fillValue('ပ')">ပ</div>
+        <div class="key-btn" onclick="fillValue('က')">က</div>
+        <div class="key-btn" onclick="fillValue('င')">င</div>
+        <div class="key-btn" onclick="fillValue('သ')">သ</div>
+        <div class="key-btn" onclick="fillValue('စ')">စ</div>
+      </div>
+      <div class="kb-row">
+        <div class="key-btn" onclick="fillValue('ေ')">ေ</div>
+        <div class="key-btn" onclick="fillValue('ဌ')">ဌ</div>
+        <div class="key-btn" onclick="fillValue('ွှ')">ွှ</div>
+        <div class="key-btn" onclick="fillValue('ိ')">ိ</div>
+        <div class="key-btn" onclick="fillValue('်')">်</div>
+        <div class="key-btn" onclick="fillValue('ို')">ို</div>
+        <div class="key-btn" onclick="fillValue('ဉ')">ဉ</div>
+        <div class="key-btn" onclick="fillValue('ဗ')">ဗ</div>
+        <div class="key-btn" onclick="fillValue('ြ')">ြ</div>
+      </div>
+      <div class="kb-row">
+        <div class="key-btn" onclick="fillValue('ဖ')">ဖ</div>
+        <div class="key-btn" onclick="fillValue('ထ')">ထ</div>
+        <div class="key-btn" onclick="fillValue('ခ')">ခ</div>
+        <div class="key-btn" onclick="fillValue('လ')">လ</div>
+        <div class="key-btn" onclick="fillValue('ဘ')">ဘ</div>
+        <div class="key-btn" onclick="fillValue('ည')">ည</div>
+        <div class="key-btn" onclick="fillValue('စ')">စ</div>
+        <div class="key-btn action-key" onclick="fillValue('')">ဖျက်</div>
+      </div>
     </div>
 
-    <div class="key-group">
-      <div class="key-btn" onclick="fillValue('၁')">၁</div>
-      <div class="key-btn" onclick="fillValue('၂')">၂</div>
-      <div class="key-btn" onclick="fillValue('၃')">၃</div>
-      <div class="key-btn" onclick="fillValue('၄')">၄</div>
-      <div class="key-btn" onclick="fillValue('၅')">၅</div>
-      <div class="key-btn" onclick="fillValue('၆')">၆</div>
-      <div class="key-btn" onclick="fillValue('၇')">၇</div>
-      <div class="key-btn" onclick="fillValue('၈')">၈</div>
-      <div class="key-btn" onclick="fillValue('၉')">၉</div>
-      <div class="key-btn" onclick="fillValue('၀')">၀</div>
-      <div class="key-btn default-font" style="background:#ffdddd;" onclick="fillValue('')">ဖျက်</div>
-      <div class="key-btn default-font" style="background:#d4edda;" onclick="closeKeypad()">ပြီး</div>
+    <!-- Layout 2: အင်းဆံ၊ အထူးသင်္ကေတများ နှင့် လူဂဏန်း (TTF Font Mapping) -->
+    <div id="kbAmulet" class="kb-layout">
+      <div class="kb-row">
+        <div class="key-btn" onclick="fillValue('ဈ')">ဈ</div>
+        <div class="key-btn" onclick="fillValue('တ')">တ</div>
+        <div class="key-btn" onclick="fillValue('ဘ')">ဘ</div>
+        <div class="key-btn" onclick="fillValue('ယ')">ယ</div>
+        <div class="key-btn" onclick="fillValue('၁')">၁</div>
+        <div class="key-btn" onclick="fillValue('၂')">၂</div>
+        <div class="key-btn" onclick="fillValue('၃')">၃</div>
+        <div class="key-btn" onclick="fillValue('၄')">၄</div>
+      </div>
+      <div class="kb-row">
+        <div class="key-btn" onclick="fillValue('၅')">၅</div>
+        <div class="key-btn" onclick="fillValue('၆')">၆</div>
+        <div class="key-btn" onclick="fillValue('၇')">၇</div>
+        <div class="key-btn" onclick="fillValue('၈')">၈</div>
+        <div class="key-btn" onclick="fillValue('၉')">၉</div>
+        <div class="key-btn" onclick="fillValue('၀')">၀</div>
+        <div class="key-btn action-key" onclick="fillValue('')">ဖျက်</div>
+      </div>
     </div>
 
+    <!-- စိတ်ကြိုက်စာရိုက်ရန် -->
     <div class="custom-input-box">
       <input type="text" id="customInput" placeholder="စာရိုက်ထည့်ပါ...">
       <button onclick="fillCustom()">သွင်း</button>
+      <button onclick="closeKeypad()" style="background:#2e6f40;">ပြီး</button>
     </div>
   </div>
 
   <script>
-    let currentMode = 'grid'; // 'grid', 'circle', 'canvas'
+    let currentMode = 'grid'; 
     let rowsCount = 3;
     let colsCount = 11;
     let selectedCell = null;
     let gridData = {};
 
-    const savedData = localStorage.getItem('amulet_grid_data_v3');
+    const savedData = localStorage.getItem('amulet_grid_data_v4');
     if (savedData) {
       try { gridData = JSON.parse(savedData); } catch (e) { gridData = {}; }
     }
@@ -601,6 +678,19 @@
       document.getElementById('keypadModal').classList.remove('show');
     }
 
+    function switchKbTab(tab) {
+      document.querySelectorAll('.kb-tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.kb-layout').forEach(lay => lay.classList.remove('active'));
+
+      if (tab === 'myanmar') {
+        document.querySelectorAll('.kb-tab-btn')[0].classList.add('active');
+        document.getElementById('kbMyanmar').classList.add('active');
+      } else {
+        document.querySelectorAll('.kb-tab-btn')[1].classList.add('active');
+        document.getElementById('kbAmulet').classList.add('active');
+      }
+    }
+
     function fillValue(val) {
       if (!selectedCell) return;
       const idx = selectedCell.dataset.index;
@@ -623,7 +713,7 @@
     let canvasTool = 'pen'; 
 
     function initCanvas(isCircleTemplate = false) {
-      const storageKey = isCircleTemplate ? 'amulet_circle_data' : 'amulet_canvas_data_v3';
+      const storageKey = isCircleTemplate ? 'amulet_circle_data' : 'amulet_canvas_data_v4';
       const savedCanvas = localStorage.getItem(storageKey);
       if (savedCanvas && !isCircleTemplate) {
         let img = new Image();
@@ -650,7 +740,6 @@
       let radius = Math.min(cx, cy) - 30;
 
       if (isCircleTemplate || currentMode === 'circle') {
-        // စက်ဝိုင်းအင်းပုံစံ (အပြင်စက်ဝိုင်း + အတွင်းစက်ဝိုင်း + လေးထောင့်ကွက် + အကွက်ခွဲမျဉ်းများ)
         ctx.beginPath();
         ctx.arc(cx, cy, radius, 0, Math.PI * 2);
         ctx.stroke();
@@ -659,20 +748,17 @@
         ctx.arc(cx, cy, radius * 0.6, 0, Math.PI * 2);
         ctx.stroke();
 
-        // ကြက်ခြေခတ်မျဉ်းများ (Cross lines)
         ctx.beginPath();
         ctx.moveTo(cx, cy - radius); ctx.lineTo(cx, cy + radius);
         ctx.moveTo(cx - radius, cy); ctx.lineTo(cx + radius, cy);
         ctx.stroke();
 
-        // ထောင့်ဖြတ်မျဉ်းများ
         ctx.beginPath();
         let offset = radius * 0.707;
         ctx.moveTo(cx - offset, cy - offset); ctx.lineTo(cx + offset, cy + offset);
         ctx.moveTo(cx - offset, cy + offset); ctx.lineTo(cx + offset, cy - offset);
         ctx.stroke();
       } else {
-        // ပုံမှန်ဘောင်
         ctx.strokeRect(15, 15, canvas.width - 30, canvas.height - 30);
         if (canvasTool === 'dot') {
           ctx.fillStyle = borderColor;
@@ -763,10 +849,10 @@
 
     function saveCurrentData() {
       if (currentMode === 'grid') {
-        localStorage.setItem('amulet_grid_data_v3', JSON.stringify(gridData));
+        localStorage.setItem('amulet_grid_data_v4', JSON.stringify(gridData));
         alert('ဇယားအချက်အလက်များကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!');
       } else {
-        let key = (currentMode === 'circle') ? 'amulet_circle_data' : 'amulet_canvas_data_v3';
+        let key = (currentMode === 'circle') ? 'amulet_circle_data' : 'amulet_canvas_data_v4';
         localStorage.setItem(key, canvas.toDataURL());
         alert('ပုံကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!');
       }
