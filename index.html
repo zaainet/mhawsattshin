@@ -4,15 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>မြန်မာ့ရိုးရာ အင်းကွက် ဖန်တီးရေးစနစ်</title>
-  <!-- html2canvas for saving grid/canvas as an image -->
+  <!-- html2canvas for saving grid as an image -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    /* သင့်ရဲ့ TTF ဖိုင်ကို ချိတ်ဆက်ခြင်း */
+    /* မျိုးစုံသော TTF ဖိုင်များ ချိတ်ဆက်ခြင်း (User ရွေးချယ်ရန်) */
     @font-face {
       font-family: 'CalligraphrRegular';
       src: url('Calligraphr-Regular.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
+    }
+    @font-face {
+      font-family: 'BezeeFont';
+      src: url('bezee.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'BolFont';
+      src: url('bol.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'BurmaFont';
+      src: url('burma.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'DisplayFont';
+      src: url('display.ttf') format('truetype');
     }
 
     :root {
@@ -25,11 +39,12 @@
       --cell-text-color: #2c221e;
       --cell-bg-color: #faf8f5;
       --font-size: 20px;
+      --selected-font: 'CalligraphrRegular', sans-serif;
     }
 
     * { 
       box-sizing: border-box; 
-      font-family: 'Pyidaungsu', 'Padauk', sans-serif; 
+      font-family: var(--selected-font), 'Pyidaungsu', sans-serif; 
     }
 
     body {
@@ -41,13 +56,13 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      padding-bottom: 340px; /* Keypad အတွက် အောက်ဘက်တွင် နေရာချန်ထားခြင်း */
+      padding-bottom: 360px; 
       transition: background 0.3s ease;
     }
 
     .header-container {
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       border-bottom: 2px solid var(--accent);
       padding-bottom: 6px;
       width: 100%;
@@ -64,7 +79,7 @@
     .mode-switcher {
       display: flex;
       gap: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       width: 100%;
       max-width: 600px;
     }
@@ -92,7 +107,7 @@
       flex-wrap: wrap;
       gap: 5px;
       justify-content: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       max-width: 600px;
     }
 
@@ -104,37 +119,32 @@
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
-      transition: all 0.2s ease;
       font-size: 13px;
     }
 
-    .toolbar button:hover { background: #f2dede; }
     .toolbar button.active {
       background: var(--primary);
       color: #fff;
-      box-shadow: 0 2px 5px rgba(139, 0, 0, 0.3);
     }
 
     .custom-grid-box {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       align-items: center;
       background: var(--card-bg);
       padding: 8px 12px;
       border-radius: 8px;
       border: 1px solid #d1c7bc;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       width: 100%;
       max-width: 600px;
       justify-content: center;
     }
 
     .custom-grid-box input {
-      width: 55px;
-      padding: 5px;
-      font-size: 15px;
+      width: 50px;
+      padding: 4px;
       text-align: center;
       border: 1px solid #999;
       border-radius: 4px;
@@ -154,26 +164,25 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       background: var(--card-bg);
       padding: 10px;
       border-radius: 8px;
       border: 1px solid #d1c7bc;
       width: 100%;
       max-width: 600px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
     .custom-control {
       display: flex;
       flex-direction: column;
       gap: 4px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: bold;
     }
 
     .custom-control select, .custom-control input {
-      padding: 5px;
+      padding: 4px;
       border: 1px solid #ccc;
       border-radius: 4px;
       font-size: 13px;
@@ -185,7 +194,7 @@
       border: 4px double var(--border);
       border-radius: 12px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -214,8 +223,6 @@
       aspect-ratio: 1 / 1;
       min-width: 38px;
       min-height: 38px;
-      font-family: 'CalligraphrRegular', 'Pyidaungsu', sans-serif;
-      transition: background 0.15s, color 0.15s;
     }
 
     .cell:hover { background: #fdf5e6; }
@@ -228,7 +235,7 @@
     .canvas-tools {
       display: flex;
       gap: 6px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       width: 100%;
       max-width: 600px;
       justify-content: center;
@@ -257,7 +264,7 @@
     .action-buttons {
       display: flex;
       gap: 8px;
-      margin-bottom: 25px;
+      margin-bottom: 15px;
       width: 100%;
       max-width: 600px;
       justify-content: center;
@@ -272,7 +279,6 @@
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       font-size: 13px;
     }
 
@@ -280,7 +286,25 @@
     .action-buttons button.save-btn { background: #2e6f40; }
     .action-buttons button.img-btn { background: #17a2b8; }
 
-    /* Custom Real Keyboard Modal UI */
+    /* Footer / Developer & Admin Info */
+    .footer-info {
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 20px;
+      border-top: 1px solid #d1c7bc;
+      padding-top: 10px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .footer-info a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Scrollable Keypad Modal UI */
     .keypad-modal {
       display: none;
       position: fixed;
@@ -290,11 +314,11 @@
       background: #fdfbf7;
       border-top: 4px solid var(--primary);
       box-shadow: 0 -6px 20px rgba(0,0,0,0.25);
-      padding: 10px;
+      padding: 8px;
       z-index: 1000;
       border-top-left-radius: 16px;
       border-top-right-radius: 16px;
-      max-width: 600px;
+      max-width: 650px;
       margin: 0 auto;
     }
 
@@ -312,23 +336,23 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       border-bottom: 1px solid #d1c7bc;
       padding-bottom: 4px;
     }
 
     .kb-tabs {
       display: flex;
-      gap: 5px;
+      gap: 4px;
     }
 
     .kb-tab-btn {
       background: #e2dcd6;
       border: none;
-      padding: 5px 10px;
+      padding: 4px 8px;
       border-radius: 4px;
       font-weight: bold;
-      font-size: 12px;
+      font-size: 11px;
       cursor: pointer;
       color: #4a3b32;
     }
@@ -338,10 +362,18 @@
       color: #fff;
     }
 
+    /* ကီးဘုတ်ကို ဘယ်ညာရွှေ့နိုင်ရန် (Scrollable Horizontal Container) */
+    .kb-scroll-container {
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
     .kb-layout {
       display: none;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
+      min-width: 480px; /* ဘယ်ညာ ဆွဲကြည့်လို့ရအောင် အကျယ်သတ်မှတ်ခြင်း */
     }
 
     .kb-layout.active {
@@ -359,47 +391,99 @@
       border: 1px solid #b8aca1;
       border-radius: 5px;
       flex: 1;
-      padding: 10px 0;
-      font-size: 16px;
+      padding: 8px 0;
+      font-size: 15px;
       font-weight: bold;
       text-align: center;
       cursor: pointer;
-      font-family: 'CalligraphrRegular', 'Pyidaungsu', sans-serif;
       box-shadow: 0 1px 2px rgba(0,0,0,0.05);
       user-select: none;
     }
 
     .key-btn:active { background: #e2dcd6; }
-    .key-btn.action-key { background: #fae1e1; color: var(--primary); font-size: 13px; font-family: 'Pyidaungsu', sans-serif; }
-    .key-btn.space-key { flex: 4; }
+    .key-btn.action-key { background: #fae1e1; color: var(--primary); font-size: 12px; }
 
     .custom-input-box {
       display: flex;
       gap: 6px;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .custom-input-box input {
       flex: 1;
-      padding: 8px;
-      font-size: 15px;
+      padding: 6px;
+      font-size: 14px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      font-family: 'CalligraphrRegular', 'Pyidaungsu', sans-serif;
     }
 
     .custom-input-box button {
       background: var(--primary);
       color: #fff;
       border: none;
-      padding: 8px 14px;
+      padding: 6px 14px;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
     }
+
+    /* User Welcome / Immigration Modal Overlay */
+    .welcome-modal {
+      display: flex;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .welcome-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      border-top: 5px solid var(--primary);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .welcome-card h3 { color: var(--primary); margin-top: 0; }
+    .welcome-card input {
+      width: 100%;
+      padding: 10px;
+      font-size: 15px;
+      margin: 12px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      text-align: center;
+    }
+    .welcome-card button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
+
+  <!-- Entry / Immigration Modal -->
+  <div class="welcome-modal" id="welcomeModal">
+    <div class="welcome-card">
+      <h3>မင်္ဂလာပါရှင်</h3>
+      <p style="font-size:13px; color:#555;">မြန်မာ့ရိုးရာ အင်းကွက် ဖန်တီးရေးစနစ်သို့ ဝင်ရောက်ရန် သင်၏အမည် သို့မဟုတ် ID ကို ထည့်သွင်းပါ။</p>
+      <input type="text" id="userNameInput" placeholder="အမည် သို့မဟုတ် ID ထည့်ပါ...">
+      <button onclick="submitWelcome()">ဝင်ရောက်မည်</button>
+    </div>
+  </div>
 
   <div class="header-container">
     <h2>အင်းကွက် ဖန်တီးရေးစနစ်</h2>
@@ -423,7 +507,7 @@
   </div>
 
   <div id="circleInfoContainer" style="display:none; text-align:center; font-size:13px; color:#666; margin-bottom:10px; max-width:600px;">
-    * စက်ဝိုင်းအင်း ပုံစံများကို ကင်းဗတ်ပေါ်တွင် ရေးဆွဲနိုင်ပါသည်။
+    * စက်ဝိုင်းအင်း (စိတ္တကံ) ပုံစံများကို ကင်းဗတ်ပေါ်တွင် ရေးဆွဲနိုင်ပါသည်။
   </div>
 
   <div id="canvasToolsContainer" class="canvas-tools" style="display: none;">
@@ -432,7 +516,18 @@
     <button id="toolEraser" onclick="setCanvasTool('eraser')">ဖျက်ဆေး (Eraser)</button>
   </div>
 
+  <!-- အရောင်၊ ဘောင်၊ စာလုံးအရွယ်အစားနှင့် ဖောင့်အလှ ရွေးချယ်ရန် Panel -->
   <div class="customization-panel">
+    <div class="custom-control">
+      <label for="fontSelect">မြန်မာစာ ဖောင့်အလှ:</label>
+      <select id="fontSelect" onchange="changeFontFamily()">
+        <option value="'CalligraphrRegular', sans-serif">Calligraphr Font</option>
+        <option value="'BezeeFont', sans-serif">Bezee Font</option>
+        <option value="'BolFont', sans-serif">Bol Font</option>
+        <option value="'BurmaFont', sans-serif">Burma Handwriting</option>
+        <option value="'DisplayFont', sans-serif">Display Dots</option>
+      </select>
+    </div>
     <div class="custom-control">
       <label for="textColorSelect">စာသား/မျဉ်းအရောင်:</label>
       <select id="textColorSelect" onchange="changeTextColor()">
@@ -449,15 +544,6 @@
         <option value="#fdf5e6">မုန့်ဖတ်ရောင်</option>
         <option value="#fae1e1">ဖျော့တော့အနီ</option>
         <option value="#e8f4f8">ဖျော့တော့အပြာ</option>
-      </select>
-    </div>
-    <div class="custom-control">
-      <label for="borderColorSelect">ဘောင်အရောင်:</label>
-      <select id="borderColorSelect" onchange="changeBorderColor()">
-        <option value="#4a3b32">အညိုရင့် (Default)</option>
-        <option value="#8b0000">အနီရောင်</option>
-        <option value="#000000">အနက်ရောင်</option>
-        <option value="#d4af37">ရွှေရောင်</option>
       </select>
     </div>
     <div class="custom-control" id="fontSizeControlBox">
@@ -477,74 +563,125 @@
     <button onclick="saveAsImage()" class="img-btn">ပုံထုတ်မည်</button>
   </div>
 
-  <!-- Real Keyboard Layout Modal (TTF Font Integrated) -->
+  <!-- Developer AI UI & Admin Contact Footer -->
+  <div class="footer-info">
+    <p>Developer AIO BABYBOSS | Admin Contact: <a href="https://t.me/sailengtip" target="_blank">@sailengtip</a>[cite: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</p>
+  </div>
+
+  <!-- Real Keyboard Layout Modal (Scrollable Horizontal + Tabs) -->
   <div class="keypad-modal" id="keypadModal">
     <div class="keypad-header">
-      <span id="activeCellInfo" style="font-size:13px; font-weight:bold; color:var(--primary);">ကွက်လပ်ဖြည့်စွက်ရန်</span>
+      <span id="activeCellInfo" style="font-size:12px; font-weight:bold; color:var(--primary);">ကွက်လပ်ဖြည့်စွက်ရန်</span>
       <div class="kb-tabs">
-        <button class="kb-tab-btn active" onclick="switchKbTab('myanmar')">မြန်မာ (က-ခ)</button>
-        <button class="kb-tab-btn" onclick="switchKbTab('amulet')">အင်းဆံ & ဂဏန်း</button>
+        <button class="kb-tab-btn active" onclick="switchKbTab('myanmar')">ကကြီးခခွေး</button>
+        <button class="kb-tab-btn" onclick="switchKbTab('amulet')">အင်းဆံ</button>
+        <button class="kb-tab-btn" onclick="switchKbTab('numbers')">ဂဏန်း</button>
       </div>
-      <span style="cursor:pointer; color: #8b0000; font-weight:bold; font-size:13px;" onclick="closeKeypad()">✕ ပိတ်</span>
+      <span style="cursor:pointer; color: #8b0000; font-weight:bold; font-size:12px;" onclick="closeKeypad()">✕ ပိတ်</span>
     </div>
 
-    <!-- Layout 1: မြန်မာစာ (ကကြီး ခခွေး ကီးဘုတ်ပုံစံ) -->
-    <div id="kbMyanmar" class="kb-layout active">
-      <div class="kb-row">
-        <div class="key-btn" onclick="fillValue('ဆ')">ဆ</div>
-        <div class="key-btn" onclick="fillValue('တ')">တ</div>
-        <div class="key-btn" onclick="fillValue('န')">န</div>
-        <div class="key-btn" onclick="fillValue('မ')">မ</div>
-        <div class="key-btn" onclick="fillValue('အ')">အ</div>
-        <div class="key-btn" onclick="fillValue('ပ')">ပ</div>
-        <div class="key-btn" onclick="fillValue('က')">က</div>
-        <div class="key-btn" onclick="fillValue('င')">င</div>
-        <div class="key-btn" onclick="fillValue('သ')">သ</div>
-        <div class="key-btn" onclick="fillValue('စ')">စ</div>
+    <!-- ကီးဘုတ်ကို ဘယ်ညာရွှေ့နိုင်သော Scroll Container -->
+    <div class="kb-scroll-container">
+      <!-- Layout 1: မူလ ကကြီးခခွေး (Standard Myanmar Layout) -->
+      <div id="kbMyanmar" class="kb-layout active">
+        <div class="kb-row">
+          <div class="key-btn" onclick="fillValue('က')">က</div>
+          <div class="key-btn" onclick="fillValue('ခ')">ခ</div>
+          <div class="key-btn" onclick="fillValue('ဂ')">ဂ</div>
+          <div class="key-btn" onclick="fillValue('ဃ')">ဃ</div>
+          <div class="key-btn" onclick="fillValue('င')">င</div>
+          <div class="key-btn" onclick="fillValue('စ')">စ</div>
+          <div class="key-btn" onclick="fillValue('ဆ')">ဆ</div>
+          <div class="key-btn" onclick="fillValue('ဇ')">ဇ</div>
+          <div class="key-btn" onclick="fillValue('ဈ')">ဈ</div>
+          <div class="key-btn" onclick="fillValue('ဉ')">ဉ</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onclick="fillValue('ည')">ည</div>
+          <div class="key-btn" onclick="fillValue('ဋ')">ဋ</div>
+          <div class="key-btn" onclick="fillValue('ဌ')">ဌ</div>
+          <div class="key-btn" onclick="fillValue('ဍ')">ဍ</div>
+          <div class="key-btn" onclick="fillValue('ဎ')">ဎ</div>
+          <div class="key-btn" onclick="fillValue('ဏ')">ဏ</div>
+          <div class="key-btn" onclick="fillValue('တ')">တ</div>
+          <div class="key-btn" onclick="fillValue('ထ')">ထ</div>
+          <div class="key-btn" onclick="fillValue('ဒ')">ဒ</div>
+          <div class="key-btn" onclick="fillValue('ဓ')">ဓ</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onclick="fillValue('န')">န</div>
+          <div class="key-btn" onclick="fillValue('ပ')">ပ</div>
+          <div class="key-btn" onclick="fillValue('ဖ')">ဖ</div>
+          <div class="key-btn" onclick="fillValue('ဗ')">ဗ</div>
+          <div class="key-btn" onclick="fillValue('ဘ')">ဘ</div>
+          <div class="key-btn" onclick="fillValue('မ')">မ</div>
+          <div class="key-btn" onclick="fillValue('ယ')">ယ</div>
+          <div class="key-btn" onclick="fillValue('ရ')">ရ</div>
+          <div class="key-btn" onclick="fillValue('လ')">လ</div>
+          <div class="key-btn" onclick="fillValue('ဝ')">ဝ</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onclick="fillValue('သ')">သ</div>
+          <div class="key-btn" onclick="fillValue('ဟ')">ဟ</div>
+          <div class="key-btn" onclick="fillValue('ဠ')">ဠ</div>
+          <div class="key-btn" onclick="fillValue('အ')">အ</div>
+          <div class="key-btn" onclick="fillValue('ဣ')">ဣ</div>
+          <div class="key-btn" onclick="fillValue('ဤ')">ဤ</div>
+          <div class="key-btn" onclick="fillValue('ဥ')">ဥ</div>
+          <div class="key-btn" onclick="fillValue('ဧ')">ဧ</div>
+          <div class="key-btn action-key" onclick="fillValue('')">ဖျက်</div>
+        </div>
       </div>
-      <div class="kb-row">
-        <div class="key-btn" onclick="fillValue('ေ')">ေ</div>
-        <div class="key-btn" onclick="fillValue('ဌ')">ဌ</div>
-        <div class="key-btn" onclick="fillValue('ွှ')">ွှ</div>
-        <div class="key-btn" onclick="fillValue('ိ')">ိ</div>
-        <div class="key-btn" onclick="fillValue('်')">်</div>
-        <div class="key-btn" onclick="fillValue('ို')">ို</div>
-        <div class="key-btn" onclick="fillValue('ဉ')">ဉ</div>
-        <div class="key-btn" onclick="fillValue('ဗ')">ဗ</div>
-        <div class="key-btn" onclick="fillValue('ြ')">ြ</div>
-      </div>
-      <div class="kb-row">
-        <div class="key-btn" onclick="fillValue('ဖ')">ဖ</div>
-        <div class="key-btn" onclick="fillValue('ထ')">ထ</div>
-        <div class="key-btn" onclick="fillValue('ခ')">ခ</div>
-        <div class="key-btn" onclick="fillValue('လ')">လ</div>
-        <div class="key-btn" onclick="fillValue('ဘ')">ဘ</div>
-        <div class="key-btn" onclick="fillValue('ည')">ည</div>
-        <div class="key-btn" onclick="fillValue('စ')">စ</div>
-        <div class="key-btn action-key" onclick="fillValue('')">ဖျက်</div>
-      </div>
-    </div>
 
-    <!-- Layout 2: အင်းဆံ၊ အထူးသင်္ကေတများ နှင့် လူဂဏန်း (TTF Font Mapping) -->
-    <div id="kbAmulet" class="kb-layout">
-      <div class="kb-row">
-        <div class="key-btn" onclick="fillValue('ဈ')">ဈ</div>
-        <div class="key-btn" onclick="fillValue('တ')">တ</div>
-        <div class="key-btn" onclick="fillValue('ဘ')">ဘ</div>
-        <div class="key-btn" onclick="fillValue('ယ')">ယ</div>
-        <div class="key-btn" onclick="fillValue('၁')">၁</div>
-        <div class="key-btn" onclick="fillValue('၂')">၂</div>
-        <div class="key-btn" onclick="fillValue('၃')">၃</div>
-        <div class="key-btn" onclick="fillValue('၄')">၄</div>
+      <!-- Layout 2: အင်းဆံ / အထူးသင်္ကေတများ -->
+      <div id="kbAmulet" class="kb-layout">
+        <div class="kb-row">
+          <div class="key-btn" onclick="fillValue('ဈ')">ဈ</div>
+          <div class="key-btn" onclick="fillValue('တ')">တ</div>
+          <div class="key-btn" onclick="fillValue('ဘ')">ဘ</div>
+          <div class="key-btn" onclick="fillValue('ယ')">ယ</div>
+          <div class="key-btn" onclick="fillValue('က')">က</div>
+          <div class="key-btn" onclick="fillValue('စ')">စ</div>
+          <div class="key-btn" onclick="fillValue('ဌ')">ဌ</div>
+          <div class="key-btn" onclick="fillValue('ဏ')">ဏ</div>
+          <div class="key-btn" onclick="fillValue('ဥ')">ဥ</div>
+          <div class="key-btn" onclick="fillValue('ဿ')">ဿ</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onclick="fillValue('ဪ')">ဪ</div>
+          <div class="key-btn" onclick="fillValue('၍')">၍</div>
+          <div class="key-btn" onclick="fillValue('၎')">၎</div>
+          <div class="key-btn action-key" onclick="fillValue('')">ဖျက်</div>
+        </div>
       </div>
-      <div class="kb-row">
-        <div class="key-btn" onclick="fillValue('၅')">၅</div>
-        <div class="key-btn" onclick="fillValue('၆')">၆</div>
-        <div class="key-btn" onclick="fillValue('၇')">၇</div>
-        <div class="key-btn" onclick="fillValue('၈')">၈</div>
-        <div class="key-btn" onclick="fillValue('၉')">၉</div>
-        <div class="key-btn" onclick="fillValue('၀')">၀</div>
-        <div class="key-btn action-key" onclick="fillValue('')">ဖျက်</div>
+
+      <!-- Layout 3: ဂဏန်းများ (လူဂဏန်းများနှင့် အင်္ဂဏန်းများ) -->
+      <div id="kbNumbers" class="kb-layout">
+        <div class="kb-row">
+          <div class="key-btn" onclick="fillValue('၁')">၁</div>
+          <div class="key-btn" onclick="fillValue('၂')">၂</div>
+          <div class="key-btn" onclick="fillValue('၃')">၃</div>
+          <div class="key-btn" onclick="fillValue('၄')">၄</div>
+          <div class="key-btn" onclick="fillValue('၅')">၅</div>
+          <div class="key-btn" onclick="fillValue('၆')">၆</div>
+          <div class="key-btn" onclick="fillValue('၇')">၇</div>
+          <div class="key-btn" onclick="fillValue('၈')">၈</div>
+          <div class="key-btn" onclick="fillValue('၉')">၉</div>
+          <div class="key-btn" onclick="fillValue('၀')">၀</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onclick="fillValue('1')">1</div>
+          <div class="key-btn" onclick="fillValue('2')">2</div>
+          <div class="key-btn" onclick="fillValue('3')">3</div>
+          <div class="key-btn" onclick="fillValue('4')">4</div>
+          <div class="key-btn" onclick="fillValue('5')">5</div>
+          <div class="key-btn" onclick="fillValue('6')">6</div>
+          <div class="key-btn" onclick="fillValue('7')">7</div>
+          <div class="key-btn" onclick="fillValue('8')">8</div>
+          <div class="key-btn" onclick="fillValue('9')">9</div>
+          <div class="key-btn" onclick="fillValue('0')">0</div>
+          <div class="key-btn action-key" onclick="fillValue('')">ဖျက်</div>
+        </div>
       </div>
     </div>
 
@@ -563,15 +700,32 @@
     let selectedCell = null;
     let gridData = {};
 
-    const savedData = localStorage.getItem('amulet_grid_data_v4');
+    const savedData = localStorage.getItem('amulet_grid_data_v6');
     if (savedData) {
       try { gridData = JSON.parse(savedData); } catch (e) { gridData = {}; }
     }
 
+    // Welcome Modal Submit
+    function submitWelcome() {
+      const name = document.getElementById('userNameInput').value.trim();
+      if(name) {
+        localStorage.setItem('user_visitor_name', name);
+        document.getElementById('welcomeModal').style.display = 'none';
+      } else {
+        alert('ကျေးဇူးပြု၍ အမည် သို့မဟုတ် ID ထည့်ပါ။');
+      }
+    }
+
+    window.onload = () => {
+      if(localStorage.getItem('user_visitor_name')) {
+        document.getElementById('welcomeModal').style.display = 'none';
+      }
+    };
+
     const presetSizes = [
       {r: 3, c: 3, label: '၃x၃'},
       {r: 3, c: 7, label: '၃x၇'},
-      {r: 3, c: 11, label: '၃x၁၁ (ပုံပါ)'},
+      {r: 3, c: 11, label: '၃x၁၁'},
       {r: 4, c: 4, label: '၄x၄'},
       {r: 5, c: 5, label: '၅x၅'},
       {r: 9, c: 9, label: '၉x၉'}
@@ -685,9 +839,12 @@
       if (tab === 'myanmar') {
         document.querySelectorAll('.kb-tab-btn')[0].classList.add('active');
         document.getElementById('kbMyanmar').classList.add('active');
-      } else {
+      } else if (tab === 'amulet') {
         document.querySelectorAll('.kb-tab-btn')[1].classList.add('active');
         document.getElementById('kbAmulet').classList.add('active');
+      } else {
+        document.querySelectorAll('.kb-tab-btn')[2].classList.add('active');
+        document.getElementById('kbNumbers').classList.add('active');
       }
     }
 
@@ -713,7 +870,7 @@
     let canvasTool = 'pen'; 
 
     function initCanvas(isCircleTemplate = false) {
-      const storageKey = isCircleTemplate ? 'amulet_circle_data' : 'amulet_canvas_data_v4';
+      const storageKey = isCircleTemplate ? 'amulet_circle_data' : 'amulet_canvas_data_v6';
       const savedCanvas = localStorage.getItem(storageKey);
       if (savedCanvas && !isCircleTemplate) {
         let img = new Image();
@@ -849,16 +1006,24 @@
 
     function saveCurrentData() {
       if (currentMode === 'grid') {
-        localStorage.setItem('amulet_grid_data_v4', JSON.stringify(gridData));
+        localStorage.setItem('amulet_grid_data_v6', JSON.stringify(gridData));
         alert('ဇယားအချက်အလက်များကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!');
       } else {
-        let key = (currentMode === 'circle') ? 'amulet_circle_data' : 'amulet_canvas_data_v4';
+        let key = (currentMode === 'circle') ? 'amulet_circle_data' : 'amulet_canvas_data_v6';
         localStorage.setItem(key, canvas.toDataURL());
         alert('ပုံကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!');
       }
     }
 
-    function changeTextColor() {}
+    function changeFontFamily() {
+      const font = document.getElementById('fontSelect').value;
+      document.documentElement.style.setProperty('--selected-font', font);
+    }
+
+    function changeTextColor() {
+      const color = document.getElementById('textColorSelect').value;
+      document.documentElement.style.setProperty('--cell-text-color', color);
+    }
 
     function changeBgColor() {
       const color = document.getElementById('bgColorSelect').value;
