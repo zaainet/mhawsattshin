@@ -3,23 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>မြန်မာ့ရိုးရာ အင်းကွက် စနစ်</title>
+  <title>မြန်မာ့ရိုးရာ အင်းကွက် ဖန်တီးရေးစနစ်</title>
+  <!-- html2canvas for saving grid as an image -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    /* Custom Font (အင်္ဂလန်ဖောင့်) ချိတ်ဆက်ခြင်း */
-    @font-face {
-      font-family: 'InnFont';
-      src: url('Calligraphr-Regular.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-    }
-
     :root {
       --primary: #8b0000;
       --primary-dark: #5c0000;
-      --accent: #d4af37; /* ရွှေရောင်ဆန်ဆန် အရောင် */
-      --bg: #f9f6f0;
+      --accent: #d4af37;
+      --bg: #f5f2eb;
       --card-bg: #ffffff;
       --border: #4a3b32;
+      --cell-text-color: #2c221e;
+      --cell-bg-color: #faf8f5;
+      --font-size: 20px;
     }
 
     * { 
@@ -36,33 +33,33 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      transition: background 0.3s ease;
     }
 
-    /* ခေါင်းစဉ်ပိုင်းဆိုင်ရာ ဒီဇိုင်း */
     .header-container {
       text-align: center;
       margin-bottom: 12px;
       border-bottom: 2px solid var(--accent);
       padding-bottom: 6px;
       width: 100%;
-      max-width: 450px;
+      max-width: 480px;
     }
 
     h2 { 
       margin: 5px 0; 
       color: var(--primary); 
-      font-size: 22px;
+      font-size: 24px;
       font-weight: bold;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
 
-    /* အမြန်ရွေးချယ်စရာ ခလုတ်များ (Toolbar) */
     .toolbar {
       display: flex;
       flex-wrap: wrap;
       gap: 5px;
       justify-content: center;
       margin-bottom: 10px;
-      max-width: 450px;
+      max-width: 480px;
     }
 
     .toolbar button {
@@ -86,7 +83,36 @@
       box-shadow: 0 2px 5px rgba(139, 0, 0, 0.3);
     }
 
-    /* ကိုယ်တိုင် အကွက်အရွယ်အစား ရိုက်ထည့်ရန် Box */
+    /* Customization Panel (အရောင်နှင့် စာလုံးအရွယ်အစား ထိန်းချုပ်ရန်) */
+    .customization-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+      background: var(--card-bg);
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #d1c7bc;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .custom-control {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .custom-control select, .custom-control input {
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
     .custom-size-box {
       display: flex;
       gap: 8px;
@@ -97,6 +123,9 @@
       border-radius: 8px;
       border: 1px solid #d1c7bc;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      width: 100%;
+      max-width: 480px;
+      justify-content: center;
     }
 
     .custom-size-box input {
@@ -121,16 +150,16 @@
     /* ဇယားပြမည့် ပုံစံ (Grid Container) */
     .grid-container {
       background: var(--card-bg);
-      padding: 12px;
-      border: 3px double var(--border);
-      border-radius: 8px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+      padding: 15px;
+      border: 4px double var(--border);
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
       margin-bottom: 15px;
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
-      max-width: 420px;
+      max-width: 480px;
     }
 
     .grid {
@@ -145,15 +174,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: var(--font-size);
+      color: var(--cell-text-color);
       font-weight: bold;
-      background: #faf8f5;
+      background: var(--cell-bg-color);
       user-select: none;
       cursor: pointer;
       aspect-ratio: 1 / 1;
       width: 100%;
-      font-family: 'InnFont', 'Pyidaungsu', sans-serif;
-      transition: background 0.15s;
+      transition: background 0.15s, color 0.15s;
     }
 
     .cell:hover {
@@ -169,10 +198,10 @@
     /* ထပ်ဆောင်း ထိန်းချုပ်ခလုတ်များ (Actions) */
     .action-buttons {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       margin-bottom: 25px;
       width: 100%;
-      max-width: 420px;
+      max-width: 480px;
       justify-content: center;
     }
 
@@ -181,22 +210,19 @@
       background: #555;
       color: #fff;
       border: none;
-      padding: 10px;
+      padding: 10px 6px;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      font-size: 13px;
     }
 
-    .action-buttons button.clear-btn {
-      background: #a94442;
-    }
+    .action-buttons button.clear-btn { background: #a94442; }
+    .action-buttons button.save-btn { background: #2e6f40; }
+    .action-buttons button.img-btn { background: #17a2b8; }
 
-    .action-buttons button.save-btn {
-      background: #2e6f40;
-    }
-
-    /* Keypad Modal UI (အောက်ခြေမှ တက်လာမည့် Keypad) */
+    /* Keypad Modal UI */
     .keypad-modal {
       display: none;
       position: fixed;
@@ -208,8 +234,8 @@
       box-shadow: 0 -6px 20px rgba(0,0,0,0.25);
       padding: 15px;
       z-index: 1000;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
     }
 
     .keypad-modal.show { 
@@ -245,22 +271,18 @@
       border: 1px solid #d1c7bc;
       border-radius: 6px;
       padding: 12px 0;
-      font-size: 19px;
+      font-size: 18px;
       font-weight: bold;
       text-align: center;
       cursor: pointer;
-      font-family: 'InnFont', 'Pyidaungsu', sans-serif;
       box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
 
     .key-btn.default-font {
-      font-family: 'Pyidaungsu', sans-serif;
-      font-size: 15px;
+      font-size: 14px;
     }
 
-    .key-btn:active { 
-      background: #e2dcd6; 
-    }
+    .key-btn:active { background: #e2dcd6; }
 
     .key-btn.special {
       background: #fae1e1;
@@ -280,7 +302,6 @@
       font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      font-family: 'InnFont', 'Pyidaungsu', sans-serif;
     }
 
     .custom-input-box button {
@@ -291,7 +312,6 @@
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
-      font-family: 'Pyidaungsu', sans-serif;
     }
   </style>
 </head>
@@ -301,10 +321,36 @@
     <h2>အင်းကွက် ဖန်တီးရေးစနစ်</h2>
   </div>
 
-  <!-- အမြန်ရွေးချယ်စရာ ခလုတ်များ (၂ ကွက်မှ ၉ ကွက်) -->
+  <!-- အမြန်ရွေးချယ်စရာ ခလုတ်များ -->
   <div class="toolbar" id="toolbar"></div>
 
-  <!-- ကိုယ်တိုင် အကွက်အရွယ်အစား (ဥပမာ ၁၀၊ ၁၂ စသည်ဖြင့်) ရိုက်ထည့်ရန် Tool -->
+  <!-- အရောင်နှင့် စာလုံးအရွယ်အစား စိတ်ကြိုက်ပြင်ဆင်ရန် Panel -->
+  <div class="customization-panel">
+    <div class="custom-control">
+      <label for="textColorSelect">စာသားအရောင်:</label>
+      <select id="textColorSelect" onchange="changeTextColor()">
+        <option value="#2c221e">အနက် (Default)</option>
+        <option value="#8b0000">အနီရောင်</option>
+        <option value="#1d3557">အပြာရောင်</option>
+        <option value="#d4af37">ရွှေရောင်</option>
+      </select>
+    </div>
+    <div class="custom-control">
+      <label for="bgColorSelect">နောက်ခံအရောင်:</label>
+      <select id="bgColorSelect" onchange="changeBgColor()">
+        <option value="#faf8f5">ဖြူစင် / နို့နှစ်</option>
+        <option value="#fdf5e6">မုန့်ဖတ်ရောင်</option>
+        <option value="#fae1e1">ဖျော့တော့အနီ</option>
+        <option value="#e8f4f8">ဖျော့တော့အပြာ</option>
+      </select>
+    </div>
+    <div class="custom-control" style="grid-column: span 2; margin-top: 4px;">
+      <label for="fontSizeRange">စာလုံးအရွယ်အစား: <span id="fontSizeVal">20px</span></label>
+      <input type="range" id="fontSizeRange" min="12" max="32" value="20" oninput="changeFontSize(this.value)">
+    </div>
+  </div>
+
+  <!-- ကိုယ်တိုင် အကွက်အရွယ်အစား ရိုက်ထည့်ရန် Tool -->
   <div class="custom-size-box">
     <label for="customSizeInput" style="font-weight:bold; font-size:14px;">အကွက်အရွယ်အစား:</label>
     <input type="number" id="customSizeInput" min="2" max="25" value="9">
@@ -312,15 +358,16 @@
     <button onclick="applyCustomSize()">ဖန်တီး</button>
   </div>
 
-  <!-- ဇယားပြမည့်နေရာ -->
-  <div class="grid-container">
+  <!-- ဇယားပြမည့်နေရာ (ဓာတ်ပုံရိုက်သိမ်းရန် ID ထည့်ထားသည်) -->
+  <div class="grid-container" id="captureArea">
     <div class="grid" id="gridDisplay"></div>
   </div>
 
   <!-- ထပ်ဆောင်း ထိန်းချုပ်ခလုတ်များ -->
   <div class="action-buttons">
     <button onclick="clearGrid()" class="clear-btn">ဇယားရှင်းမည်</button>
-    <button onclick="saveGridData()" class="save-btn">သိမ်းဆည်းမည်</button>
+    <button onclick="saveGridData()" class="save-btn">မှတ်သားမည်</button>
+    <button onclick="saveAsImage()" class="img-btn">ပုံထုတ်မည်</button>
   </div>
 
   <!-- Keypad Pop-up -->
@@ -330,7 +377,6 @@
       <span style="cursor:pointer; color: #8b0000; font-weight:bold;" onclick="closeKeypad()">✕ ပိတ်မည်</span>
     </div>
 
-    <!-- ပင်မအင်းဆံအက္ခရာများ -->
     <div class="key-group" style="grid-template-columns: repeat(4, 1fr);">
       <div class="key-btn special" onclick="fillValue('ဈ')">ဈ</div>
       <div class="key-btn special" onclick="fillValue('တ')">တ</div>
@@ -338,7 +384,6 @@
       <div class="key-btn special" onclick="fillValue('ယ')">ယ</div>
     </div>
 
-    <!-- မြန်မာဂဏန်းများ -->
     <div class="key-group">
       <div class="key-btn" onclick="fillValue('၁')">၁</div>
       <div class="key-btn" onclick="fillValue('၂')">၂</div>
@@ -354,7 +399,6 @@
       <div class="key-btn default-font" style="background:#d4edda;" onclick="closeKeypad()">ပြီး</div>
     </div>
 
-    <!-- စိတ်ကြိုက်စာလုံး/မန္တန်လုံး ရိုက်ထည့်ရန် -->
     <div class="custom-input-box">
       <input type="text" id="customInput" placeholder="စာရိုက်ထည့်ပါ...">
       <button onclick="fillCustom()">သွင်း</button>
@@ -366,17 +410,11 @@
     let selectedCell = null;
     let gridData = {};
 
-    // LocalStorage မှ သိမ်းဆည်းထားသည်များကို ဖတ်ရှုခြင်း
     const savedData = localStorage.getItem('amulet_grid_data');
     if (savedData) {
-      try {
-        gridData = JSON.parse(savedData);
-      } catch (e) {
-        gridData = {};
-      }
+      try { gridData = JSON.parse(savedData); } catch (e) { gridData = {}; }
     }
 
-    // ရွေးချယ်စရာ ခလုတ်များ ဖန်တီးခြင်း (၂ ကွက်မှ ၉ ကွက်)
     const toolbar = document.getElementById('toolbar');
     for (let s = 2; s <= 9; s++) {
       const btn = document.createElement('button');
@@ -471,6 +509,34 @@
     function saveGridData() {
       localStorage.setItem('amulet_grid_data', JSON.stringify(gridData));
       alert('ဇယားအချက်အလက်များကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!');
+    }
+
+    /* အသစ်ထည့်သွင်းပေးထားသော ဖန်ရှင်များ */
+    function changeTextColor() {
+      const color = document.getElementById('textColorSelect').value;
+      document.documentElement.style.setProperty('--cell-text-color', color);
+    }
+
+    function changeBgColor() {
+      const color = document.getElementById('bgColorSelect.value') || document.getElementById('bgColorSelect').value;
+      document.documentElement.style.setProperty('--cell-bg-color', color);
+    }
+
+    function changeFontSize(size) {
+      document.documentElement.style.setProperty('--font-size', size + 'px');
+      document.getElementById('fontSizeVal').innerText = size + 'px';
+    }
+
+    function saveAsImage() {
+      const captureElement = document.getElementById('captureArea');
+      html2canvas(captureElement, { scale: 2 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `amulet-grid-${currentSize}x${currentSize}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }).catch(err => {
+        alert('ပုံထုတ်ယူရာတွင် အမှားအယွင်းရှိခဲ့ပါသည်။');
+      });
     }
 
     renderGrid();
