@@ -33,6 +33,8 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      /* Keypad ပွင့်လာတဲ့အခါ အောက်ဆုံးအထိ Scroll ဆွဲလို့ရအောင် နေရာချန်ထားခြင်း */
+      padding-bottom: 280px; 
       transition: background 0.3s ease;
     }
 
@@ -50,7 +52,6 @@
       color: var(--primary); 
       font-size: 24px;
       font-weight: bold;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
 
     .toolbar {
@@ -83,7 +84,7 @@
       box-shadow: 0 2px 5px rgba(139, 0, 0, 0.3);
     }
 
-    /* Customization Panel (အရောင်နှင့် စာလုံးအရွယ်အစား ထိန်းချုပ်ရန်) */
+    /* အရောင်နှင့် စာလုံးအရွယ်အစား ထိန်းချုပ်ရန် Panel */
     .customization-panel {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -110,7 +111,7 @@
       padding: 5px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .custom-size-box {
@@ -170,7 +171,7 @@
     }
 
     .cell {
-      border: 1px solid #b8aca1;
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -195,7 +196,6 @@
       z-index: 2;
     }
 
-    /* ထပ်ဆောင်း ထိန်းချုပ်ခလုတ်များ (Actions) */
     .action-buttons {
       display: flex;
       gap: 8px;
@@ -222,7 +222,7 @@
     .action-buttons button.save-btn { background: #2e6f40; }
     .action-buttons button.img-btn { background: #17a2b8; }
 
-    /* Keypad Modal UI */
+    /* Keypad Modal UI (အောက်ခြေတွင် အကွက်မကွယ်စေရန် ပြင်ဆင်ထားသည်) */
     .keypad-modal {
       display: none;
       position: fixed;
@@ -232,10 +232,12 @@
       background: #ffffff;
       border-top: 4px solid var(--primary);
       box-shadow: 0 -6px 20px rgba(0,0,0,0.25);
-      padding: 15px;
+      padding: 12px 15px;
       z-index: 1000;
       border-top-left-radius: 16px;
       border-top-right-radius: 16px;
+      max-width: 500px;
+      margin: 0 auto;
     }
 
     .keypad-modal.show { 
@@ -249,29 +251,29 @@
     }
 
     .keypad-title {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       display: flex;
       justify-content: space-between;
       color: var(--primary);
       border-bottom: 1px solid #eee;
-      padding-bottom: 5px;
+      padding-bottom: 4px;
     }
 
     .key-group {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      gap: 6px;
-      margin-bottom: 8px;
+      gap: 5px;
+      margin-bottom: 6px;
     }
 
     .key-btn {
       background: #f4f0eb;
       border: 1px solid #d1c7bc;
       border-radius: 6px;
-      padding: 12px 0;
-      font-size: 18px;
+      padding: 10px 0;
+      font-size: 17px;
       font-weight: bold;
       text-align: center;
       cursor: pointer;
@@ -279,7 +281,7 @@
     }
 
     .key-btn.default-font {
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .key-btn:active { background: #e2dcd6; }
@@ -292,14 +294,14 @@
 
     .custom-input-box {
       display: flex;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 6px;
+      margin-top: 6px;
     }
 
     .custom-input-box input {
       flex: 1;
-      padding: 10px;
-      font-size: 16px;
+      padding: 8px;
+      font-size: 15px;
       border: 1px solid #ccc;
       border-radius: 6px;
     }
@@ -308,7 +310,7 @@
       background: var(--primary);
       color: #fff;
       border: none;
-      padding: 10px 16px;
+      padding: 8px 14px;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
@@ -321,10 +323,9 @@
     <h2>အင်းကွက် ဖန်တီးရေးစနစ်</h2>
   </div>
 
-  <!-- အမြန်ရွေးချယ်စရာ ခလုတ်များ -->
   <div class="toolbar" id="toolbar"></div>
 
-  <!-- အရောင်နှင့် စာလုံးအရွယ်အစား စိတ်ကြိုက်ပြင်ဆင်ရန် Panel -->
+  <!-- အရောင်၊ စာလုံးအရွယ်အစားနှင့် ဘောင်အရောင်များ ချိန်ညှိရန် Panel -->
   <div class="customization-panel">
     <div class="custom-control">
       <label for="textColorSelect">စာသားအရောင်:</label>
@@ -344,13 +345,21 @@
         <option value="#e8f4f8">ဖျော့တော့အပြာ</option>
       </select>
     </div>
-    <div class="custom-control" style="grid-column: span 2; margin-top: 4px;">
-      <label for="fontSizeRange">စာလုံးအရွယ်အစား: <span id="fontSizeVal">20px</span></label>
+    <div class="custom-control">
+      <label for="borderColorSelect">ဘောင်အရောင်:</label>
+      <select id="borderColorSelect" onchange="changeBorderColor()">
+        <option value="#4a3b32">အညိုရင့် (Default)</option>
+        <option value="#8b0000">အနီရောင်</option>
+        <option value="#000000">အနက်ရောင်</option>
+        <option value="#d4af37">ရွှေရောင်</option>
+      </select>
+    </div>
+    <div class="custom-control">
+      <label for="fontSizeRange">စာလုံးအရွယ်: <span id="fontSizeVal">20px</span></label>
       <input type="range" id="fontSizeRange" min="12" max="32" value="20" oninput="changeFontSize(this.value)">
     </div>
   </div>
 
-  <!-- ကိုယ်တိုင် အကွက်အရွယ်အစား ရိုက်ထည့်ရန် Tool -->
   <div class="custom-size-box">
     <label for="customSizeInput" style="font-weight:bold; font-size:14px;">အကွက်အရွယ်အစား:</label>
     <input type="number" id="customSizeInput" min="2" max="25" value="9">
@@ -358,12 +367,10 @@
     <button onclick="applyCustomSize()">ဖန်တီး</button>
   </div>
 
-  <!-- ဇယားပြမည့်နေရာ (ဓာတ်ပုံရိုက်သိမ်းရန် ID ထည့်ထားသည်) -->
   <div class="grid-container" id="captureArea">
     <div class="grid" id="gridDisplay"></div>
   </div>
 
-  <!-- ထပ်ဆောင်း ထိန်းချုပ်ခလုတ်များ -->
   <div class="action-buttons">
     <button onclick="clearGrid()" class="clear-btn">ဇယားရှင်းမည်</button>
     <button onclick="saveGridData()" class="save-btn">မှတ်သားမည်</button>
@@ -476,6 +483,11 @@
       document.getElementById('activeCellInfo').innerText = `${currentSize}x${currentSize} (တန်း ${r}၊ တိုင် ${c})`;
       document.getElementById('keypadModal').classList.add('show');
       document.getElementById('customInput').value = '';
+
+      // ဖုန်းဖြင့် နှိပ်လိုက်သည့်အခါ Keypad ပေါ်လာပြီး အလိုအလျောက် မြင်ရအောင် Scroll ဆွဲပေးခြင်း
+      setTimeout(() => {
+        selectedCell.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
     }
 
     function closeKeypad() {
@@ -511,15 +523,19 @@
       alert('ဇယားအချက်အလက်များကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!');
     }
 
-    /* အသစ်ထည့်သွင်းပေးထားသော ဖန်ရှင်များ */
     function changeTextColor() {
       const color = document.getElementById('textColorSelect').value;
       document.documentElement.style.setProperty('--cell-text-color', color);
     }
 
     function changeBgColor() {
-      const color = document.getElementById('bgColorSelect.value') || document.getElementById('bgColorSelect').value;
+      const color = document.getElementById('bgColorSelect').value;
       document.documentElement.style.setProperty('--cell-bg-color', color);
+    }
+
+    function changeBorderColor() {
+      const color = document.getElementById('borderColorSelect').value;
+      document.documentElement.style.setProperty('--border', color);
     }
 
     function changeFontSize(size) {
