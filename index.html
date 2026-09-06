@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>မြန်မာ့ရိုးရာ အင်းကွက် ဖန်တီးရေးစနစ်</title>
-  <!-- html2canvas for saving grid/canvas as an image -->
+  <!-- html2canvas for saving grid as an image -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     :root {
@@ -43,7 +43,7 @@
       border-bottom: 2px solid var(--accent);
       padding-bottom: 6px;
       width: 100%;
-      max-width: 480px;
+      max-width: 600px;
     }
 
     h2 { 
@@ -53,24 +53,24 @@
       font-weight: bold;
     }
 
-    /* မုဒ်ပြောင်းခလုတ်များ (Mode Switcher) */
     .mode-switcher {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       margin-bottom: 12px;
       width: 100%;
-      max-width: 480px;
+      max-width: 600px;
     }
 
     .mode-switcher button {
       flex: 1;
-      padding: 8px;
+      padding: 8px 4px;
       background: #e2dcd6;
       border: 1.5px solid var(--border);
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
       color: #4a3b32;
+      font-size: 13px;
     }
 
     .mode-switcher button.active {
@@ -85,18 +85,19 @@
       gap: 5px;
       justify-content: center;
       margin-bottom: 10px;
-      max-width: 480px;
+      max-width: 600px;
     }
 
     .toolbar button {
       background: #fff;
       border: 1.5px solid var(--primary);
       color: var(--primary);
-      padding: 6px 12px;
+      padding: 6px 10px;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.2s ease;
+      font-size: 13px;
     }
 
     .toolbar button:hover {
@@ -109,7 +110,41 @@
       box-shadow: 0 2px 5px rgba(139, 0, 0, 0.3);
     }
 
-    /* အရောင်နှင့် စာလုံးအရွယ်အစား ထိန်းချုပ်ရန် Panel */
+    .custom-grid-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 15px;
+      align-items: center;
+      background: var(--card-bg);
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #d1c7bc;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      width: 100%;
+      max-width: 600px;
+      justify-content: center;
+    }
+
+    .custom-grid-box input {
+      width: 55px;
+      padding: 5px;
+      font-size: 15px;
+      text-align: center;
+      border: 1px solid #999;
+      border-radius: 4px;
+    }
+
+    .custom-grid-box button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
     .customization-panel {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -120,7 +155,7 @@
       border-radius: 8px;
       border: 1px solid #d1c7bc;
       width: 100%;
-      max-width: 480px;
+      max-width: 600px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
@@ -139,41 +174,6 @@
       font-size: 13px;
     }
 
-    .custom-size-box {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 15px;
-      align-items: center;
-      background: var(--card-bg);
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid #d1c7bc;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      width: 100%;
-      max-width: 480px;
-      justify-content: center;
-    }
-
-    .custom-size-box input {
-      width: 65px;
-      padding: 6px;
-      font-size: 16px;
-      text-align: center;
-      border: 1px solid #999;
-      border-radius: 4px;
-    }
-
-    .custom-size-box button {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 4px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    /* ဇယားပြမည့် ပုံစံ (Grid Container) */
     .grid-container {
       background: var(--card-bg);
       padding: 15px;
@@ -185,13 +185,13 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      max-width: 480px;
+      max-width: 100%;
+      overflow-x: auto;
     }
 
     .grid {
       display: grid;
       border: 2px solid var(--border);
-      width: 100%;
       background: #fff;
     }
 
@@ -207,27 +207,24 @@
       user-select: none;
       cursor: pointer;
       aspect-ratio: 1 / 1;
-      width: 100%;
+      min-width: 38px;
+      min-height: 38px;
       transition: background 0.15s, color 0.15s;
     }
 
-    .cell:hover {
-      background: #fdf5e6;
-    }
-
+    .cell:hover { background: #fdf5e6; }
     .cell.selected {
       background: #ffe4b5 !important;
       outline: 2px solid var(--primary);
       z-index: 2;
     }
 
-    /* Canvas Mode အတွက် ထိန်းချုပ်မှုများ */
     .canvas-tools {
       display: flex;
       gap: 6px;
       margin-bottom: 10px;
       width: 100%;
-      max-width: 480px;
+      max-width: 600px;
       justify-content: center;
     }
 
@@ -251,9 +248,7 @@
       background: #fff;
       touch-action: none;
       border: 2px solid var(--border);
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
+      max-width: 100%;
     }
 
     .action-buttons {
@@ -261,7 +256,7 @@
       gap: 8px;
       margin-bottom: 25px;
       width: 100%;
-      max-width: 480px;
+      max-width: 600px;
       justify-content: center;
     }
 
@@ -296,7 +291,7 @@
       z-index: 1000;
       border-top-left-radius: 16px;
       border-top-right-radius: 16px;
-      max-width: 500px;
+      max-width: 600px;
       margin: 0 auto;
     }
 
@@ -375,31 +370,35 @@
     <h2>အင်းကွက် ဖန်တီးရေးစနစ်</h2>
   </div>
 
-  <!-- မုဒ်ရွေးချယ်ရန် (ဇယားကွက် / လွတ်လပ်စွာဆွဲရန်) -->
+  <!-- မုဒ်ရွေးချယ်ရန် (ဇယားကွက် / စက်ဝိုင်းအင်း / လွတ်လပ်စွာဆွဲရန်) -->
   <div class="mode-switcher">
-    <button id="gridModeBtn" class="active" onclick="switchMode('grid')">ဇယားကွက်စနစ် (Grid)</button>
-    <button id="canvasModeBtn" onclick="switchMode('canvas')">လွတ်လပ်စွာဆွဲရန် (Free Draw)</button>
+    <button id="gridModeBtn" class="active" onclick="switchMode('grid')">ဇယားကွက်</button>
+    <button id="circleModeBtn" onclick="switchMode('circle')">စက်ဝိုင်းအင်း</button>
+    <button id="canvasModeBtn" onclick="switchMode('canvas')">လွတ်လပ်စွာဆွဲ</button>
   </div>
 
-  <!-- ဇယားကွက် Toolbar များ -->
   <div id="gridToolbarContainer">
     <div class="toolbar" id="toolbar"></div>
-    <div class="custom-size-box">
-      <label for="customSizeInput" style="font-weight:bold; font-size:14px;">အကွက်အရွယ်အစား:</label>
-      <input type="number" id="customSizeInput" min="2" max="25" value="9">
-      <span style="font-size:14px;">ပတ်လည်</span>
-      <button onclick="applyCustomSize()">ဖန်တီး</button>
+    <div class="custom-grid-box">
+      <label style="font-weight:bold; font-size:13px;">အတန်း (Rows):</label>
+      <input type="number" id="inputRows" min="1" max="25" value="3">
+      <label style="font-weight:bold; font-size:13px;">အတိုင် (Cols):</label>
+      <input type="number" id="inputCols" min="1" max="30" value="11">
+      <button onclick="applyCustomGrid()">ဖန်တီး</button>
     </div>
   </div>
 
-  <!-- ကင်းဗတ် Mode အတွက် ဆွဲကိရိယာများ (Dot / Line / Pen) -->
+  <!-- စက်ဝိုင်းအင်း Mode အတွက် ညွှန်ကြားချက် -->
+  <div id="circleInfoContainer" style="display:none; text-align:center; font-size:13px; color:#666; margin-bottom:10px; max-width:600px;">
+    * ပုံပါကဲ့သို့ စက်ဝိုင်းအင်း (စိတ္တကံ) ပုံစံများကို ကင်းဗတ်ပေါ်တွင် အလွယ်တကူ ရေးဆွဲနိုင်ပါသည်။
+  </div>
+
   <div id="canvasToolsContainer" class="canvas-tools" style="display: none;">
     <button id="toolPen" class="active" onclick="setCanvasTool('pen')">ဘောပင် (Pen)</button>
-    <button id="toolDot" onclick="setCanvasTool('dot')">အစက်ချ (Dot Grid)</button>
+    <button id="toolDot" onclick="setCanvasTool('dot')">အစက်ချ/စက်ဝိုင်း (Circle Grid)</button>
     <button id="toolEraser" onclick="setCanvasTool('eraser')">ဖျက်ဆေး (Eraser)</button>
   </div>
 
-  <!-- အရောင်နှင့် စာလုံးအရွယ်အစား ချိန်ညှိရန် Panel -->
   <div class="customization-panel">
     <div class="custom-control">
       <label for="textColorSelect">စာသား/မျဉ်းအရောင်:</label>
@@ -420,7 +419,7 @@
       </select>
     </div>
     <div class="custom-control">
-      <label for="borderColorSelect">ဘောင်အရောင်:</label>
+      <label for="borderColorSelect">ဘောင်/စက်ဝိုင်းအရောင်:</label>
       <select id="borderColorSelect" onchange="changeBorderColor()">
         <option value="#4a3b32">အညိုရင့် (Default)</option>
         <option value="#8b0000">အနီရောင်</option>
@@ -434,10 +433,9 @@
     </div>
   </div>
 
-  <!-- ပြသရာနေရာ (Grid သို့မဟုတ် Canvas) -->
   <div class="grid-container" id="captureArea">
     <div class="grid" id="gridDisplay"></div>
-    <canvas id="drawCanvas" width="400" height="400" style="display: none;"></canvas>
+    <canvas id="drawCanvas" width="450" height="450" style="display: none;"></canvas>
   </div>
 
   <div class="action-buttons">
@@ -482,80 +480,99 @@
   </div>
 
   <script>
-    let currentMode = 'grid'; // 'grid' သို့မဟုတ် 'canvas'
-    let currentSize = 9; 
+    let currentMode = 'grid'; // 'grid', 'circle', 'canvas'
+    let rowsCount = 3;
+    let colsCount = 11;
     let selectedCell = null;
     let gridData = {};
 
-    // LocalStorage မှ ဖတ်ရှုခြင်း
-    const savedData = localStorage.getItem('amulet_grid_data');
+    const savedData = localStorage.getItem('amulet_grid_data_v3');
     if (savedData) {
       try { gridData = JSON.parse(savedData); } catch (e) { gridData = {}; }
     }
 
-    // Toolbar ဖန်တီးခြင်း
+    const presetSizes = [
+      {r: 3, c: 3, label: '၃x၃'},
+      {r: 3, c: 7, label: '၃x၇'},
+      {r: 3, c: 11, label: '၃x၁၁ (ပုံပါ)'},
+      {r: 4, c: 4, label: '၄x၄'},
+      {r: 5, c: 5, label: '၅x၅'},
+      {r: 9, c: 9, label: '၉x၉'}
+    ];
+
     const toolbar = document.getElementById('toolbar');
-    for (let s = 2; s <= 9; s++) {
+    presetSizes.forEach(p => {
       const btn = document.createElement('button');
-      btn.innerText = `${s}x${s}`;
-      if (s === currentSize) btn.classList.add('active');
-      btn.onclick = () => switchGrid(s);
+      btn.innerText = p.label;
+      if (p.r === rowsCount && p.c === colsCount) btn.classList.add('active');
+      btn.onclick = () => switchGridSize(p.r, p.c);
       toolbar.appendChild(btn);
-    }
+    });
 
     function switchMode(mode) {
       currentMode = mode;
       closeKeypad();
       document.getElementById('gridModeBtn').classList.toggle('active', mode === 'grid');
+      document.getElementById('circleModeBtn').classList.toggle('active', mode === 'circle');
       document.getElementById('canvasModeBtn').classList.toggle('active', mode === 'canvas');
       
       document.getElementById('gridToolbarContainer').style.display = (mode === 'grid') ? 'block' : 'none';
-      document.getElementById('canvasToolsContainer').style.display = (mode === 'canvas') ? 'flex' : 'none';
+      document.getElementById('circleInfoContainer').style.display = (mode === 'circle') ? 'block' : 'none';
+      document.getElementById('canvasToolsContainer').style.display = (mode === 'canvas' || mode === 'circle') ? 'flex' : 'none';
       document.getElementById('gridDisplay').style.display = (mode === 'grid') ? 'grid' : 'none';
-      document.getElementById('drawCanvas').style.display = (mode === 'canvas') ? 'block' : 'none';
+      document.getElementById('drawCanvas').style.display = (mode === 'canvas' || mode === 'circle') ? 'block' : 'none';
       document.getElementById('fontSizeControlBox').style.display = (mode === 'grid') ? 'flex' : 'none';
 
-      if (mode === 'canvas') {
-        initCanvas();
+      if (mode === 'circle') {
+        canvasTool = 'dot';
+        initCanvas(true);
+      } else if (mode === 'canvas') {
+        canvasTool = 'pen';
+        initCanvas(false);
       }
     }
 
-    function switchGrid(size) {
-      currentSize = size;
-      document.getElementById('customSizeInput').value = size;
+    function switchGridSize(r, c) {
+      rowsCount = r;
+      colsCount = c;
+      document.getElementById('inputRows').value = r;
+      document.getElementById('inputCols').value = c;
       document.querySelectorAll('.toolbar button').forEach(b => {
-        b.classList.toggle('active', b.innerText === `${size}x${size}`);
+        b.classList.toggle('active', b.innerText.includes(`${r}x${c}`));
       });
       renderGrid();
       closeKeypad();
     }
 
-    function applyCustomSize() {
-      const val = parseInt(document.getElementById('customSizeInput').value);
-      if (val && val >= 2 && val <= 30) {
-        currentSize = val;
+    function applyCustomGrid() {
+      const r = parseInt(document.getElementById('inputRows').value);
+      const c = parseInt(document.getElementById('inputCols').value);
+      if (r && c && r >= 1 && r <= 30 && c >= 1 && c <= 30) {
+        rowsCount = r;
+        colsCount = c;
         document.querySelectorAll('.toolbar button').forEach(b => b.classList.remove('active'));
         renderGrid();
         closeKeypad();
       } else {
-        alert('ကျေးဇူးပြု၍ ၂ မှ ၃၀ အတွင်း ဂဏန်းထည့်ပါ။');
+        alert('ကျေးဇူးပြု၍ ၁ မှ ၃၀ အတွင်း ဂဏန်းများ မှန်ကန်စွာထည့်ပါ။');
       }
     }
 
     function renderGrid() {
       const grid = document.getElementById('gridDisplay');
       grid.innerHTML = '';
-      grid.style.gridTemplateColumns = `repeat(${currentSize}, 1fr)`;
-      grid.style.gridTemplateRows = `repeat(${currentSize}, 1fr)`;
+      grid.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`;
+      grid.style.gridTemplateRows = `repeat(${rowsCount}, 1fr)`;
 
-      if (!gridData[currentSize]) {
-        gridData[currentSize] = Array(currentSize * currentSize).fill('');
+      const keyStr = `${rowsCount}x${colsCount}`;
+      if (!gridData[keyStr]) {
+        gridData[keyStr] = Array(rowsCount * colsCount).fill('');
       }
 
-      for (let i = 0; i < currentSize * currentSize; i++) {
+      for (let i = 0; i < rowsCount * colsCount; i++) {
         const cell = document.createElement('div');
         cell.className = 'cell';
-        cell.innerText = gridData[currentSize][i];
+        cell.innerText = gridData[keyStr][i];
         cell.dataset.index = i;
         cell.onclick = () => openKeypad(cell, i);
         grid.appendChild(cell);
@@ -567,9 +584,9 @@
       selectedCell = cellElement;
       selectedCell.classList.add('selected');
 
-      const r = Math.floor(index / currentSize) + 1;
-      const c = (index % currentSize) + 1;
-      document.getElementById('activeCellInfo').innerText = `${currentSize}x${currentSize} (တန်း ${r}၊ တိုင် ${c})`;
+      const r = Math.floor(index / colsCount) + 1;
+      const c = (index % colsCount) + 1;
+      document.getElementById('activeCellInfo').innerText = `${rowsCount}x${colsCount} (တန်း ${r}၊ တိုင် ${c})`;
       document.getElementById('keypadModal').classList.add('show');
       document.getElementById('customInput').value = '';
 
@@ -587,7 +604,8 @@
     function fillValue(val) {
       if (!selectedCell) return;
       const idx = selectedCell.dataset.index;
-      gridData[currentSize][idx] = val; 
+      const keyStr = `${rowsCount}x${colsCount}`;
+      gridData[keyStr][idx] = val; 
       selectedCell.innerText = val;     
     }
 
@@ -598,48 +616,75 @@
       }
     }
 
-    /* --- Canvas Drawing Logic (အစက်ချ/မျဉ်းဆွဲစနစ်) --- */
+    /* --- Canvas & Circle Drawing Logic --- */
     const canvas = document.getElementById('drawCanvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
-    let canvasTool = 'pen'; // 'pen', 'dot', 'eraser'
+    let canvasTool = 'pen'; 
 
-    function initCanvas() {
-      // ပုံစံသိမ်းထားတာရှိရင် ပြန်ပေါ်စေရန် (သို့မဟုတ် အလွတ်စတင်ရန်)
-      const savedCanvas = localStorage.getItem('amulet_canvas_data');
-      if (savedCanvas) {
+    function initCanvas(isCircleTemplate = false) {
+      const storageKey = isCircleTemplate ? 'amulet_circle_data' : 'amulet_canvas_data_v3';
+      const savedCanvas = localStorage.getItem(storageKey);
+      if (savedCanvas && !isCircleTemplate) {
         let img = new Image();
         img.onload = () => { ctx.clearRect(0,0,canvas.width, canvas.height); ctx.drawImage(img, 0, 0); };
         img.src = savedCanvas;
       } else {
-        clearCanvasBackground();
+        clearCanvasBackground(isCircleTemplate);
       }
     }
 
-    function clearCanvasBackground() {
+    function clearCanvasBackground(isCircleTemplate = false) {
       ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--cell-bg-color').trim() || '#faf8f5';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      drawBorderAndGridDots();
+      drawTemplate(isCircleTemplate);
     }
 
-    function drawBorderAndGridDots() {
-      // ဘောင်ဆွဲရန်
+    function drawTemplate(isCircleTemplate) {
       let borderColor = getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || '#4a3b32';
       ctx.strokeStyle = borderColor;
-      ctx.lineWidth = 3;
-      ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+      ctx.lineWidth = 2.5;
 
-      if (canvasTool === 'dot') {
-        // အစက်ချများ ဖော်ပြပေးရန် (Dot Grid)
-        ctx.fillStyle = borderColor;
-        let rows = 9, cols = 9;
-        let stepX = (canvas.width - 40) / (cols - 1);
-        let stepY = (canvas.height - 40) / (rows - 1);
-        for(let r=0; r<rows; r++) {
-          for(let c=0; c<cols; c++) {
-            ctx.beginPath();
-            ctx.arc(20 + c * stepX, 20 + r * stepY, 3, 0, Math.PI * 2);
-            ctx.fill();
+      let cx = canvas.width / 2;
+      let cy = canvas.height / 2;
+      let radius = Math.min(cx, cy) - 30;
+
+      if (isCircleTemplate || currentMode === 'circle') {
+        // စက်ဝိုင်းအင်းပုံစံ (အပြင်စက်ဝိုင်း + အတွင်းစက်ဝိုင်း + လေးထောင့်ကွက် + အကွက်ခွဲမျဉ်းများ)
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius * 0.6, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // ကြက်ခြေခတ်မျဉ်းများ (Cross lines)
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - radius); ctx.lineTo(cx, cy + radius);
+        ctx.moveTo(cx - radius, cy); ctx.lineTo(cx + radius, cy);
+        ctx.stroke();
+
+        // ထောင့်ဖြတ်မျဉ်းများ
+        ctx.beginPath();
+        let offset = radius * 0.707;
+        ctx.moveTo(cx - offset, cy - offset); ctx.lineTo(cx + offset, cy + offset);
+        ctx.moveTo(cx - offset, cy + offset); ctx.lineTo(cx + offset, cy - offset);
+        ctx.stroke();
+      } else {
+        // ပုံမှန်ဘောင်
+        ctx.strokeRect(15, 15, canvas.width - 30, canvas.height - 30);
+        if (canvasTool === 'dot') {
+          ctx.fillStyle = borderColor;
+          let rows = 9, cols = 9;
+          let stepX = (canvas.width - 60) / (cols - 1);
+          let stepY = (canvas.height - 60) / (rows - 1);
+          for(let r=0; r<rows; r++) {
+            for(let c=0; c<cols; c++) {
+              ctx.beginPath();
+              ctx.arc(30 + c * stepX, 30 + r * stepY, 3, 0, Math.PI * 2);
+              ctx.fill();
+            }
           }
         }
       }
@@ -651,11 +696,10 @@
       document.getElementById('toolDot').classList.toggle('active', tool === 'dot');
       document.getElementById('toolEraser').classList.toggle('active', tool === 'eraser');
       if(tool === 'dot') {
-        drawBorderAndGridDots();
+        clearCanvasBackground(currentMode === 'circle');
       }
     }
 
-    // Mouse & Touch Events for Canvas
     function getPos(e) {
       const rect = canvas.getBoundingClientRect();
       let clientX = e.clientX || (e.touches && e.touches[0].clientX);
@@ -702,45 +746,44 @@
       isDrawing = false;
     }
 
-    /* --- Common Actions --- */
     function clearCurrentMode() {
       if (currentMode === 'grid') {
         if (confirm('ဤဇယားကွက်ရှိ အချက်အလက်များကို အကုန်ဖျက်မည်မှာ သေချာပါသလား?')) {
-          gridData[currentSize] = Array(currentSize * currentSize).fill('');
+          const keyStr = `${rowsCount}x${colsCount}`;
+          gridData[keyStr] = Array(rowsCount * colsCount).fill('');
           renderGrid();
           closeKeypad();
         }
       } else {
         if (confirm('ဆွဲလက်စ ပုံကြမ်းများကို ဖျက်မည်မှာ သေချာပါသလား?')) {
-          clearCanvasBackground();
+          clearCanvasBackground(currentMode === 'circle');
         }
       }
     }
 
     function saveCurrentData() {
       if (currentMode === 'grid') {
-        localStorage.setItem('amulet_grid_data', JSON.stringify(gridData));
+        localStorage.setItem('amulet_grid_data_v3', JSON.stringify(gridData));
         alert('ဇယားအချက်အလက်များကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!');
       } else {
-        localStorage.setItem('amulet_canvas_data', canvas.toDataURL());
-        alert('ပုံကြမ်းကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!');
+        let key = (currentMode === 'circle') ? 'amulet_circle_data' : 'amulet_canvas_data_v3';
+        localStorage.setItem(key, canvas.toDataURL());
+        alert('ပုံကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!');
       }
     }
 
-    function changeTextColor() {
-      // Canvas အတွက် သီးသန့် အလုပ်လုပ်စေရန်
-    }
+    function changeTextColor() {}
 
     function changeBgColor() {
       const color = document.getElementById('bgColorSelect').value;
       document.documentElement.style.setProperty('--cell-bg-color', color);
-      if(currentMode === 'canvas') clearCanvasBackground();
+      if(currentMode === 'canvas' || currentMode === 'circle') clearCanvasBackground(currentMode === 'circle');
     }
 
     function changeBorderColor() {
       const color = document.getElementById('borderColorSelect').value;
       document.documentElement.style.setProperty('--border', color);
-      if(currentMode === 'canvas') clearCanvasBackground();
+      if(currentMode === 'canvas' || currentMode === 'circle') clearCanvasBackground(currentMode === 'circle');
     }
 
     function changeFontSize(size) {
