@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Mhaw Edition</title>
+  <title>မြန်မာ့ရိုးရာ အင်းကွက် ဖန်တီးရေးစနစ်</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
-    /* Custom Fonts Fallback Setup */
+    /* Custom Fonts Setup */
     @font-face {
       font-family: 'BolFont';
       src: url('bol.ttf') format('truetype'),
@@ -23,43 +23,39 @@
     }
     @font-face {
       font-family: 'CalligraphrRegular';
-      src: url('Calligraphr-Regular.ttf') format('truetype'),
-           url('calligraphr-regular.ttf') format('truetype');
+      src: url('Calligraphr-Regular.ttf') format('truetype');
       font-display: swap;
     }
     @font-face {
       font-family: 'BezeeFont';
-      src: url('bezee.ttf') format('truetype'),
-           url('Bezee.ttf') format('truetype');
+      src: url('bezee.ttf') format('truetype');
       font-display: swap;
     }
     @font-face {
       font-family: 'BurmaFont';
-      src: url('burma.ttf') format('truetype'),
-           url('Burma.ttf') format('truetype');
+      src: url('burma.ttf') format('truetype');
       font-display: swap;
     }
     @font-face {
       font-family: 'DisplayFont';
-      src: url('display.ttf') format('truetype'),
-           url('Display.ttf') format('truetype');
+      src: url('display.ttf') format('truetype');
       font-display: swap;
     }
 
     :root {
-      --primary: #9b111e;
-      --primary-glow: rgba(155, 17, 30, 0.4);
-      --gold: #d4af37;
-      --gold-light: #f9e295;
-      --bg-dark: #07080f;
-      --surface: rgba(19, 23, 39, 0.85);
-      --surface-border: rgba(212, 175, 55, 0.25);
-      --text: #f0f2f8;
-      --text-muted: #9ba3be;
+      /* Clean Light Theme */
+      --primary: #8b0000;
+      --primary-hover: #6b0000;
+      --accent: #d4af37;
+      --bg: #f5f2eb;
+      --surface: #ffffff;
+      --surface-border: #d1c7bc;
+      --text: #2c221e;
+      --text-muted: #555555;
       
-      --cell-text-color: #f0f2f8;
-      --cell-bg-color: #121524;
-      --grid-border-color: #d4af37;
+      --cell-text-color: #2c221e;
+      --cell-bg-color: #faf8f5;
+      --grid-border-color: #4a3b32;
       --font-size: 20px;
       --selected-font: 'BolFont', 'Padauk', sans-serif;
     }
@@ -73,22 +69,19 @@
     }
 
     body {
-      background-color: var(--bg-dark);
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(155, 17, 30, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(212, 175, 55, 0.1) 0px, transparent 50%);
+      background-color: var(--bg);
       color: var(--text);
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      padding: 15px 12px 280px; 
+      padding: 15px 12px 60px; 
     }
 
     .header-container {
       text-align: center;
       margin-bottom: 15px;
-      border-bottom: 1px solid var(--surface-border);
+      border-bottom: 2px solid var(--accent);
       padding-bottom: 10px;
       width: 100%;
       max-width: 500px;
@@ -96,7 +89,7 @@
 
     h2 { 
       font-family: 'Cinzel', 'Padauk', serif;
-      color: #fff; 
+      color: var(--primary); 
       font-size: 1.35rem;
       letter-spacing: 0.5px;
       display: flex;
@@ -105,7 +98,7 @@
       gap: 8px;
     }
 
-    h2 i { color: var(--gold); font-size: 1.1rem; }
+    h2 i { color: var(--accent); font-size: 1.1rem; }
 
     .mode-switcher {
       display: flex;
@@ -118,12 +111,12 @@
     .mode-switcher button {
       flex: 1;
       padding: 10px 6px;
-      background: rgba(19, 23, 39, 0.6);
+      background: #e2dcd6;
       border: 1px solid var(--surface-border);
-      border-radius: 10px;
+      border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
-      color: var(--text-muted);
+      color: #4a3b32;
       font-size: 0.85rem;
       transition: all 0.25s ease;
     }
@@ -132,7 +125,6 @@
       background: var(--primary);
       color: #fff;
       border-color: var(--primary);
-      box-shadow: 0 4px 15px var(--primary-glow);
     }
 
     .toolbar {
@@ -146,9 +138,9 @@
     }
 
     .toolbar button {
-      background: rgba(19, 23, 39, 0.8);
-      border: 1px solid var(--surface-border);
-      color: var(--gold);
+      background: #fff;
+      border: 1px solid var(--primary);
+      color: var(--primary);
       padding: 6px 12px;
       border-radius: 8px;
       font-weight: bold;
@@ -158,9 +150,8 @@
     }
 
     .toolbar button.active {
-      background: var(--gold);
-      color: #07080f;
-      border-color: var(--gold);
+      background: var(--primary);
+      color: #fff;
     }
 
     .custom-grid-box {
@@ -182,15 +173,15 @@
       width: 52px;
       padding: 6px;
       text-align: center;
-      background: rgba(8, 10, 18, 0.8);
-      border: 1px solid var(--surface-border);
-      color: #fff;
+      background: #fff;
+      border: 1px solid #ccc;
+      color: var(--text);
       border-radius: 6px;
       outline: none;
     }
 
     .custom-grid-box button {
-      background: linear-gradient(135deg, var(--primary) 0%, #b81726 100%);
+      background: var(--primary);
       color: #fff;
       border: none;
       padding: 7px 14px;
@@ -207,7 +198,7 @@
       margin-bottom: 15px;
       background: var(--surface);
       padding: 12px;
-      border-radius: 14px;
+      border-radius: 12px;
       border: 1px solid var(--surface-border);
       width: 100%;
       max-width: 500px;
@@ -219,33 +210,42 @@
       gap: 4px;
       font-size: 0.78rem;
       font-weight: bold;
-      color: var(--gold);
+      color: var(--text);
     }
 
     .custom-control select, .custom-control input[type="range"] {
       padding: 6px 8px;
-      background: rgba(8, 10, 18, 0.8);
-      border: 1px solid var(--surface-border);
-      color: #fff;
+      background: #fff;
+      border: 1px solid #ccc;
+      color: var(--text);
       border-radius: 6px;
       font-size: 0.82rem;
       outline: none;
     }
 
+    /* Capture Area Padding added for Image Export Full Border Fix */
+    #captureArea {
+      padding: 20px;
+      background: var(--bg); /* To ensure solid background behind borders */
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+
     .grid-container {
       background: var(--surface);
       padding: 16px;
-      border: 2px solid var(--grid-border-color);
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      margin-bottom: 12px;
+      border: 4px double var(--grid-border-color);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
-      max-width: 500px;
       overflow-x: auto;
-      backdrop-filter: blur(8px);
     }
 
     .grid {
@@ -263,21 +263,19 @@
       color: var(--cell-text-color);
       font-weight: bold;
       background: var(--cell-bg-color);
-      user-select: none;
-      cursor: pointer;
+      cursor: text;
       aspect-ratio: 1 / 1;
       min-width: 42px;
       min-height: 42px;
       padding: 2px;
       text-align: center;
       word-break: break-all;
-      transition: background 0.15s ease;
+      outline: none;
     }
 
-    .cell:hover { background: rgba(212, 175, 55, 0.15); }
-    .cell.selected {
-      background: rgba(155, 17, 30, 0.45) !important;
-      outline: 2px solid var(--gold);
+    .cell:focus {
+      background: #ffe4b5;
+      outline: 2px solid var(--primary);
       z-index: 2;
     }
 
@@ -307,19 +305,15 @@
       font-weight: bold;
       color: var(--cell-text-color);
       font-size: var(--font-size);
-      cursor: pointer;
-      user-select: none;
+      cursor: text;
       border-radius: 6px;
-      transition: background 0.15s;
+      outline: none;
+      background: transparent;
     }
 
-    .circle-cell:hover {
-      background: rgba(212, 175, 55, 0.2);
-    }
-
-    .circle-cell.selected {
-      background: rgba(155, 17, 30, 0.5) !important;
-      outline: 2px solid var(--gold);
+    .circle-cell:focus {
+      background: #ffe4b5;
+      outline: 2px dashed var(--primary);
     }
 
     .canvas-tools {
@@ -333,27 +327,24 @@
 
     .canvas-tools button {
       padding: 7px 14px;
-      background: rgba(19, 23, 39, 0.8);
-      border: 1px solid var(--surface-border);
-      color: var(--text-muted);
+      background: #fff;
+      border: 1px solid var(--primary);
+      color: var(--primary);
       border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
       font-size: 0.82rem;
-      transition: 0.2s;
     }
 
     .canvas-tools button.active {
       background: var(--primary);
       color: #fff;
-      border-color: var(--primary);
     }
 
     canvas {
       background: var(--cell-bg-color);
       touch-action: none;
       border: 2px solid var(--grid-border-color);
-      border-radius: 8px;
       max-width: 100%;
     }
 
@@ -367,12 +358,13 @@
     }
 
     .utility-bar button {
-      background: rgba(19, 23, 39, 0.7);
-      border: 1px solid var(--surface-border);
-      color: var(--gold);
+      background: #fff;
+      border: 1px solid #ccc;
+      color: var(--text);
       padding: 6px 12px;
       border-radius: 8px;
       font-size: 0.8rem;
+      font-weight: bold;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -380,14 +372,14 @@
     }
 
     .utility-bar button:disabled {
-      opacity: 0.4;
+      opacity: 0.5;
       cursor: not-allowed;
     }
 
     .action-buttons {
       display: flex;
       gap: 8px;
-      margin-bottom: 15px;
+      margin-top: 10px;
       width: 100%;
       max-width: 500px;
     }
@@ -401,144 +393,16 @@
       font-weight: bold;
       cursor: pointer;
       font-size: 0.82rem;
-      transition: transform 0.15s ease;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-    }
-
-    .action-buttons button:active { transform: scale(0.98); }
-    .action-buttons button.clear-btn { background: #5a1217; }
-    .action-buttons button.save-btn { background: #1c5230; }
-    .action-buttons button.img-btn { background: linear-gradient(135deg, var(--primary) 0%, #b81726 100%); }
-    .action-buttons button.print-btn { background: #1f3a60; }
-
-    /* Keypad Modal UI */
-    .keypad-modal {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(14, 17, 30, 0.96);
-      backdrop-filter: blur(14px);
-      border-top: 2px solid var(--gold);
-      box-shadow: 0 -8px 30px rgba(0,0,0,0.8);
-      padding: 12px 10px;
-      z-index: 1000;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .keypad-modal.show { 
-      display: block; 
-      animation: slideUp 0.25s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
-    }
-
-    .keypad-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-      border-bottom: 1px solid var(--surface-border);
-      padding-bottom: 6px;
-    }
-
-    .kb-tabs {
-      display: flex;
       gap: 5px;
     }
 
-    .kb-tab-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--surface-border);
-      padding: 5px 8px;
-      border-radius: 6px;
-      font-weight: bold;
-      font-size: 0.74rem;
-      cursor: pointer;
-      color: var(--text-muted);
-    }
-
-    .kb-tab-btn.active {
-      background: var(--gold);
-      color: #07080f;
-      border-color: var(--gold);
-    }
-
-    .kb-scroll-container {
-      width: 100%;
-      overflow-x: auto;
-      padding-bottom: 6px;
-    }
-
-    .kb-layout {
-      display: none;
-      flex-direction: column;
-      gap: 6px;
-      min-width: 480px;
-    }
-
-    .kb-layout.active { display: flex; }
-
-    .kb-row {
-      display: flex;
-      gap: 6px;
-      justify-content: center;
-    }
-
-    .key-btn {
-      background: rgba(25, 30, 52, 0.8);
-      border: 1px solid var(--surface-border);
-      color: #fff;
-      border-radius: 8px;
-      flex: 1;
-      padding: 10px 0;
-      font-size: 1.05rem;
-      font-weight: bold;
-      text-align: center;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .key-btn:active { background: var(--primary); }
-    .key-btn.action-key { background: #4a1014; color: #ff9b9b; font-size: 0.8rem; }
-    .key-btn.backspace-key { background: #351d52; color: #d6b3ff; font-size: 0.8rem; }
-
-    .custom-input-box {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .custom-input-box input {
-      flex: 1;
-      padding: 8px 12px;
-      font-size: 0.88rem;
-      background: rgba(8, 10, 18, 0.8);
-      border: 1px solid var(--surface-border);
-      border-radius: 8px;
-      color: #fff;
-      outline: none;
-    }
-
-    .custom-input-box button {
-      background: var(--gold);
-      color: #07080f;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+    .action-buttons button.clear-btn { background: #d9534f; }
+    .action-buttons button.save-btn { background: #5cb85c; }
+    .action-buttons button.img-btn { background: var(--primary); }
+    .action-buttons button.print-btn { background: #337ab7; }
 
     @media print {
       body {
@@ -547,9 +411,10 @@
         padding: 0 !important;
       }
       .header-container, .mode-switcher, #gridToolbarContainer, .customization-panel,
-      .utility-bar, .action-buttons, .keypad-modal, #canvasToolsContainer, #circleInfoContainer {
+      .utility-bar, .action-buttons, #canvasToolsContainer, #circleInfoContainer {
         display: none !important;
       }
+      #captureArea { padding: 0 !important; background: transparent !important; }
       .grid-container {
         border: none !important;
         box-shadow: none !important;
@@ -588,8 +453,8 @@
     </div>
   </div>
 
-  <div id="circleInfoContainer" style="display:none; text-align:center; font-size:0.82rem; color:var(--gold); margin-bottom:10px; max-width:500px;">
-    * စက်ဝိုင်းအင်းကွက်များကို ကလစ်နှိပ်၍ စာသားတိုက်ရိုက် ရိုက်ထည့်နိုင်ပါသည်။
+  <div id="circleInfoContainer" style="display:none; text-align:center; font-size:0.82rem; color:var(--primary); margin-bottom:10px; max-width:500px;">
+    * အကွက်များကို တစ်ချက်နှိပ်၍ ဖုန်းကီးဘုတ်ဖြင့် စာသားတိုက်ရိုက် ရိုက်ထည့်နိုင်ပါသည်။
   </div>
 
   <div id="canvasToolsContainer" class="canvas-tools" style="display: none;">
@@ -612,38 +477,38 @@
       </select>
     </div>
     <div class="custom-control">
-      <label for="fontFileInput">Font ဖိုင် တိုက်ရိုက်တင်ရန်:</label>
-      <input type="file" id="fontFileInput" accept=".ttf,.otf,.woff" onchange="loadLocalFont(this)" style="font-size:0.75rem; color:#fff;">
+      <label for="fontFileInput">Font ဖိုင် တိုက်ရိုက်တင်ရန် (TTF):</label>
+      <input type="file" id="fontFileInput" accept=".ttf,.otf,.woff" onchange="loadLocalFont(this)" style="font-size:0.75rem;">
     </div>
     <div class="custom-control">
       <label for="textColorSelect">စာသား/မျဉ်းအရောင်:</label>
       <select id="textColorSelect" onchange="changeTextColor()">
-        <option value="#f0f2f8">အဖြူရောင်</option>
+        <option value="#2c221e">အနက်/အညို (Default)</option>
+        <option value="#8b0000">အနီရောင်</option>
         <option value="#d4af37">ရွှေရောင်</option>
-        <option value="#e63946">အနီရောင်</option>
         <option value="#10b981">အစိမ်းရောင်</option>
       </select>
     </div>
     <div class="custom-control">
       <label for="bgColorSelect">နောက်ခံအရောင်:</label>
       <select id="bgColorSelect" onchange="changeBgColor()">
-        <option value="#121524">Dark Midnight</option>
-        <option value="#07080f">Deep Pitch Black</option>
-        <option value="#2a080c">Mystic Crimson</option>
-        <option value="#faf8f5">Classic Parchment</option>
+        <option value="#f5f2eb">Parchment (မူလ)</option>
+        <option value="#ffffff">အဖြူရောင်</option>
+        <option value="#fdf5e6">မုန့်ဖတ်ရောင်</option>
+        <option value="#fae1e1">ဖျော့တော့အနီ</option>
       </select>
     </div>
     <div class="custom-control">
       <label for="borderColorSelect">ဘောင်အရောင်:</label>
       <select id="borderColorSelect" onchange="changeBorderColor()">
-        <option value="#d4af37">ရွှေရောင် (Gold)</option>
-        <option value="#9b111e">ဝိုင်နီ (Crimson)</option>
-        <option value="#ffffff">အဖြူရောင်</option>
-        <option value="#4a3b32">ကြေးညိုရောင်</option>
+        <option value="#4a3b32">ကြေးညိုရောင် (Default)</option>
+        <option value="#d4af37">ရွှေရောင်</option>
+        <option value="#8b0000">အနီရောင်</option>
+        <option value="#000000">အနက်ရောင်</option>
       </select>
     </div>
     <div class="custom-control" id="fontSizeControlBox">
-      <label for="fontSizeRange">စာလုံးအရွယ် (Base): <span id="fontSizeVal">20px</span></label>
+      <label for="fontSizeRange">စာလုံးအရွယ်: <span id="fontSizeVal">20px</span></label>
       <input type="range" id="fontSizeRange" min="12" max="36" value="20" oninput="changeFontSize(this.value)">
     </div>
   </div>
@@ -654,199 +519,49 @@
       <button id="undoBtn" onclick="undoAction()" disabled><i class="fa-solid fa-rotate-left"></i> Undo</button>
       <button id="redoBtn" onclick="redoAction()" disabled><i class="fa-solid fa-rotate-right"></i> Redo</button>
     </div>
-    <button onclick="openTemplatePicker()"><i class="fa-solid fa-scroll"></i> အင်းကွက် နမူနာများ</button>
+    <button onclick="openTemplatePicker()"><i class="fa-solid fa-scroll"></i> အင်းနမူနာများ</button>
   </div>
 
-  <div class="grid-container" id="captureArea">
-    <!-- Regular Grid -->
-    <div class="grid" id="gridDisplay"></div>
+  <!-- Capture Wrapper -->
+  <div id="captureArea">
+    <div class="grid-container" id="captureContainer">
+      <!-- Regular Grid -->
+      <div class="grid" id="gridDisplay"></div>
 
-    <!-- Interactive Circle Grid -->
-    <div id="circleContainer">
-      <svg id="circleSvg" viewBox="0 0 380 380"></svg>
-      <div id="circleCellsContainer"></div>
+      <!-- Interactive Circle Grid -->
+      <div id="circleContainer">
+        <svg id="circleSvg" viewBox="0 0 380 380"></svg>
+        <div id="circleCellsContainer"></div>
+      </div>
+
+      <!-- Freehand Canvas -->
+      <canvas id="drawCanvas" width="450" height="450" style="display: none;"></canvas>
     </div>
-
-    <!-- Freehand Canvas -->
-    <canvas id="drawCanvas" width="450" height="450" style="display: none;"></canvas>
   </div>
 
   <div class="action-buttons">
     <button onclick="clearCurrentMode()" class="clear-btn"><i class="fa-solid fa-trash"></i> ရှင်းမည်</button>
     <button onclick="saveCurrentData()" class="save-btn"><i class="fa-solid fa-bookmark"></i> မှတ်သားမည်</button>
     <button onclick="saveAsImage()" class="img-btn"><i class="fa-solid fa-image"></i> ပုံထုတ်မည်</button>
-    <button onclick="printA4()" class="print-btn"><i class="fa-solid fa-print"></i> A4 Print</button>
-  </div>
-
-  <!-- Keypad Modal UI -->
-  <div class="keypad-modal" id="keypadModal">
-    <div class="keypad-header">
-      <span id="activeCellInfo" style="font-size:0.8rem; font-weight:bold; color:var(--gold);">ကွက်လပ်ဖြည့်စွက်ရန်</span>
-      <div class="kb-tabs">
-        <button class="kb-tab-btn active" onclick="switchKbTab('numbers')">ဂဏန်း</button>
-        <button class="kb-tab-btn" onclick="switchKbTab('myanmar')">က-အ</button>
-        <button class="kb-tab-btn" onclick="switchKbTab('complex')">ဗျည်းတွဲ/သတ်</button>
-        <button class="kb-tab-btn" onclick="switchKbTab('amulet')">အင်းဆံ</button>
-      </div>
-      <span style="cursor:pointer; color: #ff6b6b; font-weight:bold; font-size:0.85rem;" onclick="closeKeypad()">✕ ပိတ်</span>
-    </div>
-
-    <div class="kb-scroll-container">
-      <!-- Layout 1: Numbers -->
-      <div id="kbNumbers" class="kb-layout active">
-        <div class="kb-row">
-          <div class="key-btn" onclick="appendValue('၁')">၁</div>
-          <div class="key-btn" onclick="appendValue('၂')">၂</div>
-          <div class="key-btn" onclick="appendValue('၃')">၃</div>
-          <div class="key-btn" onclick="appendValue('၄')">၄</div>
-          <div class="key-btn" onclick="appendValue('၅')">၅</div>
-          <div class="key-btn" onclick="appendValue('၆')">၆</div>
-          <div class="key-btn" onclick="appendValue('၇')">၇</div>
-          <div class="key-btn" onclick="appendValue('၈')">၈</div>
-          <div class="key-btn" onclick="appendValue('၉')">၉</div>
-          <div class="key-btn" onclick="appendValue('၀')">၀</div>
-        </div>
-        <div class="kb-row">
-          <div class="key-btn" onclick="appendValue('1')">1</div>
-          <div class="key-btn" onclick="appendValue('2')">2</div>
-          <div class="key-btn" onclick="appendValue('3')">3</div>
-          <div class="key-btn" onclick="appendValue('4')">4</div>
-          <div class="key-btn" onclick="appendValue('5')">5</div>
-          <div class="key-btn" onclick="appendValue('6')">6</div>
-          <div class="key-btn" onclick="appendValue('7')">7</div>
-          <div class="key-btn" onclick="appendValue('8')">8</div>
-          <div class="key-btn" onclick="appendValue('9')">9</div>
-          <div class="key-btn" onclick="appendValue('0')">0</div>
-          <div class="key-btn backspace-key" onclick="backspaceValue()">⌫ ဖျက်</div>
-          <div class="key-btn action-key" onclick="clearValue()">ရှင်း</div>
-        </div>
-      </div>
-
-      <!-- Layout 2: Myanmar Characters -->
-      <div id="kbMyanmar" class="kb-layout">
-        <div class="kb-row">
-          <div class="key-btn" onclick="appendValue('က')">က</div>
-          <div class="key-btn" onclick="appendValue('ခ')">ခ</div>
-          <div class="key-btn" onclick="appendValue('ဂ')">ဂ</div>
-          <div class="key-btn" onclick="appendValue('ဃ')">ဃ</div>
-          <div class="key-btn" onclick="appendValue('င')">င</div>
-          <div class="key-btn" onclick="appendValue('စ')">စ</div>
-          <div class="key-btn" onclick="appendValue('ဆ')">ဆ</div>
-          <div class="key-btn" onclick="appendValue('ဇ')">ဇ</div>
-          <div class="key-btn" onclick="appendValue('ဈ')">ဈ</div>
-          <div class="key-btn" onclick="appendValue('ဉ')">ဉ</div>
-        </div>
-        <div class="kb-row">
-          <div class="key-btn" onclick="appendValue('ည')">ည</div>
-          <div class="key-btn" onclick="appendValue('ဋ')">ဋ</div>
-          <div class="key-btn" onclick="appendValue('ဌ')">ဌ</div>
-          <div class="key-btn" onclick="appendValue('ဍ')">ဍ</div>
-          <div class="key-btn" onclick="appendValue('ဎ')">ဎ</div>
-          <div class="key-btn" onclick="appendValue('ဏ')">ဏ</div>
-          <div class="key-btn" onclick="appendValue('တ')">တ</div>
-          <div class="key-btn" onclick="appendValue('ထ')">ထ</div>
-          <div class="key-btn" onclick="appendValue('ဒ')">ဒ</div>
-          <div class="key-btn" onclick="appendValue('ဓ')">ဓ</div>
-        </div>
-        <div class="kb-row">
-          <div class="key-btn" onclick="appendValue('န')">န</div>
-          <div class="key-btn" onclick="appendValue('ပ')">ပ</div>
-          <div class="key-btn" onclick="appendValue('ဖ')">ဖ</div>
-          <div class="key-btn" onclick="appendValue('ဗ')">ဗ</div>
-          <div class="key-btn" onclick="appendValue('ဘ')">ဘ</div>
-          <div class="key-btn" onclick="appendValue('မ')">မ</div>
-          <div class="key-btn" onclick="appendValue('ယ')">ယ</div>
-          <div class="key-btn" onclick="appendValue('ရ')">ရ</div>
-          <div class="key-btn" onclick="appendValue('လ')">လ</div>
-          <div class="key-btn" onclick="appendValue('ဝ')">ဝ</div>
-        </div>
-        <div class="kb-row">
-          <div class="key-btn" onclick="appendValue('သ')">သ</div>
-          <div class="key-btn" onclick="appendValue('ဟ')">ဟ</div>
-          <div class="key-btn" onclick="appendValue('ဠ')">ဠ</div>
-          <div class="key-btn" onclick="appendValue('အ')">အ</div>
-          <div class="key-btn" onclick="appendValue('ဣ')">ဣ</div>
-          <div class="key-btn" onclick="appendValue('ဤ')">ဤ</div>
-          <div class="key-btn" onclick="appendValue('ဥ')">ဥ</div>
-          <div class="key-btn" onclick="appendValue('ဧ')">ဧ</div>
-          <div class="key-btn backspace-key" onclick="backspaceValue()">⌫ ဖျက်</div>
-          <div class="key-btn action-key" onclick="clearValue()">ရှင်း</div>
-        </div>
-      </div>
-
-      <!-- Layout 3: Complex Consonants & Asat -->
-      <div id="kbComplex" class="kb-layout">
-        <div class="kb-row">
-          <div class="key-btn" onclick="appendValue('်')">် (အသတ်)</div>
-          <div class="key-btn" onclick="appendValue('ျ')">ျ (ယပင့်)</div>
-          <div class="key-btn" onclick="appendValue('ြ')">ြ (ရရစ်)</div>
-          <div class="key-btn" onclick="appendValue('ွ')">ွ (ဝဆွဲ)</div>
-          <div class="key-btn" onclick="appendValue('ှ')">ှ (ဟထိုး)</div>
-          <div class="key-btn" onclick="appendValue('င်္')">င်္ (ကင်းစီး)</div>
-          <div class="key-btn" onclick="appendValue('္တ')">န္တ</div>
-          <div class="key-btn" onclick="appendValue('္ထ')">န္ထ</div>
-        </div>
-        <div class="kb-row">
-          <div class="key-btn" onclick="appendValue('္ဓ')">န္ဓ</div>
-          <div class="key-btn" onclick="appendValue('္န')">န္န</div>
-          <div class="key-btn" onclick="appendValue('မ္ပ')">မ္ပ</div>
-          <div class="key-btn" onclick="appendValue('မ္ဘ')">မ္ဘ</div>
-          <div class="key-btn" onclick="appendValue('မ္မ')">မ္မ</div>
-          <div class="key-btn" onclick="appendValue('ဉ္ဇ')">ဉ္ဇ</div>
-          <div class="key-btn" onclick="appendValue('ဉ္စ')">ဉ္စ</div>
-          <div class="key-btn backspace-key" onclick="backspaceValue()">⌫ ဖျက်</div>
-          <div class="key-btn action-key" onclick="clearValue()">ရှင်း</div>
-        </div>
-      </div>
-
-      <!-- Layout 4: Amulet Symbols -->
-      <div id="kbAmulet" class="kb-layout">
-        <div class="kb-row">
-          <div class="key-btn" onclick="appendValue('ဈ')">ဈ</div>
-          <div class="key-btn" onclick="appendValue('တ')">တ</div>
-          <div class="key-btn" onclick="appendValue('ဘ')">ဘ</div>
-          <div class="key-btn" onclick="appendValue('ယ')">ယ</div>
-          <div class="key-btn" onclick="appendValue('က')">က</div>
-          <div class="key-btn" onclick="appendValue('စ')">စ</div>
-          <div class="key-btn" onclick="appendValue('ဌ')">ဌ</div>
-          <div class="key-btn" onclick="appendValue('ဏ')">ဏ</div>
-          <div class="key-btn" onclick="appendValue('ဥ')">ဥ</div>
-          <div class="key-btn" onclick="appendValue('ဿ')">ဿ</div>
-        </div>
-        <div class="kb-row">
-          <div class="key-btn" onclick="appendValue('ဪ')">ဪ</div>
-          <div class="key-btn" onclick="appendValue('၍')">၍</div>
-          <div class="key-btn" onclick="appendValue('၎')">၎</div>
-          <div class="key-btn backspace-key" onclick="backspaceValue()">⌫ ဖျက်</div>
-          <div class="key-btn action-key" onclick="clearValue()">ရှင်း</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="custom-input-box">
-      <input type="text" id="customInput" placeholder="စာရိုက်ထည့်ပါ...">
-      <button onclick="fillCustom()">သွင်းမည်</button>
-      <button onclick="closeKeypad()" style="background:#1c5230; color:#fff;">ပြီးပြီ</button>
-    </div>
+    <button onclick="printA4()" class="print-btn"><i class="fa-solid fa-print"></i> Print</button>
   </div>
 
   <script>
     let currentMode = 'grid'; 
     let rowsCount = 3;
     let colsCount = 11;
-    let selectedCell = null;
-    let selectedCellType = 'grid';
     let gridData = {};
     let circleData = Array(16).fill('');
 
     let undoStack = [];
     let redoStack = [];
 
-    const savedData = localStorage.getItem('amulet_grid_data_v10');
+    // Load Data
+    const savedData = localStorage.getItem('amulet_grid_data_v11');
     if (savedData) {
       try { gridData = JSON.parse(savedData); } catch (e) { gridData = {}; }
     }
-    const savedCircle = localStorage.getItem('amulet_circle_cells_v10');
+    const savedCircle = localStorage.getItem('amulet_circle_cells_v11');
     if (savedCircle) {
       try { circleData = JSON.parse(savedCircle); } catch (e) { circleData = Array(16).fill(''); }
     }
@@ -922,7 +637,6 @@
       document.getElementById('inputCols').value = colsCount;
       renderGrid();
       renderCircleCells();
-      closeKeypad();
     }
 
     function updateUndoRedoUI() {
@@ -932,7 +646,6 @@
 
     function switchMode(mode) {
       currentMode = mode;
-      closeKeypad();
       document.getElementById('gridModeBtn').classList.toggle('active', mode === 'grid');
       document.getElementById('circleModeBtn').classList.toggle('active', mode === 'circle');
       document.getElementById('canvasModeBtn').classList.toggle('active', mode === 'canvas');
@@ -944,6 +657,10 @@
       document.getElementById('gridDisplay').style.display = (mode === 'grid') ? 'grid' : 'none';
       document.getElementById('circleContainer').style.display = (mode === 'circle') ? 'block' : 'none';
       document.getElementById('drawCanvas').style.display = (mode === 'canvas') ? 'block' : 'none';
+
+      document.getElementById('captureContainer').style.border = (mode === 'canvas' || mode === 'circle') ? 'none' : '4px double var(--grid-border-color)';
+      document.getElementById('captureContainer').style.boxShadow = (mode === 'canvas' || mode === 'circle') ? 'none' : '0 5px 15px rgba(0,0,0,0.08)';
+      document.getElementById('captureContainer').style.padding = (mode === 'canvas' || mode === 'circle') ? '0' : '16px';
 
       if (mode === 'circle') {
         renderCircleSVG();
@@ -963,7 +680,6 @@
         b.classList.toggle('active', b.innerText.includes(`${r}x${c}`));
       });
       renderGrid();
-      closeKeypad();
     }
 
     function applyCustomGrid() {
@@ -975,7 +691,6 @@
         colsCount = c;
         document.querySelectorAll('.toolbar button').forEach(b => b.classList.remove('active'));
         renderGrid();
-        closeKeypad();
       } else {
         Swal.fire('သတိပြုရန်', '၁ မှ ၃၀ အတွင်း ဂဏန်းများ မှန်ကန်စွာထည့်ပါ။', 'info');
       }
@@ -983,15 +698,42 @@
 
     function autoFitFont(el, text) {
       const baseSize = parseInt(document.getElementById('fontSizeRange').value, 10) || 20;
-      if (text.length > 3) {
+      const str = text || '';
+      if (str.length > 3) {
         el.style.fontSize = Math.max(10, baseSize * 0.52) + 'px';
-      } else if (text.length > 2) {
-        el.style.fontSize = Math.max(12, baseSize * 0.7) + 'px';
-      } else if (text.length > 1) {
-        el.style.fontSize = Math.max(14, baseSize * 0.85) + 'px';
+      } else if (str.length > 2) {
+        el.style.fontSize = Math.max(13, baseSize * 0.75) + 'px';
+      } else if (str.length > 1) {
+        el.style.fontSize = Math.max(16, baseSize * 0.9) + 'px';
       } else {
         el.style.fontSize = baseSize + 'px';
       }
+    }
+
+    function attachEditableListeners(cell, type) {
+      cell.contentEditable = "true";
+      cell.setAttribute("spellcheck", "false");
+
+      cell.addEventListener('focus', function() {
+        saveState(); // Save state before modifying
+      });
+
+      cell.addEventListener('input', function() {
+        autoFitFont(this, this.innerText);
+        if (type === 'grid') {
+          const keyStr = `${rowsCount}x${colsCount}`;
+          gridData[keyStr][this.dataset.index] = this.innerText;
+        } else {
+          circleData[this.dataset.index] = this.innerText;
+        }
+      });
+
+      cell.addEventListener('keydown', function(e) {
+        if(e.key === 'Enter') {
+          e.preventDefault();
+          this.blur();
+        }
+      });
     }
 
     function renderGrid() {
@@ -1001,9 +743,7 @@
       grid.style.gridTemplateRows = `repeat(${rowsCount}, 1fr)`;
 
       const keyStr = `${rowsCount}x${colsCount}`;
-      if (!gridData[keyStr]) {
-        gridData[keyStr] = Array(rowsCount * colsCount).fill('');
-      }
+      if (!gridData[keyStr]) gridData[keyStr] = Array(rowsCount * colsCount).fill('');
 
       for (let i = 0; i < rowsCount * colsCount; i++) {
         const cell = document.createElement('div');
@@ -1012,7 +752,7 @@
         cell.innerText = val;
         autoFitFont(cell, val);
         cell.dataset.index = i;
-        cell.onclick = () => openKeypad(cell, i, 'grid');
+        attachEditableListeners(cell, 'grid');
         grid.appendChild(cell);
       }
     }
@@ -1020,7 +760,7 @@
     function renderCircleSVG() {
       const svg = document.getElementById('circleSvg');
       svg.innerHTML = '';
-      const stroke = getComputedStyle(document.documentElement).getPropertyValue('--grid-border-color').trim() || '#d4af37';
+      const stroke = getComputedStyle(document.documentElement).getPropertyValue('--grid-border-color').trim() || '#4a3b32';
       const cx = 190, cy = 190, rOuter = 170, rInner = 98;
 
       let markup = `
@@ -1047,10 +787,10 @@
       const cx = 190, cy = 190;
 
       const innerOffsets = [
-        { idx: 0, x: cx - 50, y: cy - 50, label: 'ဗဟို (အပေါ်/ဘယ်)' },
-        { idx: 1, x: cx + 5,  y: cy - 50, label: 'ဗဟို (အပေါ်/ညာ)' },
-        { idx: 2, x: cx - 50, y: cy + 5,  label: 'ဗဟို (အောက်/ဘယ်)' },
-        { idx: 3, x: cx + 5,  y: cy + 5,  label: 'ဗဟို (အောက်/ညာ)' }
+        { idx: 0, x: cx - 50, y: cy - 50 },
+        { idx: 1, x: cx + 5,  y: cy - 50 },
+        { idx: 2, x: cx - 50, y: cy + 5  },
+        { idx: 3, x: cx + 5,  y: cy + 5  }
       ];
 
       innerOffsets.forEach(pos => {
@@ -1064,8 +804,7 @@
         cell.innerText = val;
         autoFitFont(cell, val);
         cell.dataset.index = pos.idx;
-        cell.dataset.label = pos.label;
-        cell.onclick = () => openKeypad(cell, pos.idx, 'circle');
+        attachEditableListeners(cell, 'circle');
         container.appendChild(cell);
       });
 
@@ -1085,99 +824,9 @@
         cell.innerText = val;
         autoFitFont(cell, val);
         cell.dataset.index = 4 + i;
-        cell.dataset.label = `အပြင်ကွက် ${i + 1}`;
-        cell.onclick = () => openKeypad(cell, 4 + i, 'circle');
+        attachEditableListeners(cell, 'circle');
         container.appendChild(cell);
       }
-    }
-
-    function openKeypad(cellElement, index, type = 'grid') {
-      if (selectedCell) selectedCell.classList.remove('selected');
-      selectedCell = cellElement;
-      selectedCellType = type;
-      selectedCell.classList.add('selected');
-
-      if (type === 'grid') {
-        const r = Math.floor(index / colsCount) + 1;
-        const c = (index % colsCount) + 1;
-        document.getElementById('activeCellInfo').innerText = `${rowsCount}x${colsCount} (တန်း ${r}၊ တိုင် ${c}) = "${selectedCell.innerText}"`;
-      } else {
-        const label = selectedCell.dataset.label || `အကွက် ${index + 1}`;
-        document.getElementById('activeCellInfo').innerText = `စက်ဝိုင်းအင်း [${label}] = "${selectedCell.innerText}"`;
-      }
-
-      document.getElementById('keypadModal').classList.add('show');
-      document.getElementById('customInput').value = selectedCell.innerText;
-
-      setTimeout(() => {
-        selectedCell.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 100);
-    }
-
-    function closeKeypad() {
-      if (selectedCell) selectedCell.classList.remove('selected');
-      selectedCell = null;
-      document.getElementById('keypadModal').classList.remove('show');
-    }
-
-    function switchKbTab(tab) {
-      document.querySelectorAll('.kb-tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.kb-layout').forEach(lay => lay.classList.remove('active'));
-
-      if (tab === 'numbers') {
-        document.querySelectorAll('.kb-tab-btn')[0].classList.add('active');
-        document.getElementById('kbNumbers').classList.add('active');
-      } else if (tab === 'myanmar') {
-        document.querySelectorAll('.kb-tab-btn')[1].classList.add('active');
-        document.getElementById('kbMyanmar').classList.add('active');
-      } else if (tab === 'complex') {
-        document.querySelectorAll('.kb-tab-btn')[2].classList.add('active');
-        document.getElementById('kbComplex').classList.add('active');
-      } else {
-        document.querySelectorAll('.kb-tab-btn')[3].classList.add('active');
-        document.getElementById('kbAmulet').classList.add('active');
-      }
-    }
-
-    function updateCellValue(newVal) {
-      if (!selectedCell) return;
-      saveState();
-      const idx = selectedCell.dataset.index;
-
-      if (selectedCellType === 'grid') {
-        const keyStr = `${rowsCount}x${colsCount}`;
-        gridData[keyStr][idx] = newVal;
-      } else {
-        circleData[idx] = newVal;
-      }
-
-      selectedCell.innerText = newVal;
-      autoFitFont(selectedCell, newVal);
-      document.getElementById('customInput').value = newVal;
-    }
-
-    function appendValue(val) {
-      if (!selectedCell) return;
-      const currentVal = selectedCell.innerText || '';
-      updateCellValue(currentVal + val);
-    }
-
-    function backspaceValue() {
-      if (!selectedCell) return;
-      const currentVal = selectedCell.innerText || '';
-      updateCellValue(currentVal.slice(0, -1));
-    }
-
-    function clearValue() {
-      if (!selectedCell) return;
-      updateCellValue('');
-    }
-
-    function fillCustom() {
-      if (!selectedCell) return;
-      const txt = document.getElementById('customInput');
-      const val = txt ? txt.value.trim() : '';
-      updateCellValue(val);
     }
 
     function openTemplatePicker() {
@@ -1194,7 +843,7 @@
         showCancelButton: true,
         confirmButtonText: 'ထည့်သွင်းမည်',
         cancelButtonText: 'မလုပ်တော့ပါ',
-        confirmButtonColor: '#9b111e'
+        confirmButtonColor: '#8b0000'
       }).then((result) => {
         if (result.isConfirmed && result.value) {
           applyPresetTemplate(result.value);
@@ -1262,7 +911,7 @@
     let canvasTool = 'pen';
 
     function initCanvas() {
-      const savedCanvas = localStorage.getItem('amulet_canvas_data_v10');
+      const savedCanvas = localStorage.getItem('amulet_canvas_data_v11');
       if (savedCanvas) {
         let img = new Image();
         img.onload = () => { ctx.clearRect(0,0,canvas.width, canvas.height); ctx.drawImage(img, 0, 0); };
@@ -1273,9 +922,9 @@
     }
 
     function clearCanvasBackground() {
-      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--cell-bg-color').trim() || '#121524';
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--cell-bg-color').trim() || '#faf8f5';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-border-color').trim() || '#d4af37';
+      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-border-color').trim() || '#4a3b32';
       ctx.strokeRect(15, 15, canvas.width - 30, canvas.height - 30);
     }
 
@@ -1307,7 +956,7 @@
       if (!isDrawing) return;
       const pos = getPos(e);
       if (canvasTool === 'eraser') {
-        ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--cell-bg-color').trim() || '#121524';
+        ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--cell-bg-color').trim() || '#faf8f5';
         ctx.lineWidth = 18;
       } else {
         ctx.strokeStyle = document.getElementById('textColorSelect').value;
@@ -1335,8 +984,8 @@
         text: 'လက်ရှိ အချက်အလက်များ အားလုံး ပျက်ပြယ်သွားပါမည်။',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#9b111e',
-        cancelButtonColor: '#30364d',
+        confirmButtonColor: '#8b0000',
+        cancelButtonColor: '#555',
         confirmButtonText: 'ဖျက်မည်',
         cancelButtonText: 'မလုပ်တော့ပါ'
       }).then((result) => {
@@ -1352,18 +1001,17 @@
           } else {
             clearCanvasBackground();
           }
-          closeKeypad();
         }
       });
     }
 
     function saveCurrentData() {
       if (currentMode === 'grid') {
-        localStorage.setItem('amulet_grid_data_v10', JSON.stringify(gridData));
+        localStorage.setItem('amulet_grid_data_v11', JSON.stringify(gridData));
       } else if (currentMode === 'circle') {
-        localStorage.setItem('amulet_circle_cells_v10', JSON.stringify(circleData));
+        localStorage.setItem('amulet_circle_cells_v11', JSON.stringify(circleData));
       } else {
-        localStorage.setItem('amulet_canvas_data_v10', canvas.toDataURL());
+        localStorage.setItem('amulet_canvas_data_v11', canvas.toDataURL());
       }
       Swal.fire({ toast: true, position: 'top', icon: 'success', title: 'အချက်အလက်များကို မှတ်သားပြီးပါပြီ', showConfirmButton: false, timer: 1500 });
     }
@@ -1380,7 +1028,8 @@
 
     function changeBgColor() {
       const color = document.getElementById('bgColorSelect').value;
-      document.documentElement.style.setProperty('--cell-bg-color', color);
+      document.documentElement.style.setProperty('--bg', color);
+      document.documentElement.style.setProperty('--cell-bg-color', (color==='#f5f2eb') ? '#faf8f5' : color);
       if (currentMode === 'canvas') clearCanvasBackground();
     }
 
@@ -1395,12 +1044,17 @@
       document.documentElement.style.setProperty('--font-size', size + 'px');
       document.getElementById('fontSizeVal').innerText = size + 'px';
       renderGrid();
-      renderCircleCells();
+      if(currentMode === 'circle') renderCircleCells();
     }
 
     function saveAsImage() {
       const captureElement = document.getElementById('captureArea');
-      html2canvas(captureElement, { scale: 2, backgroundColor: null }).then(canvasImg => {
+      // Padding area ensures borders are not cut off by html2canvas
+      html2canvas(captureElement, { 
+        scale: 3, 
+        backgroundColor: document.getElementById('bgColorSelect').value,
+        useCORS: true 
+      }).then(canvasImg => {
         const link = document.createElement('a');
         link.download = `amulet-${currentMode}-${Date.now()}.png`;
         link.href = canvasImg.toDataURL('image/png');
