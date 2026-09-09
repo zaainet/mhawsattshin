@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>မြန်မာ့ရိုးရာ အင်းကွက် ဖန်တီးရေးစနစ်</title>
+  <title>မြန်မာ့ရိုးရာ အင်းကွက် ဖန်တီးရေးစနစ် (Master Pro Edition)</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,9 +16,7 @@
     /* Custom Fonts Setup */
     @font-face {
       font-family: 'BolFont';
-      src: url('bol.ttf') format('truetype'),
-           url('Bol.ttf') format('truetype'),
-           url('BOL.TTF') format('truetype');
+      src: url('bol.ttf') format('truetype'), url('Bol.ttf') format('truetype');
       font-display: swap;
     }
     @font-face {
@@ -26,24 +24,8 @@
       src: url('Calligraphr-Regular.ttf') format('truetype');
       font-display: swap;
     }
-    @font-face {
-      font-family: 'BezeeFont';
-      src: url('bezee.ttf') format('truetype');
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'BurmaFont';
-      src: url('burma.ttf') format('truetype');
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'DisplayFont';
-      src: url('display.ttf') format('truetype');
-      font-display: swap;
-    }
 
     :root {
-      /* Clean Light Theme */
       --primary: #8b0000;
       --primary-hover: #6b0000;
       --accent: #d4af37;
@@ -60,374 +42,95 @@
       --selected-font: 'BolFont', 'Padauk', sans-serif;
     }
 
-    * { 
-      box-sizing: border-box; 
-      margin: 0;
-      padding: 0;
-      font-family: var(--selected-font), 'Padauk', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--selected-font), 'Padauk', sans-serif; -webkit-tap-highlight-color: transparent; }
 
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding: 15px 12px 60px; 
-    }
+    body { background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 15px 12px 280px; }
 
-    .header-container {
-      text-align: center;
-      margin-bottom: 15px;
-      border-bottom: 2px solid var(--accent);
-      padding-bottom: 10px;
-      width: 100%;
-      max-width: 500px;
-    }
-
-    h2 { 
-      font-family: 'Cinzel', 'Padauk', serif;
-      color: var(--primary); 
-      font-size: 1.35rem;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
+    .header-container { text-align: center; margin-bottom: 15px; border-bottom: 2px solid var(--accent); padding-bottom: 10px; width: 100%; max-width: 500px; }
+    h2 { font-family: 'Cinzel', 'Padauk', serif; color: var(--primary); font-size: 1.35rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
     h2 i { color: var(--accent); font-size: 1.1rem; }
 
-    .mode-switcher {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      width: 100%;
-      max-width: 500px;
-    }
+    .mode-switcher { display: flex; gap: 8px; margin-bottom: 12px; width: 100%; max-width: 500px; }
+    .mode-switcher button { flex: 1; padding: 10px 4px; background: #e2dcd6; border: 1px solid var(--surface-border); border-radius: 8px; font-weight: bold; cursor: pointer; color: #4a3b32; font-size: 0.8rem; transition: all 0.25s ease; }
+    .mode-switcher button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-    .mode-switcher button {
-      flex: 1;
-      padding: 10px 6px;
-      background: #e2dcd6;
-      border: 1px solid var(--surface-border);
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #4a3b32;
-      font-size: 0.85rem;
-      transition: all 0.25s ease;
-    }
+    .toolbar, .canvas-tools { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 10px; width: 100%; max-width: 500px; }
+    .toolbar button, .canvas-tools button { background: #fff; border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8rem; transition: 0.2s; }
+    .toolbar button.active, .canvas-tools button.active { background: var(--primary); color: #fff; }
 
-    .mode-switcher button.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
+    .custom-grid-box { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; background: var(--surface); padding: 10px 14px; border-radius: 12px; border: 1px solid var(--surface-border); width: 100%; max-width: 500px; justify-content: center; font-size: 0.85rem; }
+    .custom-grid-box input { width: 50px; padding: 6px; text-align: center; background: #fff; border: 1px solid #ccc; border-radius: 6px; outline: none; }
+    .custom-grid-box button { background: var(--primary); color: #fff; border: none; padding: 7px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      justify-content: center;
-      margin-bottom: 10px;
-      width: 100%;
-      max-width: 500px;
-    }
+    .customization-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; background: var(--surface); padding: 12px; border-radius: 12px; border: 1px solid var(--surface-border); width: 100%; max-width: 500px; }
+    .custom-control { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; font-weight: bold; }
+    .custom-control select, .custom-control input { padding: 6px; background: #fff; border: 1px solid #ccc; border-radius: 6px; font-size: 0.82rem; outline: none; }
 
-    .toolbar button {
-      background: #fff;
-      border: 1px solid var(--primary);
-      color: var(--primary);
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 0.82rem;
-      transition: 0.2s;
-    }
+    #captureArea { padding: 20px; background: var(--bg); width: 100%; max-width: 500px; display: flex; justify-content: center; align-items: center; border-radius: 12px; margin-bottom: 12px; }
+    
+    .grid-container { background: var(--surface); padding: 16px; border: 4px double var(--grid-border-color); box-shadow: 0 5px 15px rgba(0,0,0,0.08); display: flex; justify-content: center; align-items: center; width: 100%; overflow-x: auto; position: relative; }
+    .grid { display: grid; border: 2px solid var(--grid-border-color); background: transparent; }
+    
+    .cell { border: 1px solid var(--grid-border-color); display: flex; align-items: center; justify-content: center; font-size: var(--font-size); color: var(--cell-text-color); font-weight: bold; background: var(--cell-bg-color); cursor: text; aspect-ratio: 1 / 1; min-width: 42px; min-height: 42px; padding: 2px; text-align: center; outline: none; }
+    .cell:focus { background: #ffe4b5; outline: 2px solid var(--primary); z-index: 2; }
 
-    .toolbar button.active {
-      background: var(--primary);
-      color: #fff;
-    }
+    #circleContainer { display: none; width: 380px; height: 380px; position: relative; margin: 0 auto; }
+    #circleSvg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+    .circle-cell { position: absolute; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--cell-text-color); font-size: var(--font-size); cursor: text; border-radius: 6px; outline: none; background: transparent; text-align: center; }
+    .circle-cell:focus { background: #ffe4b5; outline: 2px dashed var(--primary); }
 
-    .custom-grid-box {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      align-items: center;
-      background: var(--surface);
-      padding: 10px 14px;
-      border-radius: 12px;
-      border: 1px solid var(--surface-border);
-      width: 100%;
-      max-width: 500px;
-      justify-content: center;
-      font-size: 0.85rem;
-    }
-
-    .custom-grid-box input {
-      width: 52px;
-      padding: 6px;
-      text-align: center;
-      background: #fff;
-      border: 1px solid #ccc;
-      color: var(--text);
-      border-radius: 6px;
-      outline: none;
-    }
-
-    .custom-grid-box button {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 7px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 0.82rem;
-    }
-
-    .customization-panel {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 15px;
-      background: var(--surface);
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid var(--surface-border);
-      width: 100%;
-      max-width: 500px;
-    }
-
-    .custom-control {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 0.78rem;
-      font-weight: bold;
-      color: var(--text);
-    }
-
-    .custom-control select, .custom-control input[type="range"] {
-      padding: 6px 8px;
-      background: #fff;
-      border: 1px solid #ccc;
-      color: var(--text);
-      border-radius: 6px;
-      font-size: 0.82rem;
-      outline: none;
-    }
-
-    /* Capture Area Padding added for Image Export Full Border Fix */
-    #captureArea {
-      padding: 20px;
-      background: var(--bg); /* To ensure solid background behind borders */
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 12px;
-      margin-bottom: 12px;
-    }
-
-    .grid-container {
-      background: var(--surface);
-      padding: 16px;
-      border: 4px double var(--grid-border-color);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    .grid {
-      display: grid;
-      border: 2px solid var(--grid-border-color);
-      background: transparent;
-    }
-
-    .cell {
-      border: 1px solid var(--grid-border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* Canvas Drawing Area */
+    #canvasWrapper { position: relative; display: none; width: 450px; height: 450px; margin: 0 auto; }
+    canvas { background: var(--cell-bg-color); touch-action: none; border: 2px solid var(--grid-border-color); width: 100%; height: 100%; display: block; }
+    
+    /* Floating Text Nodes for Smart Canvas */
+    .floating-text {
+      position: absolute;
+      min-width: 30px;
+      min-height: 30px;
+      padding: 2px 6px;
       font-size: var(--font-size);
-      color: var(--cell-text-color);
-      font-weight: bold;
-      background: var(--cell-bg-color);
-      cursor: text;
-      aspect-ratio: 1 / 1;
-      min-width: 42px;
-      min-height: 42px;
-      padding: 2px;
-      text-align: center;
-      word-break: break-all;
-      outline: none;
-    }
-
-    .cell:focus {
-      background: #ffe4b5;
-      outline: 2px solid var(--primary);
-      z-index: 2;
-    }
-
-    /* Interactive Circle Grid */
-    #circleContainer {
-      display: none;
-      width: 380px;
-      height: 380px;
-      position: relative;
-      margin: 0 auto;
-    }
-
-    #circleSvg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    .circle-cell {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       font-weight: bold;
       color: var(--cell-text-color);
-      font-size: var(--font-size);
-      cursor: text;
-      border-radius: 6px;
+      cursor: move;
       outline: none;
-      background: transparent;
-    }
-
-    .circle-cell:focus {
-      background: #ffe4b5;
-      outline: 2px dashed var(--primary);
-    }
-
-    .canvas-tools {
       display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      width: 100%;
-      max-width: 500px;
-      justify-content: center;
-    }
-
-    .canvas-tools button {
-      padding: 7px 14px;
-      background: #fff;
-      border: 1px solid var(--primary);
-      color: var(--primary);
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 0.82rem;
-    }
-
-    .canvas-tools button.active {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    canvas {
-      background: var(--cell-bg-color);
-      touch-action: none;
-      border: 2px solid var(--grid-border-color);
-      max-width: 100%;
-    }
-
-    .utility-bar {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 10px;
-      width: 100%;
-      max-width: 500px;
-      justify-content: space-between;
-    }
-
-    .utility-bar button {
-      background: #fff;
-      border: 1px solid #ccc;
-      color: var(--text);
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: bold;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .utility-bar button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .action-buttons {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-      width: 100%;
-      max-width: 500px;
-    }
-
-    .action-buttons button {
-      flex: 1;
-      color: #fff;
-      border: none;
-      padding: 12px 6px;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 0.82rem;
-      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      transform: translate(-50%, -50%); /* Center on click */
+      white-space: nowrap;
+      user-select: none;
+    }
+    .floating-text:focus {
+      border: 1px dashed var(--primary);
+      background: rgba(255, 228, 181, 0.4);
+      cursor: text;
     }
 
+    .utility-bar { display: flex; gap: 6px; margin-bottom: 10px; width: 100%; max-width: 500px; justify-content: space-between; }
+    .utility-bar button { background: #fff; border: 1px solid #ccc; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
+    .action-buttons { display: flex; gap: 8px; margin-top: 10px; width: 100%; max-width: 500px; }
+    .action-buttons button { flex: 1; color: #fff; border: none; padding: 12px 6px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 0.82rem; }
     .action-buttons button.clear-btn { background: #d9534f; }
     .action-buttons button.save-btn { background: #5cb85c; }
     .action-buttons button.img-btn { background: var(--primary); }
-    .action-buttons button.print-btn { background: #337ab7; }
 
-    @media print {
-      body {
-        background: #fff !important;
-        color: #000 !important;
-        padding: 0 !important;
-      }
-      .header-container, .mode-switcher, #gridToolbarContainer, .customization-panel,
-      .utility-bar, .action-buttons, #canvasToolsContainer, #circleInfoContainer {
-        display: none !important;
-      }
-      #captureArea { padding: 0 !important; background: transparent !important; }
-      .grid-container {
-        border: none !important;
-        box-shadow: none !important;
-        margin-top: 50px;
-      }
-      .cell, .circle-cell {
-        color: #000 !important;
-        background: #fff !important;
-      }
-      #circleSvg line, #circleSvg circle {
-        stroke: #000 !important;
-      }
-    }
+    /* Virtual Keypad Modal UI */
+    .keypad-modal { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #fdfbf7; border-top: 4px solid var(--primary); box-shadow: 0 -6px 20px rgba(0,0,0,0.25); padding: 12px 10px; z-index: 1000; border-radius: 16px 16px 0 0; max-width: 650px; margin: 0 auto; }
+    .keypad-modal.show { display: block; animation: slideUp 0.2s ease-out; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .keypad-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #d1c7bc; padding-bottom: 6px; }
+    .kb-tabs { display: flex; gap: 5px; }
+    .kb-tab-btn { background: #e2dcd6; border: none; padding: 5px 8px; border-radius: 6px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
+    .kb-tab-btn.active { background: var(--primary); color: #fff; }
+    .kb-scroll-container { width: 100%; overflow-x: auto; padding-bottom: 6px; }
+    .kb-layout { display: none; flex-direction: column; gap: 6px; min-width: 480px; }
+    .kb-layout.active { display: flex; }
+    .kb-row { display: flex; gap: 6px; justify-content: center; }
+    .key-btn { background: #ffffff; border: 1px solid #b8aca1; border-radius: 8px; flex: 1; padding: 10px 0; font-size: 1.05rem; font-weight: bold; text-align: center; cursor: pointer; user-select: none; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+    .key-btn:active { background: #e2dcd6; }
+    .key-btn.action-key { background: #fae1e1; color: var(--primary); font-size: 0.8rem; }
+    .key-btn.backspace-key { background: #f0e6ff; color: #4a148c; font-size: 0.8rem; }
   </style>
 </head>
 <body>
@@ -439,9 +142,10 @@
   <div class="mode-switcher">
     <button id="gridModeBtn" class="active" onclick="switchMode('grid')">ဇယားကွက်</button>
     <button id="circleModeBtn" onclick="switchMode('circle')">စက်ဝိုင်းအင်း</button>
-    <button id="canvasModeBtn" onclick="switchMode('canvas')">လွတ်လပ်စွာဆွဲ</button>
+    <button id="canvasModeBtn" onclick="switchMode('canvas')">စိတ်ကြိုက်/မျဉ်းဖြောင့်</button>
   </div>
 
+  <!-- Regular Grid Toolbar -->
   <div id="gridToolbarContainer" style="width:100%; max-width:500px;">
     <div class="toolbar" id="toolbar"></div>
     <div class="custom-grid-box">
@@ -453,76 +157,65 @@
     </div>
   </div>
 
-  <div id="circleInfoContainer" style="display:none; text-align:center; font-size:0.82rem; color:var(--primary); margin-bottom:10px; max-width:500px;">
-    * အကွက်များကို တစ်ချက်နှိပ်၍ ဖုန်းကီးဘုတ်ဖြင့် စာသားတိုက်ရိုက် ရိုက်ထည့်နိုင်ပါသည်။
-  </div>
-
+  <!-- Smart Canvas Toolbar -->
   <div id="canvasToolsContainer" class="canvas-tools" style="display: none;">
-    <button id="toolPen" class="active" onclick="setCanvasTool('pen')">ဘောပင်</button>
-    <button id="toolDot" onclick="setCanvasTool('dot')">အစက်ချ</button>
-    <button id="toolEraser" onclick="setCanvasTool('eraser')">ဖျက်ဆေး</button>
+    <button id="toolSmartLine" class="active" onclick="setCanvasTool('smart-line')"><i class="fa-solid fa-pen-ruler"></i> မျဉ်းဖြောင့် (Auto)</button>
+    <button id="toolPen" onclick="setCanvasTool('pen')"><i class="fa-solid fa-pen"></i> လွတ်လပ်ဆွဲ</button>
+    <button id="toolText" onclick="setCanvasTool('text')"><i class="fa-solid fa-font"></i> စာလုံးချရန်</button>
+    <button id="toolEraser" onclick="setCanvasTool('eraser')"><i class="fa-solid fa-eraser"></i> ဖျက်ဆေး</button>
   </div>
 
-  <!-- Customization Panel -->
   <div class="customization-panel">
     <div class="custom-control">
-      <label for="fontSelect">မြန်မာစာ ဖောင့်အလှ:</label>
+      <label>မြန်မာစာ ဖောင့်အလှ:</label>
       <select id="fontSelect" onchange="changeFontFamily()">
         <option value="'BolFont', 'Padauk', sans-serif" selected>Bol Font (Default)</option>
         <option value="'CalligraphrRegular', sans-serif">Calligraphr Font</option>
-        <option value="'BezeeFont', sans-serif">Bezee Font</option>
-        <option value="'BurmaFont', sans-serif">Burma Handwriting</option>
-        <option value="'DisplayFont', sans-serif">Display Dots</option>
         <option value="'Padauk', sans-serif">Padauk (Standard)</option>
       </select>
     </div>
     <div class="custom-control">
-      <label for="fontFileInput">Font ဖိုင် တိုက်ရိုက်တင်ရန် (TTF):</label>
+      <label>Font ဖိုင် တိုက်ရိုက်တင်ရန်:</label>
       <input type="file" id="fontFileInput" accept=".ttf,.otf,.woff" onchange="loadLocalFont(this)" style="font-size:0.75rem;">
     </div>
     <div class="custom-control">
-      <label for="textColorSelect">စာသား/မျဉ်းအရောင်:</label>
+      <label>စာသား/မျဉ်းအရောင်:</label>
       <select id="textColorSelect" onchange="changeTextColor()">
         <option value="#2c221e">အနက်/အညို (Default)</option>
         <option value="#8b0000">အနီရောင်</option>
-        <option value="#d4af37">ရွှေရောင်</option>
         <option value="#10b981">အစိမ်းရောင်</option>
       </select>
     </div>
     <div class="custom-control">
-      <label for="bgColorSelect">နောက်ခံအရောင်:</label>
+      <label>နောက်ခံအရောင်:</label>
       <select id="bgColorSelect" onchange="changeBgColor()">
         <option value="#f5f2eb">Parchment (မူလ)</option>
         <option value="#ffffff">အဖြူရောင်</option>
-        <option value="#fdf5e6">မုန့်ဖတ်ရောင်</option>
         <option value="#fae1e1">ဖျော့တော့အနီ</option>
       </select>
     </div>
     <div class="custom-control">
-      <label for="borderColorSelect">ဘောင်အရောင်:</label>
+      <label>ဘောင်အရောင်:</label>
       <select id="borderColorSelect" onchange="changeBorderColor()">
         <option value="#4a3b32">ကြေးညိုရောင် (Default)</option>
         <option value="#d4af37">ရွှေရောင်</option>
         <option value="#8b0000">အနီရောင်</option>
-        <option value="#000000">အနက်ရောင်</option>
       </select>
     </div>
-    <div class="custom-control" id="fontSizeControlBox">
-      <label for="fontSizeRange">စာလုံးအရွယ်: <span id="fontSizeVal">20px</span></label>
+    <div class="custom-control">
+      <label>စာလုံးအရွယ်: <span id="fontSizeVal">20px</span></label>
       <input type="range" id="fontSizeRange" min="12" max="36" value="20" oninput="changeFontSize(this.value)">
     </div>
   </div>
 
-  <!-- Utility Bar -->
   <div class="utility-bar">
     <div style="display:flex; gap:6px;">
-      <button id="undoBtn" onclick="undoAction()" disabled><i class="fa-solid fa-rotate-left"></i> Undo</button>
-      <button id="redoBtn" onclick="redoAction()" disabled><i class="fa-solid fa-rotate-right"></i> Redo</button>
+      <button id="undoBtn" onclick="undoAction()" disabled><i class="fa-solid fa-rotate-left"></i></button>
+      <button id="redoBtn" onclick="redoAction()" disabled><i class="fa-solid fa-rotate-right"></i></button>
     </div>
-    <button onclick="openTemplatePicker()"><i class="fa-solid fa-scroll"></i> အင်းနမူနာများ</button>
+    <button onclick="openTemplatePicker()"><i class="fa-solid fa-scroll"></i> အင်းပုံစံ နမူနာ ၅ မျိုး</button>
   </div>
 
-  <!-- Capture Wrapper -->
   <div id="captureArea">
     <div class="grid-container" id="captureContainer">
       <!-- Regular Grid -->
@@ -534,16 +227,137 @@
         <div id="circleCellsContainer"></div>
       </div>
 
-      <!-- Freehand Canvas -->
-      <canvas id="drawCanvas" width="450" height="450" style="display: none;"></canvas>
+      <!-- Smart Canvas with Floating Elements -->
+      <div id="canvasWrapper">
+        <canvas id="drawCanvas" width="450" height="450"></canvas>
+        <!-- Floating texts will be injected here -->
+      </div>
     </div>
   </div>
 
   <div class="action-buttons">
     <button onclick="clearCurrentMode()" class="clear-btn"><i class="fa-solid fa-trash"></i> ရှင်းမည်</button>
-    <button onclick="saveCurrentData()" class="save-btn"><i class="fa-solid fa-bookmark"></i> မှတ်သားမည်</button>
     <button onclick="saveAsImage()" class="img-btn"><i class="fa-solid fa-image"></i> ပုံထုတ်မည်</button>
-    <button onclick="printA4()" class="print-btn"><i class="fa-solid fa-print"></i> Print</button>
+  </div>
+
+  <!-- Virtual Keypad Modal -->
+  <div class="keypad-modal" id="keypadModal">
+    <div class="keypad-header">
+      <span id="activeCellInfo" style="font-size:0.8rem; font-weight:bold; color:var(--primary);">ကွက်လပ်ရွေးချယ်ထားသည်</span>
+      <div class="kb-tabs">
+        <button class="kb-tab-btn active" onclick="switchKbTab('numbers')">ဂဏန်း</button>
+        <button class="kb-tab-btn" onclick="switchKbTab('myanmar')">က-အ</button>
+        <button class="kb-tab-btn" onclick="switchKbTab('complex')">ဗျည်းတွဲ</button>
+      </div>
+      <span style="cursor:pointer; color: #d9534f; font-weight:bold; font-size:0.85rem;" onclick="closeKeypad()">✕ ပိတ်</span>
+    </div>
+
+    <div class="kb-scroll-container">
+      <!-- Numbers -->
+      <div id="kbNumbers" class="kb-layout active">
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၁')">၁</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၂')">၂</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၃')">၃</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၄')">၄</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၅')">၅</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၆')">၆</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၇')">၇</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၈')">၈</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၉')">၉</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၀')">၀</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('1')">1</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('2')">2</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('3')">3</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('4')">4</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('5')">5</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('6')">6</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('7')">7</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('8')">8</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('9')">9</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('0')">0</div>
+          <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫</div>
+        </div>
+      </div>
+
+      <!-- Myanmar (က-အ) -->
+      <div id="kbMyanmar" class="kb-layout">
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('က')">က</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ခ')">ခ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဂ')">ဂ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဃ')">ဃ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('င')">င</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('စ')">စ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဆ')">ဆ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဇ')">ဇ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဉ')">ဉ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ည')">ည</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဋ')">ဋ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဌ')">ဌ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဍ')">ဍ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဎ')">ဎ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဏ')">ဏ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('တ')">တ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ထ')">ထ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဒ')">ဒ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဓ')">ဓ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('န')">န</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ပ')">ပ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဖ')">ဖ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဗ')">ဗ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဘ')">ဘ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('မ')">မ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ယ')">ယ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ရ')">ရ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('လ')">လ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဝ')">ဝ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('သ')">သ</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဟ')">ဟ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဠ')">ဠ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('အ')">အ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဣ')">ဣ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဤ')">ဤ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဥ')">ဥ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဧ')">ဧ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဪ')">ဪ</div>
+          <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫</div>
+        </div>
+      </div>
+
+      <!-- Complex & Asat -->
+      <div id="kbComplex" class="kb-layout">
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('်')">် (အသတ်)</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ျ')">ျ (ယပင့်)</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ြ')">ြ (ရရစ်)</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ွ')">ွ (ဝဆွဲ)</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ှ')">ှ (ဟထိုး)</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('င်္')">င်္ (ကင်းစီး)</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('္တ')">န္တ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('္ထ')">န္ထ</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('္ဓ')">န္ဓ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('္န')">န္န</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('မ္ပ')">မ္ပ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('မ္ဘ')">မ္ဘ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('မ္မ')">မ္မ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဉ္ဇ')">ဉ္ဇ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဉ္စ')">ဉ္စ</div>
+          <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫ ဖျက်</div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <script>
@@ -553,161 +367,41 @@
     let gridData = {};
     let circleData = Array(16).fill('');
 
+    let selectedCell = null;
     let undoStack = [];
     let redoStack = [];
 
-    // Load Data
-    const savedData = localStorage.getItem('amulet_grid_data_v11');
-    if (savedData) {
-      try { gridData = JSON.parse(savedData); } catch (e) { gridData = {}; }
-    }
-    const savedCircle = localStorage.getItem('amulet_circle_cells_v11');
-    if (savedCircle) {
-      try { circleData = JSON.parse(savedCircle); } catch (e) { circleData = Array(16).fill(''); }
-    }
-
-    const presetSizes = [
-      {r: 3, c: 3, label: '၃x၃'},
-      {r: 3, c: 7, label: '၃x၇'},
-      {r: 3, c: 11, label: '၃x၁၁'},
-      {r: 4, c: 4, label: '၄x၄'},
-      {r: 5, c: 5, label: '၅x၅'},
-      {r: 9, c: 9, label: '၉x၉'}
-    ];
-
-    const toolbar = document.getElementById('toolbar');
-    presetSizes.forEach(p => {
-      const btn = document.createElement('button');
-      btn.innerText = p.label;
-      if (p.r === rowsCount && p.c === colsCount) btn.classList.add('active');
-      btn.onclick = () => switchGridSize(p.r, p.c);
-      toolbar.appendChild(btn);
-    });
-
-    function saveState() {
-      const state = {
-        mode: currentMode,
-        gridData: JSON.parse(JSON.stringify(gridData)),
-        circleData: [...circleData],
-        rows: rowsCount,
-        cols: colsCount
-      };
-      undoStack.push(state);
-      if (undoStack.length > 30) undoStack.shift();
-      redoStack = [];
-      updateUndoRedoUI();
-    }
-
-    function undoAction() {
-      if (undoStack.length === 0) return;
-      const currentState = {
-        mode: currentMode,
-        gridData: JSON.parse(JSON.stringify(gridData)),
-        circleData: [...circleData],
-        rows: rowsCount,
-        cols: colsCount
-      };
-      redoStack.push(currentState);
-      const prevState = undoStack.pop();
-      applyState(prevState);
-      updateUndoRedoUI();
-    }
-
-    function redoAction() {
-      if (redoStack.length === 0) return;
-      const currentState = {
-        mode: currentMode,
-        gridData: JSON.parse(JSON.stringify(gridData)),
-        circleData: [...circleData],
-        rows: rowsCount,
-        cols: colsCount
-      };
-      undoStack.push(currentState);
-      const nextState = redoStack.pop();
-      applyState(nextState);
-      updateUndoRedoUI();
-    }
-
-    function applyState(state) {
-      gridData = state.gridData;
-      circleData = state.circleData;
-      rowsCount = state.rows;
-      colsCount = state.cols;
-      document.getElementById('inputRows').value = rowsCount;
-      document.getElementById('inputCols').value = colsCount;
-      renderGrid();
-      renderCircleCells();
-    }
-
-    function updateUndoRedoUI() {
-      document.getElementById('undoBtn').disabled = undoStack.length === 0;
-      document.getElementById('redoBtn').disabled = redoStack.length === 0;
-    }
-
+    // Mode Switcher
     function switchMode(mode) {
       currentMode = mode;
+      closeKeypad();
       document.getElementById('gridModeBtn').classList.toggle('active', mode === 'grid');
       document.getElementById('circleModeBtn').classList.toggle('active', mode === 'circle');
       document.getElementById('canvasModeBtn').classList.toggle('active', mode === 'canvas');
       
       document.getElementById('gridToolbarContainer').style.display = (mode === 'grid') ? 'block' : 'none';
-      document.getElementById('circleInfoContainer').style.display = (mode === 'circle') ? 'block' : 'none';
       document.getElementById('canvasToolsContainer').style.display = (mode === 'canvas') ? 'flex' : 'none';
       
       document.getElementById('gridDisplay').style.display = (mode === 'grid') ? 'grid' : 'none';
       document.getElementById('circleContainer').style.display = (mode === 'circle') ? 'block' : 'none';
-      document.getElementById('drawCanvas').style.display = (mode === 'canvas') ? 'block' : 'none';
+      document.getElementById('canvasWrapper').style.display = (mode === 'canvas') ? 'block' : 'none';
 
       document.getElementById('captureContainer').style.border = (mode === 'canvas' || mode === 'circle') ? 'none' : '4px double var(--grid-border-color)';
       document.getElementById('captureContainer').style.boxShadow = (mode === 'canvas' || mode === 'circle') ? 'none' : '0 5px 15px rgba(0,0,0,0.08)';
       document.getElementById('captureContainer').style.padding = (mode === 'canvas' || mode === 'circle') ? '0' : '16px';
 
-      if (mode === 'circle') {
-        renderCircleSVG();
-        renderCircleCells();
-      } else if (mode === 'canvas') {
-        initCanvas();
-      }
+      if (mode === 'grid') renderGrid();
+      if (mode === 'circle') { renderCircleSVG(); renderCircleCells(); }
+      if (mode === 'canvas') initCanvas();
     }
 
-    function switchGridSize(r, c) {
-      saveState();
-      rowsCount = r;
-      colsCount = c;
-      document.getElementById('inputRows').value = r;
-      document.getElementById('inputCols').value = c;
-      document.querySelectorAll('.toolbar button').forEach(b => {
-        b.classList.toggle('active', b.innerText.includes(`${r}x${c}`));
-      });
-      renderGrid();
-    }
-
-    function applyCustomGrid() {
-      const r = parseInt(document.getElementById('inputRows').value);
-      const c = parseInt(document.getElementById('inputCols').value);
-      if (r && c && r >= 1 && r <= 30 && c >= 1 && c <= 30) {
-        saveState();
-        rowsCount = r;
-        colsCount = c;
-        document.querySelectorAll('.toolbar button').forEach(b => b.classList.remove('active'));
-        renderGrid();
-      } else {
-        Swal.fire('သတိပြုရန်', '၁ မှ ၃၀ အတွင်း ဂဏန်းများ မှန်ကန်စွာထည့်ပါ။', 'info');
-      }
-    }
-
+    // Common Text & Editing Tools
     function autoFitFont(el, text) {
       const baseSize = parseInt(document.getElementById('fontSizeRange').value, 10) || 20;
       const str = text || '';
-      if (str.length > 3) {
-        el.style.fontSize = Math.max(10, baseSize * 0.52) + 'px';
-      } else if (str.length > 2) {
-        el.style.fontSize = Math.max(13, baseSize * 0.75) + 'px';
-      } else if (str.length > 1) {
-        el.style.fontSize = Math.max(16, baseSize * 0.9) + 'px';
-      } else {
-        el.style.fontSize = baseSize + 'px';
-      }
+      if (str.length > 3) el.style.fontSize = Math.max(12, baseSize * 0.55) + 'px';
+      else if (str.length > 2) el.style.fontSize = Math.max(14, baseSize * 0.75) + 'px';
+      else el.style.fontSize = baseSize + 'px';
     }
 
     function attachEditableListeners(cell, type) {
@@ -715,210 +409,135 @@
       cell.setAttribute("spellcheck", "false");
 
       cell.addEventListener('focus', function() {
-        saveState(); // Save state before modifying
+        saveState();
+        selectedCell = this;
+        document.getElementById('keypadModal').classList.add('show');
       });
 
       cell.addEventListener('input', function() {
         autoFitFont(this, this.innerText);
-        if (type === 'grid') {
-          const keyStr = `${rowsCount}x${colsCount}`;
-          gridData[keyStr][this.dataset.index] = this.innerText;
-        } else {
-          circleData[this.dataset.index] = this.innerText;
-        }
+        if (type === 'grid') gridData[`${rowsCount}x${colsCount}`][this.dataset.index] = this.innerText;
+        else if (type === 'circle') circleData[this.dataset.index] = this.innerText;
       });
 
       cell.addEventListener('keydown', function(e) {
-        if(e.key === 'Enter') {
-          e.preventDefault();
-          this.blur();
-        }
+        if(e.key === 'Enter') { e.preventDefault(); this.blur(); closeKeypad(); }
       });
+    }
+
+    /* Virtual Keypad using document.execCommand */
+    function appendValue(val) {
+      if (!selectedCell) return;
+      selectedCell.focus();
+      if (!document.execCommand('insertText', false, val)) selectedCell.innerText += val;
+      selectedCell.dispatchEvent(new Event('input'));
+    }
+
+    function backspaceValue() {
+      if (!selectedCell) return;
+      selectedCell.focus();
+      if (!document.execCommand('delete', false, null)) selectedCell.innerText = selectedCell.innerText.slice(0, -1);
+      selectedCell.dispatchEvent(new Event('input'));
+    }
+
+    function clearValue() {
+      if (!selectedCell) return;
+      selectedCell.innerText = '';
+      selectedCell.dispatchEvent(new Event('input'));
+    }
+
+    function closeKeypad() {
+      if (selectedCell) selectedCell.blur();
+      selectedCell = null;
+      document.getElementById('keypadModal').classList.remove('show');
+    }
+
+    function switchKbTab(tab) {
+      document.querySelectorAll('.kb-tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.kb-layout').forEach(lay => lay.classList.remove('active'));
+
+      if (tab === 'numbers') { document.querySelectorAll('.kb-tab-btn')[0].classList.add('active'); document.getElementById('kbNumbers').classList.add('active'); }
+      else if (tab === 'myanmar') { document.querySelectorAll('.kb-tab-btn')[1].classList.add('active'); document.getElementById('kbMyanmar').classList.add('active'); }
+      else { document.querySelectorAll('.kb-tab-btn')[2].classList.add('active'); document.getElementById('kbComplex').classList.add('active'); }
+    }
+
+    /* Grid System */
+    const presetSizes = [{r: 3, c: 3, label: '၃x၃'}, {r: 3, c: 7, label: '၃x၇'}, {r: 3, c: 11, label: '၃x၁၁'}, {r: 4, c: 4, label: '၄x၄'}, {r: 5, c: 5, label: '၅x၅'}];
+    const toolbar = document.getElementById('toolbar');
+    presetSizes.forEach(p => {
+      const btn = document.createElement('button'); btn.innerText = p.label;
+      if (p.r === rowsCount && p.c === colsCount) btn.classList.add('active');
+      btn.onclick = () => switchGridSize(p.r, p.c); toolbar.appendChild(btn);
+    });
+
+    function switchGridSize(r, c) {
+      saveState(); rowsCount = r; colsCount = c;
+      document.getElementById('inputRows').value = r; document.getElementById('inputCols').value = c;
+      document.querySelectorAll('.toolbar button').forEach(b => b.classList.toggle('active', b.innerText.includes(`${r}x${c}`)));
+      renderGrid();
+    }
+
+    function applyCustomGrid() {
+      const r = parseInt(document.getElementById('inputRows').value); const c = parseInt(document.getElementById('inputCols').value);
+      if (r && c && r >= 1 && r <= 30 && c >= 1 && c <= 30) { saveState(); rowsCount = r; colsCount = c; renderGrid(); }
     }
 
     function renderGrid() {
       const grid = document.getElementById('gridDisplay');
-      grid.innerHTML = '';
-      grid.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`;
-      grid.style.gridTemplateRows = `repeat(${rowsCount}, 1fr)`;
-
+      grid.innerHTML = ''; grid.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`; grid.style.gridTemplateRows = `repeat(${rowsCount}, 1fr)`;
       const keyStr = `${rowsCount}x${colsCount}`;
       if (!gridData[keyStr]) gridData[keyStr] = Array(rowsCount * colsCount).fill('');
-
       for (let i = 0; i < rowsCount * colsCount; i++) {
-        const cell = document.createElement('div');
-        cell.className = 'cell';
-        const val = gridData[keyStr][i] || '';
-        cell.innerText = val;
-        autoFitFont(cell, val);
-        cell.dataset.index = i;
-        attachEditableListeners(cell, 'grid');
-        grid.appendChild(cell);
+        const cell = document.createElement('div'); cell.className = 'cell';
+        const val = gridData[keyStr][i] || ''; cell.innerText = val; autoFitFont(cell, val);
+        cell.dataset.index = i; attachEditableListeners(cell, 'grid'); grid.appendChild(cell);
       }
     }
 
+    /* Circle System */
     function renderCircleSVG() {
       const svg = document.getElementById('circleSvg');
-      svg.innerHTML = '';
       const stroke = getComputedStyle(document.documentElement).getPropertyValue('--grid-border-color').trim() || '#4a3b32';
       const cx = 190, cy = 190, rOuter = 170, rInner = 98;
-
-      let markup = `
-        <circle cx="${cx}" cy="${cy}" r="${rOuter}" stroke="${stroke}" stroke-width="2.5" fill="none" />
-        <circle cx="${cx}" cy="${cy}" r="${rInner}" stroke="${stroke}" stroke-width="2.5" fill="none" />
-        <line x1="${cx}" y1="${cy - rInner}" x2="${cx}" y2="${cy + rInner}" stroke="${stroke}" stroke-width="2" />
-        <line x1="${cx - rInner}" y1="${cy}" x2="${cx + rInner}" y2="${cy}" stroke="${stroke}" stroke-width="2" />
-      `;
-
+      let markup = `<circle cx="${cx}" cy="${cy}" r="${rOuter}" stroke="${stroke}" stroke-width="2.5" fill="none" /><circle cx="${cx}" cy="${cy}" r="${rInner}" stroke="${stroke}" stroke-width="2.5" fill="none" /><line x1="${cx}" y1="${cy - rInner}" x2="${cx}" y2="${cy + rInner}" stroke="${stroke}" stroke-width="2" /><line x1="${cx - rInner}" y1="${cy}" x2="${cx + rInner}" y2="${cy}" stroke="${stroke}" stroke-width="2" />`;
       for (let i = 0; i < 12; i++) {
         let angle = (i * 30) * Math.PI / 180;
-        let x1 = cx + rInner * Math.cos(angle);
-        let y1 = cy + rInner * Math.sin(angle);
-        let x2 = cx + rOuter * Math.cos(angle);
-        let y2 = cy + rOuter * Math.sin(angle);
-        markup += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${stroke}" stroke-width="2" />`;
+        markup += `<line x1="${cx + rInner * Math.cos(angle)}" y1="${cy + rInner * Math.sin(angle)}" x2="${cx + rOuter * Math.cos(angle)}" y2="${cy + rOuter * Math.sin(angle)}" stroke="${stroke}" stroke-width="2" />`;
       }
       svg.innerHTML = markup;
     }
 
     function renderCircleCells() {
-      const container = document.getElementById('circleCellsContainer');
-      container.innerHTML = '';
+      const container = document.getElementById('circleCellsContainer'); container.innerHTML = '';
       const cx = 190, cy = 190;
-
-      const innerOffsets = [
-        { idx: 0, x: cx - 50, y: cy - 50 },
-        { idx: 1, x: cx + 5,  y: cy - 50 },
-        { idx: 2, x: cx - 50, y: cy + 5  },
-        { idx: 3, x: cx + 5,  y: cy + 5  }
-      ];
-
+      const innerOffsets = [{ idx: 0, x: cx - 50, y: cy - 50 }, { idx: 1, x: cx + 5, y: cy - 50 }, { idx: 2, x: cx - 50, y: cy + 5 }, { idx: 3, x: cx + 5, y: cy + 5 }];
       innerOffsets.forEach(pos => {
-        const cell = document.createElement('div');
-        cell.className = 'circle-cell';
-        cell.style.width = '45px';
-        cell.style.height = '45px';
-        cell.style.left = pos.x + 'px';
-        cell.style.top = pos.y + 'px';
-        const val = circleData[pos.idx] || '';
-        cell.innerText = val;
-        autoFitFont(cell, val);
-        cell.dataset.index = pos.idx;
-        attachEditableListeners(cell, 'circle');
-        container.appendChild(cell);
+        const cell = document.createElement('div'); cell.className = 'circle-cell'; cell.style.width = '45px'; cell.style.height = '45px'; cell.style.left = pos.x + 'px'; cell.style.top = pos.y + 'px';
+        const val = circleData[pos.idx] || ''; cell.innerText = val; autoFitFont(cell, val); cell.dataset.index = pos.idx;
+        attachEditableListeners(cell, 'circle'); container.appendChild(cell);
       });
-
       const rOuterMid = (98 + 170) / 2;
       for (let i = 0; i < 12; i++) {
         let midAngle = (i * 30 + 15) * Math.PI / 180;
-        let x = cx + rOuterMid * Math.cos(midAngle) - 22;
-        let y = cy + rOuterMid * Math.sin(midAngle) - 22;
-
-        const cell = document.createElement('div');
-        cell.className = 'circle-cell';
-        cell.style.width = '44px';
-        cell.style.height = '44px';
-        cell.style.left = x + 'px';
-        cell.style.top = y + 'px';
-        const val = circleData[4 + i] || '';
-        cell.innerText = val;
-        autoFitFont(cell, val);
-        cell.dataset.index = 4 + i;
-        attachEditableListeners(cell, 'circle');
-        container.appendChild(cell);
+        const cell = document.createElement('div'); cell.className = 'circle-cell'; cell.style.width = '44px'; cell.style.height = '44px';
+        cell.style.left = (cx + rOuterMid * Math.cos(midAngle) - 22) + 'px'; cell.style.top = (cy + rOuterMid * Math.sin(midAngle) - 22) + 'px';
+        const val = circleData[4 + i] || ''; cell.innerText = val; autoFitFont(cell, val); cell.dataset.index = 4 + i;
+        attachEditableListeners(cell, 'circle'); container.appendChild(cell);
       }
     }
 
-    function openTemplatePicker() {
-      Swal.fire({
-        title: 'ရိုးရာအင်းကွက် နမူနာများ',
-        input: 'select',
-        inputOptions: {
-          'thambuddhe': 'သမ္ဗုဒ္ဓေ ၄x၄ အင်းကွက်',
-          'datkyi': 'ဓာတ်ကြီး ၄ ပါး ၃x၃ အင်းကွက်',
-          'sittakan': 'စိတ္တကံ စက်ဝိုင်းအင်း (နမူနာပုံအတိုင်း)',
-          'navagraha': 'နဝင်း ၃x၃ အင်းကွက်'
-        },
-        inputPlaceholder: 'နမူနာတစ်ခု ရွေးချယ်ပါ',
-        showCancelButton: true,
-        confirmButtonText: 'ထည့်သွင်းမည်',
-        cancelButtonText: 'မလုပ်တော့ပါ',
-        confirmButtonColor: '#8b0000'
-      }).then((result) => {
-        if (result.isConfirmed && result.value) {
-          applyPresetTemplate(result.value);
-        }
-      });
-    }
-
-    function applyPresetTemplate(key) {
-      saveState();
-      if (key === 'thambuddhe') {
-        switchMode('grid');
-        switchGridSize(4, 4);
-        gridData['4x4'] = ['သ', 'ဓု', 'အ', 'သု', 'န', 'မော', 'ဗု', 'ဒ္ဓံ', 'ဇ', 'ယ', 'မံ', 'ဂ', 'လံ', 'ပု', 'တ္တံ', 'သိ'];
-        renderGrid();
-      } else if (key === 'datkyi') {
-        switchMode('grid');
-        switchGridSize(3, 3);
-        gridData['3x3'] = ['ပ', 'ထ', 'ဝီ', 'တေ', 'ဇော', 'အာ', 'ပေါ', 'ဝါ', 'ယော'];
-        renderGrid();
-      } else if (key === 'navagraha') {
-        switchMode('grid');
-        switchGridSize(3, 3);
-        gridData['3x3'] = ['၄', '၉', '၂', '၃', '၅', '၇', '၈', '၁', '၆'];
-        renderGrid();
-      } else if (key === 'sittakan') {
-        switchMode('circle');
-        circleData = ['န', 'ရ', 'ဓ', 'မ', 'စ', '၀', 'ည', 'ဝ', 'င', 'သ', 'မ', 'ဂ', 'ဂ', 'ဉ', 'ဒ', 'ပ'];
-        renderCircleCells();
-      }
-      Swal.fire({ toast: true, position: 'top', icon: 'success', title: 'နမူနာအင်းကွက် ထည့်သွင်းပြီးပါပြီ', showConfirmButton: false, timer: 1500 });
-    }
-
-    /* Local Custom Font Uploader Engine */
-    function loadLocalFont(input) {
-      const file = input.files[0];
-      if (!file) return;
-
-      const fontName = 'CustomUserFont_' + Date.now();
-      const reader = new FileReader();
-
-      reader.onload = function(e) {
-        const font = new FontFace(fontName, e.target.result);
-        font.load().then(loadedFont => {
-          document.fonts.add(loadedFont);
-          document.documentElement.style.setProperty('--selected-font', `'${fontName}', sans-serif`);
-          
-          const opt = document.createElement('option');
-          opt.value = `'${fontName}', sans-serif`;
-          opt.innerText = `တင်ထားသော Font (${file.name})`;
-          opt.selected = true;
-          document.getElementById('fontSelect').prepend(opt);
-
-          Swal.fire({ toast: true, position: 'top', icon: 'success', title: 'Font ဖိုင် အောင်မြင်စွာ တင်သွင်းပြီးပါပြီ', showConfirmButton: false, timer: 1500 });
-        }).catch(err => {
-          Swal.fire('အမှား', 'Font ဖိုင် ဖတ်မရပါ၊ မှန်ကန်သော TTF/OTF ဖြစ်ပါသလား စစ်ဆေးပါ။', 'error');
-        });
-      };
-      reader.readAsArrayBuffer(file);
-    }
-
-    /* Freehand Canvas Engine */
+    /* Smart Canvas Engine (Line Snapping & Floating Text) */
     const canvas = document.getElementById('drawCanvas');
     const ctx = canvas.getContext('2d');
+    let canvasTool = 'smart-line';
     let isDrawing = false;
-    let canvasTool = 'pen';
+    let startPos = null;
+    let savedImageData = null;
 
     function initCanvas() {
-      const savedCanvas = localStorage.getItem('amulet_canvas_data_v11');
-      if (savedCanvas) {
-        let img = new Image();
-        img.onload = () => { ctx.clearRect(0,0,canvas.width, canvas.height); ctx.drawImage(img, 0, 0); };
-        img.src = savedCanvas;
-      } else {
-        clearCanvasBackground();
-      }
+      clearCanvasBackground();
+      // Remove old floating texts
+      document.querySelectorAll('.floating-text').forEach(e => e.remove());
     }
 
     function clearCanvasBackground() {
@@ -930,145 +549,236 @@
 
     function setCanvasTool(tool) {
       canvasTool = tool;
+      document.getElementById('toolSmartLine').classList.toggle('active', tool === 'smart-line');
       document.getElementById('toolPen').classList.toggle('active', tool === 'pen');
-      document.getElementById('toolDot').classList.toggle('active', tool === 'dot');
+      document.getElementById('toolText').classList.toggle('active', tool === 'text');
       document.getElementById('toolEraser').classList.toggle('active', tool === 'eraser');
     }
 
-    function getPos(e) {
+    function getCanvasPos(e) {
       const rect = canvas.getBoundingClientRect();
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      return {
-        x: (clientX - rect.left) * (canvas.width / rect.width),
-        y: (clientY - rect.top) * (canvas.height / rect.height)
-      };
+      return { x: (clientX - rect.left) * (canvas.width / rect.width), y: (clientY - rect.top) * (canvas.height / rect.height) };
     }
 
+    // Handle Text Dropping
+    document.getElementById('canvasWrapper').addEventListener('click', function(e) {
+      if (canvasTool === 'text' && e.target.id === 'drawCanvas') {
+        saveState();
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const txt = document.createElement('div');
+        txt.className = 'floating-text';
+        txt.style.left = x + 'px';
+        txt.style.top = y + 'px';
+        txt.innerText = "က";
+        
+        attachEditableListeners(txt, 'floating');
+        makeDraggable(txt);
+        this.appendChild(txt);
+        txt.focus();
+      }
+    });
+
+    // Make floating text draggable
+    function makeDraggable(elmnt) {
+      let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      elmnt.onmousedown = dragMouseDown;
+      elmnt.ontouchstart = dragMouseDown;
+
+      function dragMouseDown(e) {
+        if(canvasTool === 'text') return; // Allow normal click to edit if in text mode
+        e.preventDefault();
+        pos3 = e.clientX || e.touches[0].clientX;
+        pos4 = e.clientY || e.touches[0].clientY;
+        document.onmouseup = closeDragElement;
+        document.ontouchend = closeDragElement;
+        document.onmousemove = elementDrag;
+        document.ontouchmove = elementDrag;
+      }
+
+      function elementDrag(e) {
+        e.preventDefault();
+        let clientX = e.clientX || e.touches[0].clientX;
+        let clientY = e.clientY || e.touches[0].clientY;
+        pos1 = pos3 - clientX;
+        pos2 = pos4 - clientY;
+        pos3 = clientX;
+        pos4 = clientY;
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+        document.onmouseup = null; document.onmousemove = null;
+        document.ontouchend = null; document.ontouchmove = null;
+      }
+    }
+
+    canvas.addEventListener('mousedown', startDraw); canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDraw); canvas.addEventListener('mouseleave', stopDraw);
+    canvas.addEventListener('touchstart', (e) => { if(canvasTool !== 'text') { startDraw(e); e.preventDefault(); } }, { passive: false });
+    canvas.addEventListener('touchmove', (e) => { if(canvasTool !== 'text') { draw(e); e.preventDefault(); } }, { passive: false });
+    canvas.addEventListener('touchend', stopDraw);
+
     function startDraw(e) {
+      if (canvasTool === 'text') return;
+      saveState();
       isDrawing = true;
-      const pos = getPos(e);
+      startPos = getCanvasPos(e);
+      savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       ctx.beginPath();
-      ctx.moveTo(pos.x, pos.y);
+      ctx.moveTo(startPos.x, startPos.y);
     }
 
     function draw(e) {
-      if (!isDrawing) return;
-      const pos = getPos(e);
+      if (!isDrawing || canvasTool === 'text') return;
+      const pos = getCanvasPos(e);
+      
       if (canvasTool === 'eraser') {
         ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--cell-bg-color').trim() || '#faf8f5';
-        ctx.lineWidth = 18;
-      } else {
+        ctx.lineWidth = 20;
+        ctx.lineCap = 'round';
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+      } else if (canvasTool === 'pen') {
         ctx.strokeStyle = document.getElementById('textColorSelect').value;
         ctx.lineWidth = 3;
-      }
-      ctx.lineCap = 'round';
-      ctx.lineTo(pos.x, pos.y);
-      ctx.stroke();
-    }
+        ctx.lineCap = 'round';
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+      } else if (canvasTool === 'smart-line') {
+        // Restore canvas to erase previous preview line
+        ctx.putImageData(savedImageData, 0, 0);
+        
+        let dx = pos.x - startPos.x;
+        let dy = pos.y - startPos.y;
+        let angle = Math.atan2(dy, dx) * 180 / Math.PI;
+        // Snap to nearest 45 degrees (Horizontal, Vertical, Diagonal)
+        let snapAngle = Math.round(angle / 45) * 45;
+        let rad = snapAngle * Math.PI / 180;
+        let dist = Math.sqrt(dx*dx + dy*dy);
+        
+        let endX = startPos.x + dist * Math.cos(rad);
+        let endY = startPos.y + dist * Math.sin(rad);
 
+        ctx.strokeStyle = document.getElementById('textColorSelect').value;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(startPos.x, startPos.y);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+      }
+    }
     function stopDraw() { isDrawing = false; }
 
-    canvas.addEventListener('mousedown', startDraw);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stopDraw);
-    canvas.addEventListener('mouseleave', stopDraw);
+    /* Templates Picker */
+    function openTemplatePicker() {
+      Swal.fire({
+        title: 'ရိုးရာအင်း ၅ မျိုး (နမူနာ)',
+        input: 'select',
+        inputOptions: {
+          'thambuddhe': '၁။ သမ္ဗုဒ္ဓေ ၄x၄ ရိုးရိုးအင်း',
+          'datkyi': '၂။ ဓာတ်ကြီး ၄ ပါး ၃x၃ အင်း',
+          'sittakan': '၃။ စိတ္တကံ စက်ဝိုင်းအင်း',
+          'navagraha': '၄။ နဝင်း ၃x၃ အင်းကွက်',
+          'blankCanvas': '၅။ ကိုယ်တိုင်ဆွဲရန် ကင်းဗတ်အလွတ်'
+        },
+        inputPlaceholder: 'နမူနာတစ်ခု ရွေးချယ်ပါ',
+        showCancelButton: true, confirmButtonText: 'ဖန်တီးမည်', confirmButtonColor: '#8b0000'
+      }).then((result) => {
+        if (result.isConfirmed && result.value) applyPresetTemplate(result.value);
+      });
+    }
 
-    canvas.addEventListener('touchstart', (e) => { startDraw(e); e.preventDefault(); }, { passive: false });
-    canvas.addEventListener('touchmove', (e) => { draw(e); e.preventDefault(); }, { passive: false });
-    canvas.addEventListener('touchend', stopDraw);
+    function applyPresetTemplate(key) {
+      saveState();
+      if (key === 'thambuddhe') {
+        switchMode('grid'); switchGridSize(4, 4);
+        gridData['4x4'] = ['သ', 'ဓု', 'အ', 'သု', 'န', 'မော', 'ဗု', 'ဒ္ဓံ', 'ဇ', 'ယ', 'မံ', 'ဂ', 'လံ', 'ပု', 'တ္တံ', 'သိ'];
+        renderGrid();
+      } else if (key === 'datkyi') {
+        switchMode('grid'); switchGridSize(3, 3);
+        gridData['3x3'] = ['ပ', 'ထ', 'ဝီ', 'တေ', 'ဇော', 'အာ', 'ပေါ', 'ဝါ', 'ယော'];
+        renderGrid();
+      } else if (key === 'navagraha') {
+        switchMode('grid'); switchGridSize(3, 3);
+        gridData['3x3'] = ['၄', '၉', '၂', '၃', '၅', '၇', '၈', '၁', '၆'];
+        renderGrid();
+      } else if (key === 'sittakan') {
+        switchMode('circle');
+        circleData = ['န', 'ရ', 'ဓ', 'မ', 'စ', '၀', 'ည', 'ဝ', 'င', 'သ', 'မ', 'ဂ', 'ဂ', 'ဉ', 'ဒ', 'ပ'];
+        renderCircleCells();
+      } else if (key === 'blankCanvas') {
+        switchMode('canvas');
+        initCanvas();
+      }
+    }
+
+    /* Undo / Redo Global */
+    function undoAction() {
+      if (undoStack.length === 0) return;
+      redoStack.push({ mode: currentMode, grid: JSON.parse(JSON.stringify(gridData)), circle: [...circleData] });
+      const prev = undoStack.pop();
+      currentMode = prev.mode; gridData = prev.grid; circleData = prev.circle;
+      if (currentMode === 'grid') renderGrid(); else if (currentMode === 'circle') renderCircleCells();
+      updateUndoRedoUI();
+    }
+    function redoAction() {
+      if (redoStack.length === 0) return;
+      undoStack.push({ mode: currentMode, grid: JSON.parse(JSON.stringify(gridData)), circle: [...circleData] });
+      const next = redoStack.pop();
+      currentMode = next.mode; gridData = next.grid; circleData = next.circle;
+      if (currentMode === 'grid') renderGrid(); else if (currentMode === 'circle') renderCircleCells();
+      updateUndoRedoUI();
+    }
 
     function clearCurrentMode() {
-      Swal.fire({
-        title: 'ရှင်းလင်းမည်လား?',
-        text: 'လက်ရှိ အချက်အလက်များ အားလုံး ပျက်ပြယ်သွားပါမည်။',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#8b0000',
-        cancelButtonColor: '#555',
-        confirmButtonText: 'ဖျက်မည်',
-        cancelButtonText: 'မလုပ်တော့ပါ'
-      }).then((result) => {
+      Swal.fire({ title: 'ရှင်းလင်းမည်လား?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#8b0000', confirmButtonText: 'ဖျက်မည်' }).then((result) => {
         if (result.isConfirmed) {
           saveState();
-          if (currentMode === 'grid') {
-            const keyStr = `${rowsCount}x${colsCount}`;
-            gridData[keyStr] = Array(rowsCount * colsCount).fill('');
-            renderGrid();
-          } else if (currentMode === 'circle') {
-            circleData = Array(16).fill('');
-            renderCircleCells();
-          } else {
-            clearCanvasBackground();
-          }
+          if (currentMode === 'grid') { gridData[`${rowsCount}x${colsCount}`] = Array(rowsCount * colsCount).fill(''); renderGrid(); } 
+          else if (currentMode === 'circle') { circleData = Array(16).fill(''); renderCircleCells(); } 
+          else { initCanvas(); }
         }
       });
     }
 
-    function saveCurrentData() {
-      if (currentMode === 'grid') {
-        localStorage.setItem('amulet_grid_data_v11', JSON.stringify(gridData));
-      } else if (currentMode === 'circle') {
-        localStorage.setItem('amulet_circle_cells_v11', JSON.stringify(circleData));
-      } else {
-        localStorage.setItem('amulet_canvas_data_v11', canvas.toDataURL());
-      }
-      Swal.fire({ toast: true, position: 'top', icon: 'success', title: 'အချက်အလက်များကို မှတ်သားပြီးပါပြီ', showConfirmButton: false, timer: 1500 });
-    }
-
-    function changeFontFamily() {
-      const font = document.getElementById('fontSelect').value;
-      document.documentElement.style.setProperty('--selected-font', font);
-    }
-
-    function changeTextColor() {
-      const color = document.getElementById('textColorSelect').value;
-      document.documentElement.style.setProperty('--cell-text-color', color);
-    }
-
-    function changeBgColor() {
+    function changeFontFamily() { document.documentElement.style.setProperty('--selected-font', document.getElementById('fontSelect').value); }
+    function changeTextColor() { document.documentElement.style.setProperty('--cell-text-color', document.getElementById('textColorSelect').value); }
+    function changeBgColor() { 
       const color = document.getElementById('bgColorSelect').value;
       document.documentElement.style.setProperty('--bg', color);
       document.documentElement.style.setProperty('--cell-bg-color', (color==='#f5f2eb') ? '#faf8f5' : color);
       if (currentMode === 'canvas') clearCanvasBackground();
     }
-
-    function changeBorderColor() {
-      const color = document.getElementById('borderColorSelect').value;
-      document.documentElement.style.setProperty('--grid-border-color', color);
+    function changeBorderColor() { 
+      document.documentElement.style.setProperty('--grid-border-color', document.getElementById('borderColorSelect').value);
       if (currentMode === 'circle') renderCircleSVG();
       if (currentMode === 'canvas') clearCanvasBackground();
     }
-
-    function changeFontSize(size) {
+    function changeFontSize(size) { 
       document.documentElement.style.setProperty('--font-size', size + 'px');
       document.getElementById('fontSizeVal').innerText = size + 'px';
-      renderGrid();
-      if(currentMode === 'circle') renderCircleCells();
+      if (currentMode === 'grid') renderGrid();
+      if (currentMode === 'circle') renderCircleCells();
     }
 
     function saveAsImage() {
+      closeKeypad();
+      document.querySelectorAll('.floating-text').forEach(t => t.blur()); // Remove border focus before capture
       const captureElement = document.getElementById('captureArea');
-      // Padding area ensures borders are not cut off by html2canvas
-      html2canvas(captureElement, { 
-        scale: 3, 
-        backgroundColor: document.getElementById('bgColorSelect').value,
-        useCORS: true 
-      }).then(canvasImg => {
-        const link = document.createElement('a');
-        link.download = `amulet-${currentMode}-${Date.now()}.png`;
-        link.href = canvasImg.toDataURL('image/png');
-        link.click();
-      }).catch(err => {
-        Swal.fire('အမှား', 'ပုံထုတ်ယူရာတွင် အမှားအယွင်းရှိခဲ့ပါသည်။', 'error');
-      });
+      html2canvas(captureElement, { scale: 3, backgroundColor: document.getElementById('bgColorSelect').value, useCORS: true })
+      .then(canvasImg => {
+        const link = document.createElement('a'); link.download = `amulet-${currentMode}-${Date.now()}.png`;
+        link.href = canvasImg.toDataURL('image/png'); link.click();
+      }).catch(err => { Swal.fire('အမှား', 'ပုံထုတ်ယူရာတွင် အမှားအယွင်းရှိခဲ့ပါသည်။', 'error'); });
     }
 
-    function printA4() {
-      window.print();
-    }
-
-    renderGrid();
+    switchMode('grid');
   </script>
 </body>
 </html>
