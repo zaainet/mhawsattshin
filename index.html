@@ -13,9 +13,10 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
+    /* Custom Fonts Setup */
     @font-face {
       font-family: 'BolFont';
-      src: url('bol.ttf') format('truetype'), url('Bol.ttf') format('truetype');
+      src: url('bol.ttf') format('truetype'), url('Bol.ttf') format('truetype'), url('BOL.TTF') format('truetype');
       font-display: swap;
     }
     @font-face {
@@ -41,445 +42,99 @@
       --selected-font: 'BolFont', 'Padauk', sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: var(--selected-font), 'Padauk', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--selected-font), 'Padauk', sans-serif; -webkit-tap-highlight-color: transparent; }
 
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding: 15px 12px 280px;
-      overflow-x: hidden;
-    }
+    body { background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 15px 12px 280px; overflow-x: hidden; }
 
-    .header-container {
-      text-align: center;
-      margin-bottom: 15px;
-      border-bottom: 2px solid var(--accent);
-      padding-bottom: 10px;
-      width: 100%;
-      max-width: 500px;
-    }
-
-    h2 {
-      font-family: 'Cinzel', 'Padauk', serif;
-      color: var(--primary);
-      font-size: 1.35rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
+    .header-container { text-align: center; margin-bottom: 15px; border-bottom: 2px solid var(--accent); padding-bottom: 10px; width: 100%; max-width: 500px; }
+    h2 { font-family: 'Cinzel', 'Padauk', serif; color: var(--primary); font-size: 1.35rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
     h2 i { color: var(--accent); font-size: 1.1rem; }
 
-    .mode-switcher {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      width: 100%;
-      max-width: 500px;
-    }
+    .mode-switcher { display: flex; gap: 8px; margin-bottom: 12px; width: 100%; max-width: 500px; }
+    .mode-switcher button { flex: 1; padding: 10px 4px; background: #e2dcd6; border: 1px solid var(--surface-border); border-radius: 8px; font-weight: bold; cursor: pointer; color: #4a3b32; font-size: 0.82rem; transition: all 0.2s ease; }
+    .mode-switcher button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-    .mode-switcher button {
-      flex: 1;
-      padding: 10px 4px;
-      background: #e2dcd6;
-      border: 1px solid var(--surface-border);
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #4a3b32;
-      font-size: 0.82rem;
-      transition: all 0.2s ease;
-    }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 10px; width: 100%; max-width: 500px; }
+    .toolbar button { background: #fff; border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8rem; transition: 0.2s; }
+    .toolbar button.active { background: var(--primary); color: #fff; }
 
-    .mode-switcher button.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
+    .custom-grid-box { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; background: var(--surface); padding: 10px 14px; border-radius: 12px; border: 1px solid var(--surface-border); width: 100%; max-width: 500px; justify-content: center; font-size: 0.85rem; }
+    .custom-grid-box input { width: 50px; padding: 6px; text-align: center; background: #fff; border: 1px solid #ccc; border-radius: 6px; outline: none; }
+    .custom-grid-box button { background: var(--primary); color: #fff; border: none; padding: 7px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
-    .toolbar, .canvas-tools {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      justify-content: center;
-      margin-bottom: 10px;
-      width: 100%;
-      max-width: 500px;
-    }
+    .customization-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; background: var(--surface); padding: 12px; border-radius: 12px; border: 1px solid var(--surface-border); width: 100%; max-width: 500px; }
+    .custom-control { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; font-weight: bold; }
+    .custom-control select, .custom-control input { padding: 6px; background: #fff; border: 1px solid #ccc; border-radius: 6px; font-size: 0.82rem; outline: none; }
 
-    .toolbar button, .canvas-tools button {
-      background: #fff;
-      border: 1px solid var(--primary);
-      color: var(--primary);
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 0.8rem;
-      transition: 0.2s;
-    }
+    #captureArea { padding: 20px; background: var(--bg); width: 100%; max-width: 500px; display: flex; justify-content: center; align-items: center; border-radius: 12px; margin-bottom: 12px; }
+    
+    .grid-container { background: var(--surface); padding: 16px; border: 4px double var(--grid-border-color); box-shadow: 0 5px 15px rgba(0,0,0,0.08); display: flex; justify-content: center; align-items: center; width: 100%; overflow-x: auto; position: relative; }
+    .grid { display: grid; border: 2px solid var(--grid-border-color); background: transparent; }
+    
+    .cell { border: 1px solid var(--grid-border-color); display: flex; align-items: center; justify-content: center; font-size: var(--font-size); color: var(--cell-text-color); font-weight: bold; background: var(--cell-bg-color); cursor: text; aspect-ratio: 1 / 1; min-width: 42px; min-height: 42px; padding: 2px; text-align: center; outline: none; word-break: break-all; }
+    .cell:focus { background: #ffe4b5; outline: 2px solid var(--primary); z-index: 2; }
 
-    .toolbar button.active, .canvas-tools button.active {
-      background: var(--primary);
-      color: #fff;
-    }
+    #circleContainer { display: none; width: 380px; height: 380px; position: relative; margin: 0 auto; }
+    #circleSvg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+    .circle-cell { position: absolute; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--cell-text-color); font-size: var(--font-size); cursor: text; border-radius: 6px; outline: none; background: transparent; text-align: center; word-break: break-all; }
+    .circle-cell:focus { background: #ffe4b5; outline: 2px dashed var(--primary); }
 
-    .custom-grid-box {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      align-items: center;
-      background: var(--surface);
-      padding: 10px 14px;
-      border-radius: 12px;
-      border: 1px solid var(--surface-border);
-      width: 100%;
-      max-width: 500px;
-      justify-content: center;
-      font-size: 0.85rem;
-    }
+    /* Virtual Graph Paper / Canvas UI */
+    .canvas-tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; width: 100%; max-width: 500px; justify-content: center; }
+    .canvas-tools button { padding: 8px 4px; background: #fff; border: 1px solid var(--primary); color: var(--primary); border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.75rem; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .canvas-tools button i { font-size: 1rem; }
+    .canvas-tools button.active { background: var(--primary); color: #fff; }
 
-    .custom-grid-box input {
-      width: 50px;
-      padding: 6px;
-      text-align: center;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      outline: none;
-    }
-
-    .custom-grid-box button {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 7px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .customization-panel {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 15px;
-      background: var(--surface);
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid var(--surface-border);
-      width: 100%;
-      max-width: 500px;
-    }
-
-    .custom-control {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 0.78rem;
-      font-weight: bold;
-    }
-
-    .custom-control select, .custom-control input {
-      padding: 6px;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 0.82rem;
-      outline: none;
-    }
-
-    #captureArea {
-      padding: 20px;
-      background: var(--bg);
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 12px;
-      margin-bottom: 12px;
+    #canvasWrapper { position: relative; display: none; width: 450px; height: 450px; max-width: 100%; margin: 0 auto; user-select: none; }
+    
+    canvas { background: var(--cell-bg-color); touch-action: none; border: 2px solid var(--grid-border-color); width: 100%; height: 100%; display: block; transition: background 0.3s; }
+    
+    /* Graph Paper Background Pattern */
+    canvas.show-grid {
+      background-image: 
+        linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+      background-size: 30px 30px; /* Grid Snap Size */
     }
     
-    .grid-container {
-      background: var(--surface);
-      padding: 16px;
-      border: 4px double var(--grid-border-color);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      overflow-x: auto;
-      position: relative;
-    }
+    .floating-text { position: absolute; min-width: 32px; min-height: 32px; padding: 2px 6px; font-size: var(--font-size); font-weight: bold; color: var(--cell-text-color); cursor: grab; outline: none; display: flex; align-items: center; justify-content: center; transform: translate(-50%, -50%); white-space: nowrap; user-select: none; touch-action: none; }
+    .floating-text:focus { border: 1px dashed var(--primary); background: rgba(255, 228, 181, 0.6); cursor: text; z-index: 10; }
+    .floating-text.dragging { opacity: 0.8; cursor: grabbing; z-index: 100; }
 
-    .grid {
-      display: grid;
-      border: 2px solid var(--grid-border-color);
-      background: transparent;
-    }
-    
-    .cell {
-      border: 1px solid var(--grid-border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: var(--font-size);
-      color: var(--cell-text-color);
-      font-weight: bold;
-      background: var(--cell-bg-color);
-      cursor: text;
-      aspect-ratio: 1 / 1;
-      min-width: 42px;
-      min-height: 42px;
-      padding: 2px;
-      text-align: center;
-      outline: none;
-      word-break: break-all;
-    }
+    .utility-bar { display: flex; gap: 6px; margin-bottom: 10px; width: 100%; max-width: 500px; justify-content: space-between; }
+    .utility-bar button { background: #fff; border: 1px solid #ccc; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
+    .utility-bar button:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .cell:focus {
-      background: #ffe4b5;
-      outline: 2px solid var(--primary);
-      z-index: 2;
-    }
-
-    #circleContainer {
-      display: none;
-      width: 380px;
-      height: 380px;
-      position: relative;
-      margin: 0 auto;
-    }
-
-    #circleSvg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    .circle-cell {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: var(--cell-text-color);
-      font-size: var(--font-size);
-      cursor: text;
-      border-radius: 6px;
-      outline: none;
-      background: transparent;
-      text-align: center;
-      word-break: break-all;
-    }
-
-    .circle-cell:focus {
-      background: #ffe4b5;
-      outline: 2px dashed var(--primary);
-    }
-
-    /* Smart Canvas Container */
-    #canvasWrapper {
-      position: relative;
-      display: none;
-      width: 450px;
-      height: 450px;
-      max-width: 100%;
-      margin: 0 auto;
-      user-select: none;
-    }
-
-    canvas {
-      background: var(--cell-bg-color);
-      touch-action: none;
-      border: 2px solid var(--grid-border-color);
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-    
-    .floating-text {
-      position: absolute;
-      min-width: 32px;
-      min-height: 32px;
-      padding: 2px 6px;
-      font-size: var(--font-size);
-      font-weight: bold;
-      color: var(--cell-text-color);
-      cursor: grab;
-      outline: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transform: translate(-50%, -50%);
-      white-space: nowrap;
-      user-select: none;
-      touch-action: none;
-    }
-
-    .floating-text:focus {
-      border: 1px dashed var(--primary);
-      background: rgba(255, 228, 181, 0.6);
-      cursor: text;
-    }
-
-    .floating-text.dragging {
-      opacity: 0.8;
-      cursor: grabbing;
-    }
-
-    .utility-bar {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 10px;
-      width: 100%;
-      max-width: 500px;
-      justify-content: space-between;
-    }
-
-    .utility-bar button {
-      background: #fff;
-      border: 1px solid #ccc;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .utility-bar button:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .action-buttons {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-      width: 100%;
-      max-width: 500px;
-    }
-
-    .action-buttons button {
-      flex: 1;
-      color: #fff;
-      border: none;
-      padding: 12px 6px;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 0.82rem;
-    }
-
+    .action-buttons { display: flex; gap: 8px; margin-top: 10px; width: 100%; max-width: 500px; }
+    .action-buttons button { flex: 1; color: #fff; border: none; padding: 12px 6px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 0.82rem; }
     .action-buttons button.clear-btn { background: #d9534f; }
     .action-buttons button.img-btn { background: var(--primary); }
 
     /* Keypad Modal UI */
-    .keypad-modal {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #fdfbf7;
-      border-top: 4px solid var(--primary);
-      box-shadow: 0 -6px 20px rgba(0,0,0,0.25);
-      padding: 12px 10px;
-      z-index: 1000;
-      border-radius: 16px 16px 0 0;
-      max-width: 650px;
-      margin: 0 auto;
-    }
-
-    .keypad-modal.show {
-      display: block;
-      animation: slideUp 0.2s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
-    }
-
-    .keypad-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-      border-bottom: 1px solid #d1c7bc;
-      padding-bottom: 6px;
-    }
-
+    .keypad-modal { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #fdfbf7; border-top: 4px solid var(--primary); box-shadow: 0 -6px 20px rgba(0,0,0,0.25); padding: 12px 10px; z-index: 1000; border-radius: 16px 16px 0 0; max-width: 650px; margin: 0 auto; }
+    .keypad-modal.show { display: block; animation: slideUp 0.2s ease-out; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .keypad-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #d1c7bc; padding-bottom: 6px; }
     .kb-tabs { display: flex; gap: 5px; }
-
-    .kb-tab-btn {
-      background: #e2dcd6;
-      border: none;
-      padding: 5px 8px;
-      border-radius: 6px;
-      font-weight: bold;
-      font-size: 0.75rem;
-      cursor: pointer;
-    }
-
-    .kb-tab-btn.active {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    .kb-scroll-container {
-      width: 100%;
-      overflow-x: auto;
-      padding-bottom: 6px;
-    }
-
-    .kb-layout {
-      display: none;
-      flex-direction: column;
-      gap: 6px;
-      min-width: 480px;
-    }
-
+    .kb-tab-btn { background: #e2dcd6; border: none; padding: 5px 8px; border-radius: 6px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
+    .kb-tab-btn.active { background: var(--primary); color: #fff; }
+    .kb-scroll-container { width: 100%; overflow-x: auto; padding-bottom: 6px; }
+    .kb-layout { display: none; flex-direction: column; gap: 6px; min-width: 480px; }
     .kb-layout.active { display: flex; }
-
-    .kb-row {
-      display: flex;
-      gap: 6px;
-      justify-content: center;
-    }
-
-    .key-btn {
-      background: #ffffff;
-      border: 1px solid #b8aca1;
-      border-radius: 8px;
-      flex: 1;
-      padding: 10px 0;
-      font-size: 1.05rem;
-      font-weight: bold;
-      text-align: center;
-      cursor: pointer;
-      user-select: none;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
-
+    .kb-row { display: flex; gap: 6px; justify-content: center; }
+    .key-btn { background: #ffffff; border: 1px solid #b8aca1; border-radius: 8px; flex: 1; padding: 10px 0; font-size: 1.05rem; font-weight: bold; text-align: center; cursor: pointer; user-select: none; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
     .key-btn:active { background: #e2dcd6; }
     .key-btn.backspace-key { background: #f0e6ff; color: #4a148c; font-size: 0.8rem; }
+
+    @media print {
+      body { background: #fff !important; color: #000 !important; padding: 0 !important; }
+      .header-container, .mode-switcher, #gridToolbarContainer, .customization-panel, .utility-bar, .action-buttons, .keypad-modal, #canvasToolsContainer, #circleInfoContainer { display: none !important; }
+      #captureArea { padding: 0 !important; background: transparent !important; }
+      .grid-container { border: none !important; box-shadow: none !important; margin-top: 50px; }
+      .cell, .circle-cell { color: #000 !important; background: #fff !important; }
+      #circleSvg line, #circleSvg circle { stroke: #000 !important; }
+      canvas.show-grid { background-image: none !important; } /* Hide grid on print */
+    }
   </style>
 </head>
 <body>
@@ -491,10 +146,9 @@
   <div class="mode-switcher">
     <button id="gridModeBtn" class="active" onclick="switchMode('grid')">ဇယားကွက်</button>
     <button id="circleModeBtn" onclick="switchMode('circle')">စက်ဝိုင်းအင်း</button>
-    <button id="canvasModeBtn" onclick="switchMode('canvas')">မျဉ်းဖြောင့်/ကင်းဗတ်</button>
+    <button id="canvasModeBtn" onclick="switchMode('canvas')">Virtual Canvas</button>
   </div>
 
-  <!-- Regular Grid Toolbar -->
   <div id="gridToolbarContainer" style="width:100%; max-width:500px;">
     <div class="toolbar" id="toolbar"></div>
     <div class="custom-grid-box">
@@ -506,12 +160,17 @@
     </div>
   </div>
 
-  <!-- Smart Canvas Toolbar -->
+  <!-- Virtual Graph Paper Tools -->
   <div id="canvasToolsContainer" class="canvas-tools" style="display: none;">
-    <button id="toolSmartLine" class="active" onclick="setCanvasTool('smart-line')"><i class="fa-solid fa-pen-ruler"></i> မျဉ်းဖြောင့် (Auto)</button>
-    <button id="toolPen" onclick="setCanvasTool('pen')"><i class="fa-solid fa-pen"></i> လွတ်လပ်ဆွဲ</button>
+    <button id="toolPen" class="active" onclick="setCanvasTool('pen')"><i class="fa-solid fa-pen"></i> လက်ဆွဲ</button>
+    <button id="toolLine" onclick="setCanvasTool('line')"><i class="fa-solid fa-minus"></i> မျဉ်းဖြောင့်</button>
+    <button id="toolRect" onclick="setCanvasTool('rect')"><i class="fa-regular fa-square"></i> လေးထောင့်</button>
+    <button id="toolCircle" onclick="setCanvasTool('circle')"><i class="fa-regular fa-circle"></i> စက်ဝိုင်း</button>
+    
     <button id="toolText" onclick="setCanvasTool('text')"><i class="fa-solid fa-font"></i> စာလုံးချရန်</button>
     <button id="toolEraser" onclick="setCanvasTool('eraser')"><i class="fa-solid fa-eraser"></i> ဖျက်ဆေး</button>
+    <button id="toggleGridBtn" onclick="toggleCanvasGrid()"><i class="fa-solid fa-border-all"></i> Graph (Grid)</button>
+    <button id="toggleSnapBtn" onclick="toggleSnapToGrid()"><i class="fa-solid fa-magnet"></i> Auto Snap</button>
   </div>
 
   <div class="customization-panel">
@@ -576,7 +235,7 @@
         <div id="circleCellsContainer"></div>
       </div>
 
-      <!-- Smart Canvas with Floating Elements -->
+      <!-- Virtual Graph Paper / Canvas -->
       <div id="canvasWrapper">
         <canvas id="drawCanvas" width="450" height="450"></canvas>
       </div>
@@ -602,6 +261,7 @@
 
     <div class="kb-scroll-container">
       <div id="kbNumbers" class="kb-layout active">
+        <!-- Number Row HTML omitted for brevity, same as before -->
         <div class="kb-row">
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၁')">၁</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၂')">၂</div>
@@ -628,8 +288,8 @@
           <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫</div>
         </div>
       </div>
-
       <div id="kbMyanmar" class="kb-layout">
+        <!-- Myanmar Row HTML omitted for brevity, same as before -->
         <div class="kb-row">
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('က')">က</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ခ')">ခ</div>
@@ -678,8 +338,8 @@
           <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫</div>
         </div>
       </div>
-
       <div id="kbComplex" class="kb-layout">
+        <!-- Complex Row HTML omitted for brevity, same as before -->
         <div class="kb-row">
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('်')">် (အသတ်)</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ျ')">ျ (ယပင့်)</div>
@@ -698,7 +358,7 @@
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('မ္မ')">မ္မ</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဉ္ဇ')">ဉ္ဇ</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဉ္စ')">ဉ္စ</div>
-          <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫</div>
+          <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫ ဖျက်</div>
         </div>
       </div>
     </div>
@@ -706,29 +366,28 @@
 
   <script>
     let currentMode = 'grid'; 
-    let rowsCount = 3;
-    let colsCount = 11;
-    let gridData = {};
-    let circleData = Array(16).fill('');
-
+    let rowsCount = 3; let colsCount = 11;
+    let gridData = {}; let circleData = Array(16).fill('');
     let selectedCell = null;
-    let undoStack = [];
-    let redoStack = [];
+    let undoStack = []; let redoStack = [];
+
+    // Local Storage Loading
+    const savedData = localStorage.getItem('amulet_grid_data_final2');
+    if (savedData) { try { gridData = JSON.parse(savedData); } catch (e) { gridData = {}; } }
+    const savedCircle = localStorage.getItem('amulet_circle_cells_final2');
+    if (savedCircle) { try { circleData = JSON.parse(savedCircle); } catch (e) { circleData = Array(16).fill(''); } }
 
     function saveState() {
       const state = {
         mode: currentMode,
         gridData: JSON.parse(JSON.stringify(gridData)),
         circleData: [...circleData],
-        rows: rowsCount,
-        cols: colsCount
+        rows: rowsCount, cols: colsCount
       };
       if (currentMode === 'canvas') {
         state.canvasData = canvas.toDataURL();
         state.floatingTexts = Array.from(document.querySelectorAll('.floating-text')).map(el => ({
-          left: el.style.left,
-          top: el.style.top,
-          text: el.innerText
+          left: el.style.left, top: el.style.top, text: el.innerText
         }));
       }
       undoStack.push(state);
@@ -744,74 +403,46 @@
 
     function undoAction() {
       if (undoStack.length === 0) return;
-      const currentState = getCurrentState();
-      redoStack.push(currentState);
-      const prevState = undoStack.pop();
-      applyState(prevState);
+      redoStack.push(getCurrentState());
+      applyState(undoStack.pop());
       updateUndoRedoUI();
     }
 
     function redoAction() {
       if (redoStack.length === 0) return;
-      const currentState = getCurrentState();
-      undoStack.push(currentState);
-      const nextState = redoStack.pop();
-      applyState(nextState);
+      undoStack.push(getCurrentState());
+      applyState(redoStack.pop());
       updateUndoRedoUI();
     }
 
     function getCurrentState() {
-      const state = {
-        mode: currentMode,
-        gridData: JSON.parse(JSON.stringify(gridData)),
-        circleData: [...circleData],
-        rows: rowsCount,
-        cols: colsCount
-      };
+      const state = { mode: currentMode, gridData: JSON.parse(JSON.stringify(gridData)), circleData: [...circleData], rows: rowsCount, cols: colsCount };
       if (currentMode === 'canvas') {
         state.canvasData = canvas.toDataURL();
-        state.floatingTexts = Array.from(document.querySelectorAll('.floating-text')).map(el => ({
-          left: el.style.left,
-          top: el.style.top,
-          text: el.innerText
-        }));
+        state.floatingTexts = Array.from(document.querySelectorAll('.floating-text')).map(el => ({ left: el.style.left, top: el.style.top, text: el.innerText }));
       }
       return state;
     }
 
     function applyState(state) {
-      currentMode = state.mode;
-      gridData = state.gridData;
-      circleData = state.circleData;
-      rowsCount = state.rows;
-      colsCount = state.cols;
-      document.getElementById('inputRows').value = rowsCount;
-      document.getElementById('inputCols').value = colsCount;
-
-      switchMode(currentMode, false);
-
-      if (currentMode === 'grid') renderGrid();
-      if (currentMode === 'circle') renderCircleCells();
-      if (currentMode === 'canvas' && state.canvasData) {
+      gridData = state.gridData; circleData = state.circleData;
+      rowsCount = state.rows; colsCount = state.cols;
+      document.getElementById('inputRows').value = rowsCount; document.getElementById('inputCols').value = colsCount;
+      switchMode(state.mode, false);
+      if (state.mode === 'grid') renderGrid();
+      if (state.mode === 'circle') renderCircleCells();
+      if (state.mode === 'canvas' && state.canvasData) {
         let img = new Image();
-        img.onload = () => {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(img, 0, 0);
-        };
+        img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); };
         img.src = state.canvasData;
         document.querySelectorAll('.floating-text').forEach(e => e.remove());
-        if (state.floatingTexts) {
-          state.floatingTexts.forEach(item => {
-            createFloatingText(item.left, item.top, item.text);
-          });
-        }
+        if (state.floatingTexts) state.floatingTexts.forEach(item => createFloatingText(item.left, item.top, item.text));
       }
     }
 
     function switchMode(mode, triggerState = true) {
       if (triggerState) saveState();
-      currentMode = mode;
-      closeKeypad();
+      currentMode = mode; closeKeypad();
       document.getElementById('gridModeBtn').classList.toggle('active', mode === 'grid');
       document.getElementById('circleModeBtn').classList.toggle('active', mode === 'circle');
       document.getElementById('canvasModeBtn').classList.toggle('active', mode === 'canvas');
@@ -841,49 +472,23 @@
     }
 
     function attachEditableListeners(cell, type) {
-      cell.contentEditable = "true";
-      cell.setAttribute("spellcheck", "false");
-
-      cell.addEventListener('focus', function() {
-        selectedCell = this;
-        document.getElementById('keypadModal').classList.add('show');
-      });
-
+      cell.contentEditable = "true"; cell.setAttribute("spellcheck", "false");
+      cell.addEventListener('focus', function() { saveState(); selectedCell = this; document.getElementById('keypadModal').classList.add('show'); });
       cell.addEventListener('input', function() {
         autoFitFont(this, this.innerText);
         if (type === 'grid') gridData[`${rowsCount}x${colsCount}`][this.dataset.index] = this.innerText;
         else if (type === 'circle') circleData[this.dataset.index] = this.innerText;
       });
-
-      cell.addEventListener('keydown', function(e) {
-        if(e.key === 'Enter') { e.preventDefault(); this.blur(); closeKeypad(); }
-      });
+      cell.addEventListener('keydown', function(e) { if(e.key === 'Enter') { e.preventDefault(); this.blur(); closeKeypad(); } });
     }
 
-    function appendValue(val) {
-      if (!selectedCell) return;
-      selectedCell.focus();
-      document.execCommand('insertText', false, val);
-      selectedCell.dispatchEvent(new Event('input'));
-    }
-
-    function backspaceValue() {
-      if (!selectedCell) return;
-      selectedCell.focus();
-      document.execCommand('delete', false, null);
-      selectedCell.dispatchEvent(new Event('input'));
-    }
-
-    function closeKeypad() {
-      if (selectedCell) selectedCell.blur();
-      selectedCell = null;
-      document.getElementById('keypadModal').classList.remove('show');
-    }
+    function appendValue(val) { if (!selectedCell) return; selectedCell.focus(); document.execCommand('insertText', false, val); selectedCell.dispatchEvent(new Event('input')); }
+    function backspaceValue() { if (!selectedCell) return; selectedCell.focus(); document.execCommand('delete', false, null); selectedCell.dispatchEvent(new Event('input')); }
+    function closeKeypad() { if (selectedCell) selectedCell.blur(); selectedCell = null; document.getElementById('keypadModal').classList.remove('show'); }
 
     function switchKbTab(tab) {
       document.querySelectorAll('.kb-tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.kb-layout').forEach(lay => lay.classList.remove('active'));
-
       if (tab === 'numbers') { document.querySelectorAll('.kb-tab-btn')[0].classList.add('active'); document.getElementById('kbNumbers').classList.add('active'); }
       else if (tab === 'myanmar') { document.querySelectorAll('.kb-tab-btn')[1].classList.add('active'); document.getElementById('kbMyanmar').classList.add('active'); }
       else { document.querySelectorAll('.kb-tab-btn')[2].classList.add('active'); document.getElementById('kbComplex').classList.add('active'); }
@@ -894,91 +499,78 @@
     presetSizes.forEach(p => {
       const btn = document.createElement('button'); btn.innerText = p.label;
       if (p.r === rowsCount && p.c === colsCount) btn.classList.add('active');
-      btn.onclick = () => switchGridSize(p.r, p.c); toolbar.appendChild(btn);
+      btn.onclick = () => { saveState(); rowsCount = p.r; colsCount = p.c; document.getElementById('inputRows').value = p.r; document.getElementById('inputCols').value = p.c; document.querySelectorAll('.toolbar button').forEach(b => b.classList.toggle('active', b.innerText.includes(`${p.r}x${p.c}`))); renderGrid(); closeKeypad(); }; toolbar.appendChild(btn);
     });
-
-    function switchGridSize(r, c) {
-      saveState(); rowsCount = r; colsCount = c;
-      document.getElementById('inputRows').value = r; document.getElementById('inputCols').value = c;
-      document.querySelectorAll('.toolbar button').forEach(b => b.classList.toggle('active', b.innerText.includes(`${r}x${c}`)));
-      renderGrid();
-    }
 
     function applyCustomGrid() {
       const r = parseInt(document.getElementById('inputRows').value); const c = parseInt(document.getElementById('inputCols').value);
-      if (r && c && r >= 1 && r <= 30 && c >= 1 && c <= 30) { saveState(); rowsCount = r; colsCount = c; renderGrid(); }
+      if (r && c && r >= 1 && r <= 30 && c >= 1 && c <= 30) { saveState(); rowsCount = r; colsCount = c; document.querySelectorAll('.toolbar button').forEach(b => b.classList.remove('active')); renderGrid(); closeKeypad(); }
     }
 
     function renderGrid() {
-      const grid = document.getElementById('gridDisplay');
-      grid.innerHTML = ''; grid.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`; grid.style.gridTemplateRows = `repeat(${rowsCount}, 1fr)`;
+      const grid = document.getElementById('gridDisplay'); grid.innerHTML = ''; grid.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`; grid.style.gridTemplateRows = `repeat(${rowsCount}, 1fr)`;
       const keyStr = `${rowsCount}x${colsCount}`;
       if (!gridData[keyStr]) gridData[keyStr] = Array(rowsCount * colsCount).fill('');
       for (let i = 0; i < rowsCount * colsCount; i++) {
         const cell = document.createElement('div'); cell.className = 'cell';
-        const val = gridData[keyStr][i] || ''; cell.innerText = val; autoFitFont(cell, val);
-        cell.dataset.index = i; attachEditableListeners(cell, 'grid'); grid.appendChild(cell);
+        const val = gridData[keyStr][i] || ''; cell.innerText = val; autoFitFont(cell, val); cell.dataset.index = i; attachEditableListeners(cell, 'grid'); grid.appendChild(cell);
       }
     }
 
     function renderCircleSVG() {
-      const svg = document.getElementById('circleSvg');
-      const stroke = getComputedStyle(document.documentElement).getPropertyValue('--grid-border-color').trim() || '#4a3b32';
-      const cx = 190, cy = 190, rOuter = 170, rInner = 98;
+      const svg = document.getElementById('circleSvg'); svg.innerHTML = ''; const stroke = getComputedStyle(document.documentElement).getPropertyValue('--grid-border-color').trim() || '#4a3b32'; const cx = 190, cy = 190, rOuter = 170, rInner = 98;
       let markup = `<circle cx="${cx}" cy="${cy}" r="${rOuter}" stroke="${stroke}" stroke-width="2.5" fill="none" /><circle cx="${cx}" cy="${cy}" r="${rInner}" stroke="${stroke}" stroke-width="2.5" fill="none" /><line x1="${cx}" y1="${cy - rInner}" x2="${cx}" y2="${cy + rInner}" stroke="${stroke}" stroke-width="2" /><line x1="${cx - rInner}" y1="${cy}" x2="${cx + rInner}" y2="${cy}" stroke="${stroke}" stroke-width="2" />`;
-      for (let i = 0; i < 12; i++) {
-        let angle = (i * 30) * Math.PI / 180;
-        markup += `<line x1="${cx + rInner * Math.cos(angle)}" y1="${cy + rInner * Math.sin(angle)}" x2="${cx + rOuter * Math.cos(angle)}" y2="${cy + rOuter * Math.sin(angle)}" stroke="${stroke}" stroke-width="2" />`;
-      }
+      for (let i = 0; i < 12; i++) { let angle = (i * 30) * Math.PI / 180; markup += `<line x1="${cx + rInner * Math.cos(angle)}" y1="${cy + rInner * Math.sin(angle)}" x2="${cx + rOuter * Math.cos(angle)}" y2="${cy + rOuter * Math.sin(angle)}" stroke="${stroke}" stroke-width="2" />`; }
       svg.innerHTML = markup;
     }
 
     function renderCircleCells() {
-      const container = document.getElementById('circleCellsContainer'); container.innerHTML = '';
-      const cx = 190, cy = 190;
+      const container = document.getElementById('circleCellsContainer'); container.innerHTML = ''; const cx = 190, cy = 190;
       const innerOffsets = [{ idx: 0, x: cx - 50, y: cy - 50 }, { idx: 1, x: cx + 5, y: cy - 50 }, { idx: 2, x: cx - 50, y: cy + 5 }, { idx: 3, x: cx + 5, y: cy + 5 }];
-      innerOffsets.forEach(pos => {
-        const cell = document.createElement('div'); cell.className = 'circle-cell'; cell.style.width = '45px'; cell.style.height = '45px'; cell.style.left = pos.x + 'px'; cell.style.top = pos.y + 'px';
-        const val = circleData[pos.idx] || ''; cell.innerText = val; autoFitFont(cell, val); cell.dataset.index = pos.idx;
-        attachEditableListeners(cell, 'circle'); container.appendChild(cell);
-      });
+      innerOffsets.forEach(pos => { const cell = document.createElement('div'); cell.className = 'circle-cell'; cell.style.width = '45px'; cell.style.height = '45px'; cell.style.left = pos.x + 'px'; cell.style.top = pos.y + 'px'; const val = circleData[pos.idx] || ''; cell.innerText = val; autoFitFont(cell, val); cell.dataset.index = pos.idx; attachEditableListeners(cell, 'circle'); container.appendChild(cell); });
       const rOuterMid = (98 + 170) / 2;
-      for (let i = 0; i < 12; i++) {
-        let midAngle = (i * 30 + 15) * Math.PI / 180;
-        const cell = document.createElement('div'); cell.className = 'circle-cell'; cell.style.width = '44px'; cell.style.height = '44px';
-        cell.style.left = (cx + rOuterMid * Math.cos(midAngle) - 22) + 'px'; cell.style.top = (cy + rOuterMid * Math.sin(midAngle) - 22) + 'px';
-        const val = circleData[4 + i] || ''; cell.innerText = val; autoFitFont(cell, val); cell.dataset.index = 4 + i;
-        attachEditableListeners(cell, 'circle'); container.appendChild(cell);
-      }
+      for (let i = 0; i < 12; i++) { let midAngle = (i * 30 + 15) * Math.PI / 180; const cell = document.createElement('div'); cell.className = 'circle-cell'; cell.style.width = '44px'; cell.style.height = '44px'; cell.style.left = (cx + rOuterMid * Math.cos(midAngle) - 22) + 'px'; cell.style.top = (cy + rOuterMid * Math.sin(midAngle) - 22) + 'px'; const val = circleData[4 + i] || ''; cell.innerText = val; autoFitFont(cell, val); cell.dataset.index = 4 + i; attachEditableListeners(cell, 'circle'); container.appendChild(cell); }
     }
 
-    /* Smart Canvas Engine */
+    /* Virtual Graph Paper / Smart Canvas Engine */
     const canvas = document.getElementById('drawCanvas');
     const ctx = canvas.getContext('2d');
-    let canvasTool = 'smart-line';
+    let canvasTool = 'pen';
     let isDrawing = false;
     let startPos = null;
     let savedImageData = null;
+    let snapToGrid = false;
+    const SNAP_SIZE = 30; // 30px grid intervals
 
-    function initCanvas() {
-      clearCanvasBackground();
-      document.querySelectorAll('.floating-text').forEach(e => e.remove());
-    }
+    function initCanvas() { clearCanvasBackground(); }
 
     function clearCanvasBackground() {
       ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--cell-bg-color').trim() || '#faf8f5';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-border-color').trim() || '#4a3b32';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 2.5;
       ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
     }
 
     function setCanvasTool(tool) {
       canvasTool = tool;
-      document.getElementById('toolSmartLine').classList.toggle('active', tool === 'smart-line');
       document.getElementById('toolPen').classList.toggle('active', tool === 'pen');
+      document.getElementById('toolLine').classList.toggle('active', tool === 'line');
+      document.getElementById('toolRect').classList.toggle('active', tool === 'rect');
+      document.getElementById('toolCircle').classList.toggle('active', tool === 'circle');
       document.getElementById('toolText').classList.toggle('active', tool === 'text');
       document.getElementById('toolEraser').classList.toggle('active', tool === 'eraser');
+    }
+
+    function toggleCanvasGrid() {
+      const btn = document.getElementById('toggleGridBtn');
+      canvas.classList.toggle('show-grid');
+      btn.classList.toggle('active');
+    }
+
+    function toggleSnapToGrid() {
+      snapToGrid = !snapToGrid;
+      document.getElementById('toggleSnapBtn').classList.toggle('active', snapToGrid);
     }
 
     function getCanvasPos(e) {
@@ -987,18 +579,29 @@
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
       const scaleX = canvas.width / rect.width;
       const scaleY = canvas.height / rect.height;
-      return {
-        x: (clientX - rect.left) * scaleX,
-        y: (clientY - rect.top) * scaleY
-      };
+      let x = (clientX - rect.left) * scaleX;
+      let y = (clientY - rect.top) * scaleY;
+      
+      if (snapToGrid) {
+        x = Math.round(x / SNAP_SIZE) * SNAP_SIZE;
+        y = Math.round(y / SNAP_SIZE) * SNAP_SIZE;
+      }
+      return { x, y };
     }
 
     document.getElementById('canvasWrapper').addEventListener('click', function(e) {
       if (canvasTool === 'text' && e.target.id === 'drawCanvas') {
         saveState();
         const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        let x = (e.clientX - rect.left) * scaleX;
+        let y = (e.clientY - rect.top) * scaleY;
+        
+        if(snapToGrid) {
+           x = Math.round(x / SNAP_SIZE) * SNAP_SIZE;
+           y = Math.round(y / SNAP_SIZE) * SNAP_SIZE;
+        }
         createFloatingText(x + 'px', y + 'px', 'က');
       }
     });
@@ -1010,7 +613,6 @@
       txt.style.left = left;
       txt.style.top = top;
       txt.innerText = initialText;
-      
       attachEditableListeners(txt, 'floating');
       makeDraggable(txt);
       wrapper.appendChild(txt);
@@ -1020,249 +622,134 @@
     function makeDraggable(elmnt) {
       let startX = 0, startY = 0, origX = 0, origY = 0;
       let hasDragged = false;
-
-      elmnt.addEventListener('mousedown', dragStart);
-      elmnt.addEventListener('touchstart', dragStart, { passive: false });
+      elmnt.addEventListener('mousedown', dragStart); elmnt.addEventListener('touchstart', dragStart, { passive: false });
 
       function dragStart(e) {
         if (canvasTool === 'text' && document.activeElement === elmnt) return;
-        
         hasDragged = false;
         startX = e.touches ? e.touches[0].clientX : e.clientX;
         startY = e.touches ? e.touches[0].clientY : e.clientY;
-        origX = elmnt.offsetLeft;
-        origY = elmnt.offsetTop;
-
-        document.addEventListener('mousemove', dragMove);
-        document.addEventListener('mouseup', dragEnd);
-        document.addEventListener('touchmove', dragMove, { passive: false });
-        document.addEventListener('touchend', dragEnd);
+        origX = elmnt.offsetLeft; origY = elmnt.offsetTop;
+        document.addEventListener('mousemove', dragMove); document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('touchmove', dragMove, { passive: false }); document.addEventListener('touchend', dragEnd);
       }
 
       function dragMove(e) {
-        const curX = e.touches ? e.touches[0].clientX : e.clientX;
-        const curY = e.touches ? e.touches[0].clientY : e.clientY;
-        const dx = curX - startX;
-        const dy = curY - startY;
-
+        const curX = e.touches ? e.touches[0].clientX : e.clientX; const curY = e.touches ? e.touches[0].clientY : e.clientY;
+        const dx = curX - startX; const dy = curY - startY;
         if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
-          hasDragged = true;
-          elmnt.classList.add('dragging');
-          elmnt.style.left = (origX + dx) + 'px';
-          elmnt.style.top = (origY + dy) + 'px';
+          hasDragged = true; elmnt.classList.add('dragging');
+          let newLeft = origX + dx; let newTop = origY + dy;
+          if (snapToGrid) {
+            newLeft = Math.round(newLeft / SNAP_SIZE) * SNAP_SIZE;
+            newTop = Math.round(newTop / SNAP_SIZE) * SNAP_SIZE;
+          }
+          elmnt.style.left = newLeft + 'px'; elmnt.style.top = newTop + 'px';
         }
         if (e.cancelable) e.preventDefault();
       }
-
-      function dragEnd() {
-        document.removeEventListener('mousemove', dragMove);
-        document.removeEventListener('mouseup', dragEnd);
-        document.removeEventListener('touchmove', dragMove);
-        document.removeEventListener('touchend', dragEnd);
-        elmnt.classList.remove('dragging');
-        if (hasDragged) saveState();
-      }
+      function dragEnd() { document.removeEventListener('mousemove', dragMove); document.removeEventListener('mouseup', dragEnd); document.removeEventListener('touchmove', dragMove); document.removeEventListener('touchend', dragEnd); elmnt.classList.remove('dragging'); if (hasDragged) saveState(); }
     }
 
-    canvas.addEventListener('mousedown', startDraw);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stopDraw);
-    canvas.addEventListener('mouseleave', stopDraw);
+    canvas.addEventListener('mousedown', startDraw); canvas.addEventListener('mousemove', draw); canvas.addEventListener('mouseup', stopDraw); canvas.addEventListener('mouseleave', stopDraw);
     canvas.addEventListener('touchstart', (e) => { if(canvasTool !== 'text') { startDraw(e); e.preventDefault(); } }, { passive: false });
     canvas.addEventListener('touchmove', (e) => { if(canvasTool !== 'text') { draw(e); e.preventDefault(); } }, { passive: false });
     canvas.addEventListener('touchend', stopDraw);
 
     function startDraw(e) {
       if (canvasTool === 'text') return;
-      saveState();
-      isDrawing = true;
-      startPos = getCanvasPos(e);
+      saveState(); isDrawing = true; startPos = getCanvasPos(e);
       savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      ctx.beginPath();
-      ctx.moveTo(startPos.x, startPos.y);
+      ctx.beginPath(); ctx.moveTo(startPos.x, startPos.y);
     }
 
     function draw(e) {
       if (!isDrawing || canvasTool === 'text') return;
       const pos = getCanvasPos(e);
+      ctx.putImageData(savedImageData, 0, 0); // Restore to clear shape previews
       
-      if (canvasTool === 'eraser') {
-        ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--cell-bg-color').trim() || '#faf8f5';
-        ctx.lineWidth = 18;
-        ctx.lineCap = 'round';
-        ctx.lineTo(pos.x, pos.y);
-        ctx.stroke();
-      } else if (canvasTool === 'pen') {
-        ctx.strokeStyle = document.getElementById('textColorSelect').value;
-        ctx.lineWidth = 2.5;
-        ctx.lineCap = 'round';
-        ctx.lineTo(pos.x, pos.y);
-        ctx.stroke();
-      } else if (canvasTool === 'smart-line') {
-        ctx.putImageData(savedImageData, 0, 0);
-        
-        let dx = pos.x - startPos.x;
-        let dy = pos.y - startPos.y;
-        let angle = Math.atan2(dy, dx) * 180 / Math.PI;
-        let snapAngle = Math.round(angle / 45) * 45;
-        let rad = snapAngle * Math.PI / 180;
-        let dist = Math.sqrt(dx*dx + dy*dy);
-        
-        let endX = startPos.x + dist * Math.cos(rad);
-        let endY = startPos.y + dist * Math.sin(rad);
+      ctx.strokeStyle = (canvasTool === 'eraser') ? (getComputedStyle(document.documentElement).getPropertyValue('--cell-bg-color').trim() || '#faf8f5') : document.getElementById('textColorSelect').value;
+      ctx.lineWidth = (canvasTool === 'eraser') ? 20 : 2.5;
+      ctx.lineCap = 'round';
 
-        ctx.strokeStyle = document.getElementById('textColorSelect').value;
-        ctx.lineWidth = 2.5;
-        ctx.lineCap = 'square';
+      if (canvasTool === 'pen' || canvasTool === 'eraser') {
+        ctx.lineTo(pos.x, pos.y); ctx.stroke();
+        savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height); // Commit stroke for continuous drawing
+      } else if (canvasTool === 'line') {
+        ctx.beginPath(); ctx.moveTo(startPos.x, startPos.y); ctx.lineTo(pos.x, pos.y); ctx.stroke();
+      } else if (canvasTool === 'rect') {
+        ctx.beginPath(); ctx.strokeRect(startPos.x, startPos.y, pos.x - startPos.x, pos.y - startPos.y);
+      } else if (canvasTool === 'circle') {
         ctx.beginPath();
-        ctx.moveTo(startPos.x, startPos.y);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
+        let radius = Math.sqrt(Math.pow(pos.x - startPos.x, 2) + Math.pow(pos.y - startPos.y, 2));
+        ctx.arc(startPos.x, startPos.y, radius, 0, 2 * Math.PI); ctx.stroke();
       }
     }
-    
     function stopDraw() { isDrawing = false; }
 
     function openTemplatePicker() {
       Swal.fire({
-        title: 'ရိုးရာအင်း ၅ မျိုး (နမူနာ)',
-        input: 'select',
-        inputOptions: {
-          'thambuddhe': '၁။ သမ္ဗုဒ္ဓေ ၄x၄ ရိုးရိုးအင်း',
-          'datkyi': '၂။ ဓာတ်ကြီး ၄ ပါး ၃x၃ အင်း',
-          'sittakan': '၃။ စိတ္တကံ စက်ဝိုင်းအင်း',
-          'navagraha': '၄။ နဝင်း ၃x၃ အင်းကွက်',
-          'triangle': '၅။ သုံးမြှောင့်/တြိဂံ အင်းကွက် (Canvas)'
-        },
-        inputPlaceholder: 'နမူနာတစ်ခု ရွေးချယ်ပါ',
-        showCancelButton: true,
-        confirmButtonText: 'ဖန်တီးမည်',
-        confirmButtonColor: '#8b0000'
-      }).then((result) => {
-        if (result.isConfirmed && result.value) applyPresetTemplate(result.value);
-      });
+        title: 'ရိုးရာအင်း ၅ မျိုး (နမူနာ)', input: 'select',
+        inputOptions: { 'thambuddhe': '၁။ သမ္ဗုဒ္ဓေ ၄x၄ ရိုးရိုးအင်း', 'datkyi': '၂။ ဓာတ်ကြီး ၄ ပါး ၃x၃ အင်း', 'sittakan': '၃။ စိတ္တကံ စက်ဝိုင်းအင်း', 'navagraha': '၄။ နဝင်း ၃x၃ အင်းကွက်', 'triangle': '၅။ သုံးမြှောင့်/တြိဂံ အင်းကွက် (Canvas)' },
+        inputPlaceholder: 'နမူနာတစ်ခု ရွေးချယ်ပါ', showCancelButton: true, confirmButtonText: 'ဖန်တီးမည်', confirmButtonColor: '#8b0000'
+      }).then((result) => { if (result.isConfirmed && result.value) applyPresetTemplate(result.value); });
     }
 
     function applyPresetTemplate(key) {
       saveState();
-      if (key === 'thambuddhe') {
-        switchMode('grid'); switchGridSize(4, 4);
-        gridData['4x4'] = ['သ', 'ဓု', 'အ', 'သု', 'န', 'မော', 'ဗု', 'ဒ္ဓံ', 'ဇ', 'ယ', 'မံ', 'ဂ', 'လံ', 'ပု', 'တ္တံ', 'သိ'];
-        renderGrid();
-      } else if (key === 'datkyi') {
-        switchMode('grid'); switchGridSize(3, 3);
-        gridData['3x3'] = ['ပ', 'ထ', 'ဝီ', 'တေ', 'ဇော', 'အာ', 'ပေါ', 'ဝါ', 'ယော'];
-        renderGrid();
-      } else if (key === 'navagraha') {
-        switchMode('grid'); switchGridSize(3, 3);
-        gridData['3x3'] = ['၄', '၉', '၂', '၃', '၅', '၇', '၈', '၁', '၆'];
-        renderGrid();
-      } else if (key === 'sittakan') {
-        switchMode('circle');
-        circleData = ['န', 'ရ', 'ဓ', 'မ', 'စ', '၀', 'ည', 'ဝ', 'င', 'သ', 'မ', 'ဂ', 'ဂ', 'ဉ', 'ဒ', 'ပ'];
-        renderCircleCells();
-      } else if (key === 'triangle') {
-        switchMode('canvas');
-        initCanvas();
-        ctx.strokeStyle = document.getElementById('borderColorSelect').value;
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.moveTo(225, 40);
-        ctx.lineTo(50, 400);
-        ctx.lineTo(400, 400);
-        ctx.closePath();
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(137, 220); ctx.lineTo(313, 220);
-        ctx.moveTo(94, 310); ctx.lineTo(356, 310);
-        ctx.moveTo(225, 40); ctx.lineTo(225, 400);
-        ctx.stroke();
-
-        createFloatingText('225px', '140px', 'ဗု');
-        createFloatingText('180px', '265px', 'ဒ္ဓ');
-        createFloatingText('270px', '265px', 'န');
-        createFloatingText('130px', '355px', 'မော');
-        createFloatingText('225px', '355px', 'သ');
-        createFloatingText('320px', '355px', 'တ');
+      if (key === 'thambuddhe') { switchMode('grid'); switchGridSize(4, 4); gridData['4x4'] = ['သ', 'ဓု', 'အ', 'သု', 'န', 'မော', 'ဗု', 'ဒ္ဓံ', 'ဇ', 'ယ', 'မံ', 'ဂ', 'လံ', 'ပု', 'တ္တံ', 'သိ']; renderGrid(); }
+      else if (key === 'datkyi') { switchMode('grid'); switchGridSize(3, 3); gridData['3x3'] = ['ပ', 'ထ', 'ဝီ', 'တေ', 'ဇော', 'အာ', 'ပေါ', 'ဝါ', 'ယော']; renderGrid(); }
+      else if (key === 'navagraha') { switchMode('grid'); switchGridSize(3, 3); gridData['3x3'] = ['၄', '၉', '၂', '၃', '၅', '၇', '၈', '၁', '၆']; renderGrid(); }
+      else if (key === 'sittakan') { switchMode('circle'); circleData = ['န', 'ရ', 'ဓ', 'မ', 'စ', '၀', 'ည', 'ဝ', 'င', 'သ', 'မ', 'ဂ', 'ဂ', 'ဉ', 'ဒ', 'ပ']; renderCircleCells(); }
+      else if (key === 'triangle') {
+        switchMode('canvas'); initCanvas();
+        ctx.strokeStyle = document.getElementById('borderColorSelect').value; ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.moveTo(225, 40); ctx.lineTo(50, 400); ctx.lineTo(400, 400); ctx.closePath(); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(137, 220); ctx.lineTo(313, 220); ctx.moveTo(94, 310); ctx.lineTo(356, 310); ctx.moveTo(225, 40); ctx.lineTo(225, 400); ctx.stroke();
+        createFloatingText('225px', '140px', 'ဗု'); createFloatingText('180px', '265px', 'ဒ္ဓ'); createFloatingText('270px', '265px', 'န'); createFloatingText('130px', '355px', 'မော'); createFloatingText('225px', '355px', 'သ'); createFloatingText('320px', '355px', 'တ');
       }
     }
 
     function clearCurrentMode() {
-      Swal.fire({
-        title: 'ရှင်းလင်းမည်လား?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#8b0000',
-        confirmButtonText: 'ဖျက်မည်'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          saveState();
-          if (currentMode === 'grid') { gridData[`${rowsCount}x${colsCount}`] = Array(rowsCount * colsCount).fill(''); renderGrid(); } 
-          else if (currentMode === 'circle') { circleData = Array(16).fill(''); renderCircleCells(); } 
-          else { initCanvas(); }
-        }
+      Swal.fire({ title: 'ရှင်းလင်းမည်လား?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#8b0000', confirmButtonText: 'ဖျက်မည်' }).then((result) => {
+        if (result.isConfirmed) { saveState(); if (currentMode === 'grid') { gridData[`${rowsCount}x${colsCount}`] = Array(rowsCount * colsCount).fill(''); renderGrid(); } else if (currentMode === 'circle') { circleData = Array(16).fill(''); renderCircleCells(); } else { initCanvas(); } }
       });
     }
 
     function loadLocalFont(input) {
-      const file = input.files[0];
-      if (!file) return;
-      const fontName = 'CustomUserFont_' + Date.now();
-      const reader = new FileReader();
-
+      const file = input.files[0]; if (!file) return;
+      const fontName = 'CustomUserFont_' + Date.now(); const reader = new FileReader();
       reader.onload = function(e) {
         const font = new FontFace(fontName, e.target.result);
         font.load().then(loadedFont => {
-          document.fonts.add(loadedFont);
-          document.documentElement.style.setProperty('--selected-font', `'${fontName}', sans-serif`);
-          const opt = document.createElement('option');
-          opt.value = `'${fontName}', sans-serif`;
-          opt.innerText = `တင်ထားသော Font (${file.name})`;
-          opt.selected = true;
-          document.getElementById('fontSelect').prepend(opt);
+          document.fonts.add(loadedFont); document.documentElement.style.setProperty('--selected-font', `'${fontName}', sans-serif`);
+          const opt = document.createElement('option'); opt.value = `'${fontName}', sans-serif`; opt.innerText = `တင်ထားသော Font (${file.name})`; opt.selected = true; document.getElementById('fontSelect').prepend(opt);
           Swal.fire({ toast: true, position: 'top', icon: 'success', title: 'Font တင်သွင်းပြီးပါပြီ', showConfirmButton: false, timer: 1500 });
-        }).catch(() => {
-          Swal.fire('အမှား', 'Font ဖိုင် ဖတ်မရပါ၊ မှန်ကန်သော TTF/OTF ဖြစ်ပါသလား စစ်ဆေးပါ။', 'error');
-        });
+        }).catch(() => { Swal.fire('အမှား', 'Font ဖိုင် ဖတ်မရပါ၊ မှန်ကန်သော TTF/OTF ဖြစ်ပါသလား စစ်ဆေးပါ။', 'error'); });
       };
       reader.readAsArrayBuffer(file);
     }
 
     function changeFontFamily() { document.documentElement.style.setProperty('--selected-font', document.getElementById('fontSelect').value); }
     function changeTextColor() { document.documentElement.style.setProperty('--cell-text-color', document.getElementById('textColorSelect').value); }
-    function changeBgColor() { 
-      const color = document.getElementById('bgColorSelect').value;
-      document.documentElement.style.setProperty('--bg', color);
-      document.documentElement.style.setProperty('--cell-bg-color', (color==='#f5f2eb') ? '#faf8f5' : color);
-      if (currentMode === 'canvas') clearCanvasBackground();
-    }
-    function changeBorderColor() { 
-      document.documentElement.style.setProperty('--grid-border-color', document.getElementById('borderColorSelect').value);
-      if (currentMode === 'circle') renderCircleSVG();
-      if (currentMode === 'canvas') clearCanvasBackground();
-    }
-    function changeFontSize(size) { 
-      document.documentElement.style.setProperty('--font-size', size + 'px');
-      document.getElementById('fontSizeVal').innerText = size + 'px';
-      if (currentMode === 'grid') renderGrid();
-      if (currentMode === 'circle') renderCircleCells();
-    }
+    function changeBgColor() { const color = document.getElementById('bgColorSelect').value; document.documentElement.style.setProperty('--bg', color); document.documentElement.style.setProperty('--cell-bg-color', (color==='#f5f2eb') ? '#faf8f5' : color); if (currentMode === 'canvas') clearCanvasBackground(); }
+    function changeBorderColor() { document.documentElement.style.setProperty('--grid-border-color', document.getElementById('borderColorSelect').value); if (currentMode === 'circle') renderCircleSVG(); if (currentMode === 'canvas') clearCanvasBackground(); }
+    function changeFontSize(size) { document.documentElement.style.setProperty('--font-size', size + 'px'); document.getElementById('fontSizeVal').innerText = size + 'px'; if (currentMode === 'grid') renderGrid(); if (currentMode === 'circle') renderCircleCells(); }
 
     function saveAsImage() {
-      closeKeypad();
-      document.querySelectorAll('.floating-text').forEach(t => t.blur());
+      closeKeypad(); document.querySelectorAll('.floating-text').forEach(t => t.blur());
       const captureElement = document.getElementById('captureArea');
-      html2canvas(captureElement, { scale: 3, backgroundColor: document.getElementById('bgColorSelect').value, useCORS: true })
-      .then(canvasImg => {
-        const link = document.createElement('a');
-        link.download = `amulet-${currentMode}-${Date.now()}.png`;
-        link.href = canvasImg.toDataURL('image/png');
-        link.click();
+      const cvs = document.getElementById('drawCanvas');
+      const hasGrid = cvs.classList.contains('show-grid');
+      if(hasGrid) cvs.classList.remove('show-grid'); // Hide Graph Grid for export
+
+      html2canvas(captureElement, { scale: 3, backgroundColor: document.getElementById('bgColorSelect').value, useCORS: true }).then(canvasImg => {
+        if(hasGrid) cvs.classList.add('show-grid'); // Restore Graph Grid
+        const link = document.createElement('a'); link.download = `amulet-${currentMode}-${Date.now()}.png`; link.href = canvasImg.toDataURL('image/png'); link.click();
       }).catch(() => { Swal.fire('အမှား', 'ပုံထုတ်ယူရာတွင် အမှားအယွင်းရှိခဲ့ပါသည်။', 'error'); });
     }
 
-    switchMode('grid');
+    switchMode('grid', false);
   </script>
 </body>
 </html>
