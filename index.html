@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>မြန်မာ့ရိုးရာ အင်းကွက် ဖန်တီးရေးစနစ် (Master Pro Edition)</title>
+  <title>မြန်မာ့ရိုးရာ အင်းကွက် ဖန်တီးရေးစနစ်</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,6 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
-    /* Custom Fonts Setup */
     @font-face {
       font-family: 'BolFont';
       src: url('bol.ttf') format('truetype'), url('Bol.ttf') format('truetype'), url('BOL.TTF') format('truetype');
@@ -33,144 +32,167 @@
       --surface: #ffffff;
       --surface-border: #d1c7bc;
       --text: #2c221e;
-      --text-muted: #555555;
       
       --cell-text-color: #2c221e;
       --cell-bg-color: #faf8f5;
       --grid-border-color: #4a3b32;
-      --font-size: 20px;
+      --font-size: 18px;
       --selected-font: 'BolFont', 'Padauk', sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--selected-font), 'Padauk', sans-serif; -webkit-tap-highlight-color: transparent; }
 
-    body { background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 15px 12px 280px; overflow-x: hidden; }
+    body { background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 15px 10px 240px; overflow-x: hidden; }
 
-    .header-container { text-align: center; margin-bottom: 15px; border-bottom: 2px solid var(--accent); padding-bottom: 10px; width: 100%; max-width: 500px; }
+    .header-container { text-align: center; margin-bottom: 12px; border-bottom: 2px solid var(--accent); padding-bottom: 8px; width: 100%; max-width: 600px; }
     h2 { font-family: 'Cinzel', 'Padauk', serif; color: var(--primary); font-size: 1.35rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
     h2 i { color: var(--accent); font-size: 1.1rem; }
 
-    .mode-switcher { display: flex; gap: 8px; margin-bottom: 12px; width: 100%; max-width: 500px; }
-    .mode-switcher button { flex: 1; padding: 10px 4px; background: #e2dcd6; border: 1px solid var(--surface-border); border-radius: 8px; font-weight: bold; cursor: pointer; color: #4a3b32; font-size: 0.82rem; transition: all 0.2s ease; }
+    .mode-switcher { display: flex; gap: 6px; margin-bottom: 10px; width: 100%; max-width: 600px; }
+    .mode-switcher button { flex: 1; padding: 8px 4px; background: #e2dcd6; border: 1px solid var(--surface-border); border-radius: 8px; font-weight: bold; cursor: pointer; color: #4a3b32; font-size: 0.8rem; transition: all 0.2s; }
     .mode-switcher button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-    .toolbar { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 10px; width: 100%; max-width: 500px; }
-    .toolbar button { background: #fff; border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8rem; transition: 0.2s; }
+    .toolbar-wrapper { width: 100%; max-width: 600px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+    .toolbar button { background: #fff; border: 1px solid var(--primary); color: var(--primary); padding: 5px 9px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.78rem; }
     .toolbar button.active { background: var(--primary); color: #fff; }
 
-    .custom-grid-box { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; background: var(--surface); padding: 10px 14px; border-radius: 12px; border: 1px solid var(--surface-border); width: 100%; max-width: 500px; justify-content: center; font-size: 0.85rem; }
-    .custom-grid-box input { width: 50px; padding: 6px; text-align: center; background: #fff; border: 1px solid #ccc; border-radius: 6px; outline: none; }
-    .custom-grid-box button { background: var(--primary); color: #fff; border: none; padding: 7px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .custom-grid-box { display: flex; gap: 6px; align-items: center; background: var(--surface); padding: 8px 12px; border-radius: 10px; border: 1px solid var(--surface-border); justify-content: center; font-size: 0.82rem; }
+    .custom-grid-box input { width: 45px; padding: 5px; text-align: center; border: 1px solid #ccc; border-radius: 5px; font-weight: bold; }
+    .custom-grid-box button { background: var(--primary); color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
 
-    .customization-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; background: var(--surface); padding: 12px; border-radius: 12px; border: 1px solid var(--surface-border); width: 100%; max-width: 500px; }
-    .custom-control { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; font-weight: bold; }
-    .custom-control select, .custom-control input { padding: 6px; background: #fff; border: 1px solid #ccc; border-radius: 6px; font-size: 0.82rem; outline: none; }
+    .cell-tools { display: flex; gap: 6px; justify-content: center; background: #ebdcd0; padding: 6px 10px; border-radius: 8px; width: 100%; max-width: 600px; font-size: 0.78rem; align-items: center; }
+    .cell-tools button { background: #fff; border: 1px solid #7c6858; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
-    #captureArea { padding: 20px; background: var(--bg); width: 100%; max-width: 500px; display: flex; justify-content: center; align-items: center; border-radius: 12px; margin-bottom: 12px; }
+    .customization-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 12px; background: var(--surface); padding: 10px; border-radius: 10px; border: 1px solid var(--surface-border); width: 100%; max-width: 600px; }
+    .custom-control { display: flex; flex-direction: column; gap: 3px; font-size: 0.72rem; font-weight: bold; }
+    .custom-control select, .custom-control input { padding: 4px; background: #fff; border: 1px solid #ccc; border-radius: 5px; font-size: 0.78rem; }
+
+    #captureArea { padding: 16px; background: var(--bg); width: 100%; max-width: 600px; display: flex; justify-content: center; align-items: center; border-radius: 12px; margin-bottom: 10px; overflow-x: auto; }
     
-    .grid-container { background: var(--surface); padding: 16px; border: 4px double var(--grid-border-color); box-shadow: 0 5px 15px rgba(0,0,0,0.08); display: flex; justify-content: center; align-items: center; width: 100%; overflow-x: auto; position: relative; }
+    .grid-container { background: var(--surface); padding: 12px; border: 3px double var(--grid-border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; justify-content: center; align-items: center; width: auto; max-width: 100%; }
     .grid { display: grid; border: 2px solid var(--grid-border-color); background: transparent; }
     
-    .cell { border: 1px solid var(--grid-border-color); display: flex; align-items: center; justify-content: center; font-size: var(--font-size); color: var(--cell-text-color); font-weight: bold; background: var(--cell-bg-color); cursor: text; aspect-ratio: 1 / 1; min-width: 42px; min-height: 42px; padding: 2px; text-align: center; outline: none; word-break: break-all; }
-    .cell:focus { background: #ffe4b5; outline: 2px solid var(--primary); z-index: 2; }
-
-    #circleContainer { display: none; width: 380px; height: 380px; position: relative; margin: 0 auto; }
-    #circleSvg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-    .circle-cell { position: absolute; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--cell-text-color); font-size: var(--font-size); cursor: text; border-radius: 6px; outline: none; background: transparent; text-align: center; word-break: break-all; }
-    .circle-cell:focus { background: #ffe4b5; outline: 2px dashed var(--primary); }
-
-    /* Virtual Graph Paper / Canvas UI */
-    .canvas-tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; width: 100%; max-width: 500px; justify-content: center; }
-    .canvas-tools button { padding: 8px 4px; background: #fff; border: 1px solid var(--primary); color: var(--primary); border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.75rem; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .canvas-tools button i { font-size: 1rem; }
-    .canvas-tools button.active { background: var(--primary); color: #fff; }
-
-    #canvasWrapper { position: relative; display: none; width: 450px; height: 450px; max-width: 100%; margin: 0 auto; user-select: none; }
-    
-    canvas { background: var(--cell-bg-color); touch-action: none; border: 2px solid var(--grid-border-color); width: 100%; height: 100%; display: block; transition: background 0.3s; }
-    
-    /* Graph Paper Background Pattern */
-    canvas.show-grid {
-      background-image: 
-        linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
-      background-size: 30px 30px; /* Grid Snap Size */
+    .cell {
+      border: 1px solid var(--grid-border-color);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--font-size); color: var(--cell-text-color);
+      font-weight: bold; background: var(--cell-bg-color);
+      cursor: pointer; aspect-ratio: 1 / 1;
+      width: 38px; height: 38px;
+      padding: 1px; text-align: center; outline: none;
+      word-break: break-all; position: relative; user-select: none;
     }
-    
-    .floating-text { position: absolute; min-width: 32px; min-height: 32px; padding: 2px 6px; font-size: var(--font-size); font-weight: bold; color: var(--cell-text-color); cursor: grab; outline: none; display: flex; align-items: center; justify-content: center; transform: translate(-50%, -50%); white-space: nowrap; user-select: none; touch-action: none; }
+    .cell:focus { background: #ffe4b5; outline: 2px solid var(--primary); z-index: 5; }
+
+    /* Special Cell States based on Ancient Manuscript */
+    .cell.circle-marked::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 82%; height: 82%;
+      border: 1.5px solid var(--primary);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .cell.hidden-cell {
+      visibility: hidden;
+      border: 1px solid transparent !important;
+      background: transparent !important;
+    }
+    .cell.shaded-cell {
+      background: repeating-linear-gradient(
+        45deg,
+        #e2dcd6,
+        #e2dcd6 4px,
+        #bfb5aa 4px,
+        #bfb5aa 8px
+      ) !important;
+    }
+
+    #circleContainer { display: none; width: 360px; height: 360px; position: relative; margin: 0 auto; }
+    #circleSvg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+    .circle-cell { position: absolute; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--cell-text-color); font-size: var(--font-size); cursor: text; border-radius: 6px; outline: none; background: transparent; text-align: center; }
+    .circle-cell:focus { background: #ffe4b5; outline: 1.5px dashed var(--primary); }
+
+    /* Canvas Tools */
+    .canvas-tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; width: 100%; max-width: 600px; }
+    .canvas-tools button { padding: 6px 3px; background: #fff; border: 1px solid var(--primary); color: var(--primary); border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .canvas-tools button.active { background: var(--primary); color: #fff; }
+    #canvasWrapper { position: relative; display: none; width: 440px; height: 440px; max-width: 100%; margin: 0 auto; user-select: none; }
+    canvas { background: var(--cell-bg-color); touch-action: none; border: 2px solid var(--grid-border-color); width: 100%; height: 100%; display: block; }
+    canvas.show-grid {
+      background-image: linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .floating-text { position: absolute; min-width: 28px; min-height: 28px; padding: 1px 4px; font-size: var(--font-size); font-weight: bold; color: var(--cell-text-color); cursor: grab; outline: none; display: flex; align-items: center; justify-content: center; transform: translate(-50%, -50%); white-space: nowrap; user-select: none; touch-action: none; }
     .floating-text:focus { border: 1px dashed var(--primary); background: rgba(255, 228, 181, 0.6); cursor: text; z-index: 10; }
-    .floating-text.dragging { opacity: 0.8; cursor: grabbing; z-index: 100; }
 
-    .utility-bar { display: flex; gap: 6px; margin-bottom: 10px; width: 100%; max-width: 500px; justify-content: space-between; }
-    .utility-bar button { background: #fff; border: 1px solid #ccc; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
-    .utility-bar button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .utility-bar { display: flex; gap: 6px; margin-bottom: 10px; width: 100%; max-width: 600px; justify-content: space-between; }
+    .utility-bar button { background: #fff; border: 1px solid #ccc; padding: 6px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: bold; cursor: pointer; }
+    .utility-bar button:disabled { opacity: 0.35; cursor: not-allowed; }
 
-    .action-buttons { display: flex; gap: 8px; margin-top: 10px; width: 100%; max-width: 500px; }
-    .action-buttons button { flex: 1; color: #fff; border: none; padding: 12px 6px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 0.82rem; }
+    .action-buttons { display: flex; gap: 8px; margin-top: 10px; width: 100%; max-width: 600px; }
+    .action-buttons button { flex: 1; color: #fff; border: none; padding: 10px 6px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.82rem; }
     .action-buttons button.clear-btn { background: #d9534f; }
     .action-buttons button.img-btn { background: var(--primary); }
 
-    /* Keypad Modal UI */
-    .keypad-modal { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #fdfbf7; border-top: 4px solid var(--primary); box-shadow: 0 -6px 20px rgba(0,0,0,0.25); padding: 12px 10px; z-index: 1000; border-radius: 16px 16px 0 0; max-width: 650px; margin: 0 auto; }
-    .keypad-modal.show { display: block; animation: slideUp 0.2s ease-out; }
+    /* Virtual Keypad Modal UI */
+    .keypad-modal { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #fdfbf7; border-top: 3px solid var(--primary); box-shadow: 0 -4px 15px rgba(0,0,0,0.2); padding: 8px; z-index: 1000; border-radius: 14px 14px 0 0; max-width: 600px; margin: 0 auto; }
+    .keypad-modal.show { display: block; animation: slideUp 0.18s ease-out; }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    .keypad-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #d1c7bc; padding-bottom: 6px; }
-    .kb-tabs { display: flex; gap: 5px; }
-    .kb-tab-btn { background: #e2dcd6; border: none; padding: 5px 8px; border-radius: 6px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
+    .keypad-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid #d1c7bc; padding-bottom: 4px; }
+    .kb-tabs { display: flex; gap: 4px; }
+    .kb-tab-btn { background: #e2dcd6; border: none; padding: 4px 8px; border-radius: 5px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
     .kb-tab-btn.active { background: var(--primary); color: #fff; }
-    .kb-scroll-container { width: 100%; overflow-x: auto; padding-bottom: 6px; }
-    .kb-layout { display: none; flex-direction: column; gap: 6px; min-width: 480px; }
+    .kb-scroll-container { width: 100%; overflow-x: auto; }
+    .kb-layout { display: none; flex-direction: column; gap: 5px; min-width: 420px; }
     .kb-layout.active { display: flex; }
-    .kb-row { display: flex; gap: 6px; justify-content: center; }
-    .key-btn { background: #ffffff; border: 1px solid #b8aca1; border-radius: 8px; flex: 1; padding: 10px 0; font-size: 1.05rem; font-weight: bold; text-align: center; cursor: pointer; user-select: none; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+    .kb-row { display: flex; gap: 4px; justify-content: center; }
+    .key-btn { background: #ffffff; border: 1px solid #b8aca1; border-radius: 6px; flex: 1; padding: 8px 0; font-size: 1rem; font-weight: bold; text-align: center; cursor: pointer; user-select: none; }
     .key-btn:active { background: #e2dcd6; }
     .key-btn.backspace-key { background: #f0e6ff; color: #4a148c; font-size: 0.8rem; }
-
-    @media print {
-      body { background: #fff !important; color: #000 !important; padding: 0 !important; }
-      .header-container, .mode-switcher, #gridToolbarContainer, .customization-panel, .utility-bar, .action-buttons, .keypad-modal, #canvasToolsContainer, #circleInfoContainer { display: none !important; }
-      #captureArea { padding: 0 !important; background: transparent !important; }
-      .grid-container { border: none !important; box-shadow: none !important; margin-top: 50px; }
-      .cell, .circle-cell { color: #000 !important; background: #fff !important; }
-      #circleSvg line, #circleSvg circle { stroke: #000 !important; }
-      canvas.show-grid { background-image: none !important; } /* Hide grid on print */
-    }
   </style>
 </head>
 <body>
 
   <div class="header-container">
-    <h2><i class="fa-solid fa-compass-drafting"></i> မြန်မာ့ရိုးရာ အင်းကွက်ဖန်တီးရေး</h2>
+    <h2><i class="fa-solid fa-scroll"></i> မြန်မာ့ရိုးရာ အင်းကွက်ဖန်တီးရေး</h2>
   </div>
 
   <div class="mode-switcher">
-    <button id="gridModeBtn" class="active" onclick="switchMode('grid')">ဇယားကွက်</button>
+    <button id="gridModeBtn" class="active" onclick="switchMode('grid')">ဇယားအင်းကွက်</button>
     <button id="circleModeBtn" onclick="switchMode('circle')">စက်ဝိုင်းအင်း</button>
     <button id="canvasModeBtn" onclick="switchMode('canvas')">Virtual Canvas</button>
   </div>
 
-  <div id="gridToolbarContainer" style="width:100%; max-width:500px;">
+  <div id="gridToolbarContainer" class="toolbar-wrapper">
     <div class="toolbar" id="toolbar"></div>
     <div class="custom-grid-box">
-      <label>အတန်း:</label>
-      <input type="number" id="inputRows" min="1" max="25" value="3">
-      <label>အတိုင်:</label>
-      <input type="number" id="inputCols" min="1" max="30" value="11">
-      <button onclick="applyCustomGrid()">ဖန်တီး</button>
+      <label>အတန်း (Row):</label>
+      <input type="number" id="inputRows" min="1" max="25" value="11">
+      <label>အတိုင် (Col):</label>
+      <input type="number" id="inputCols" min="1" max="25" value="11">
+      <button onclick="applyCustomGrid()">အကွက်ဖော်</button>
+    </div>
+    <div class="cell-tools">
+      <span>ကွက်လပ် အထူးပုံစံ:</span>
+      <button onclick="toggleCellCircle()"><i class="fa-regular fa-circle"></i> စက်ဝိုင်းဝိုင်း/ဖြုတ်</button>
+      <button onclick="toggleCellHide()"><i class="fa-solid fa-eye-slash"></i> အကွက်ဖျောက်/ဖော်</button>
+      <button onclick="toggleCellShade()"><i class="fa-solid fa-square-full"></i> အကွက်မည်းခြစ်</button>
     </div>
   </div>
 
-  <!-- Virtual Graph Paper Tools -->
   <div id="canvasToolsContainer" class="canvas-tools" style="display: none;">
     <button id="toolPen" class="active" onclick="setCanvasTool('pen')"><i class="fa-solid fa-pen"></i> လက်ဆွဲ</button>
     <button id="toolLine" onclick="setCanvasTool('line')"><i class="fa-solid fa-minus"></i> မျဉ်းဖြောင့်</button>
     <button id="toolRect" onclick="setCanvasTool('rect')"><i class="fa-regular fa-square"></i> လေးထောင့်</button>
     <button id="toolCircle" onclick="setCanvasTool('circle')"><i class="fa-regular fa-circle"></i> စက်ဝိုင်း</button>
-    
     <button id="toolText" onclick="setCanvasTool('text')"><i class="fa-solid fa-font"></i> စာလုံးချရန်</button>
     <button id="toolEraser" onclick="setCanvasTool('eraser')"><i class="fa-solid fa-eraser"></i> ဖျက်ဆေး</button>
-    <button id="toggleGridBtn" onclick="toggleCanvasGrid()"><i class="fa-solid fa-border-all"></i> Graph (Grid)</button>
-    <button id="toggleSnapBtn" onclick="toggleSnapToGrid()"><i class="fa-solid fa-magnet"></i> Auto Snap</button>
+    <button id="toggleGridBtn" onclick="toggleCanvasGrid()"><i class="fa-solid fa-border-all"></i> Graph</button>
+    <button id="toggleSnapBtn" onclick="toggleSnapToGrid()"><i class="fa-solid fa-magnet"></i> Snap</button>
   </div>
 
   <div class="customization-panel">
@@ -178,41 +200,29 @@
       <label>မြန်မာစာ ဖောင့်အလှ:</label>
       <select id="fontSelect" onchange="changeFontFamily()">
         <option value="'BolFont', 'Padauk', sans-serif" selected>Bol Font (Default)</option>
-        <option value="'CalligraphrRegular', sans-serif">Calligraphr Font</option>
+        <option value="'CalligraphrRegular', sans-serif">အင်း Font</option>
         <option value="'Padauk', sans-serif">Padauk (Standard)</option>
       </select>
     </div>
     <div class="custom-control">
-      <label>Font ဖိုင် တင်ရန် (TTF):</label>
-      <input type="file" id="fontFileInput" accept=".ttf,.otf,.woff" onchange="loadLocalFont(this)">
-    </div>
-    <div class="custom-control">
-      <label>စာသား/မျဉ်းအရောင်:</label>
+      <label>စာလုံး/မျဉ်းအရောင်:</label>
       <select id="textColorSelect" onchange="changeTextColor()">
-        <option value="#2c221e">အနက်/အညို (Default)</option>
+        <option value="#2c221e">အနက်/အညို</option>
         <option value="#8b0000">အနီရောင်</option>
-        <option value="#10b981">အစိမ်းရောင်</option>
+        <option value="#0d6efd">အပြာရောင်</option>
       </select>
     </div>
     <div class="custom-control">
-      <label>နောက်ခံအရောင်:</label>
+      <label>အင်းနောက်ခံအရောင်:</label>
       <select id="bgColorSelect" onchange="changeBgColor()">
         <option value="#f5f2eb">Parchment (မူလ)</option>
         <option value="#ffffff">အဖြူရောင်</option>
-        <option value="#fae1e1">ဖျော့တော့အနီ</option>
+        <option value="#f8e8e8">ဖျော့တော့အနီ</option>
       </select>
     </div>
     <div class="custom-control">
-      <label>ဘောင်အရောင်:</label>
-      <select id="borderColorSelect" onchange="changeBorderColor()">
-        <option value="#4a3b32">ကြေးညိုရောင် (Default)</option>
-        <option value="#d4af37">ရွှေရောင်</option>
-        <option value="#8b0000">အနီရောင်</option>
-      </select>
-    </div>
-    <div class="custom-control">
-      <label>စာလုံးအရွယ်: <span id="fontSizeVal">20px</span></label>
-      <input type="range" id="fontSizeRange" min="12" max="36" value="20" oninput="changeFontSize(this.value)">
+      <label>စာလုံးအရွယ်အစား: <span id="fontSizeVal">18px</span></label>
+      <input type="range" id="fontSizeRange" min="11" max="30" value="18" oninput="changeFontSize(this.value)">
     </div>
   </div>
 
@@ -221,47 +231,41 @@
       <button id="undoBtn" onclick="undoAction()" disabled><i class="fa-solid fa-rotate-left"></i> Undo</button>
       <button id="redoBtn" onclick="redoAction()" disabled><i class="fa-solid fa-rotate-right"></i> Redo</button>
     </div>
-    <button onclick="openTemplatePicker()"><i class="fa-solid fa-scroll"></i> နမူနာ ၅ မျိုး</button>
+    <button onclick="openTemplatePicker()"><i class="fa-solid fa-book-open"></i> ရိုးရာအင်း (နမူနာ)</button>
   </div>
 
   <div id="captureArea">
     <div class="grid-container" id="captureContainer">
-      <!-- Regular Grid -->
       <div class="grid" id="gridDisplay"></div>
-
-      <!-- Interactive Circle Grid -->
       <div id="circleContainer">
-        <svg id="circleSvg" viewBox="0 0 380 380"></svg>
+        <svg id="circleSvg" viewBox="0 0 360 360"></svg>
         <div id="circleCellsContainer"></div>
       </div>
-
-      <!-- Virtual Graph Paper / Canvas -->
       <div id="canvasWrapper">
-        <canvas id="drawCanvas" width="450" height="450"></canvas>
+        <canvas id="drawCanvas" width="440" height="440"></canvas>
       </div>
     </div>
   </div>
 
   <div class="action-buttons">
     <button onclick="clearCurrentMode()" class="clear-btn"><i class="fa-solid fa-trash"></i> ရှင်းမည်</button>
-    <button onclick="saveAsImage()" class="img-btn"><i class="fa-solid fa-image"></i> ပုံထုတ်မည်</button>
+    <button onclick="saveAsImage()" class="img-btn"><i class="fa-solid fa-download"></i> အင်းပုံ သိမ်းဆည်းမည်</button>
   </div>
 
   <!-- Virtual Keypad Modal -->
   <div class="keypad-modal" id="keypadModal">
     <div class="keypad-header">
-      <span id="activeCellInfo" style="font-size:0.8rem; font-weight:bold; color:var(--primary);">ကွက်လပ်ရွေးချယ်ထားသည်</span>
+      <span id="activeCellInfo" style="font-size:0.75rem; font-weight:bold; color:var(--primary);">ကွက်လပ်ရွေးချယ်ထားသည်</span>
       <div class="kb-tabs">
         <button class="kb-tab-btn active" onclick="switchKbTab('numbers')">ဂဏန်း</button>
-        <button class="kb-tab-btn" onclick="switchKbTab('myanmar')">က-အ</button>
-        <button class="kb-tab-btn" onclick="switchKbTab('complex')">ဗျည်းတွဲ</button>
+        <button class="kb-tab-btn" onclick="switchKbTab('myanmar')">ဗျည်းများ</button>
+        <button class="kb-tab-btn" onclick="switchKbTab('complex')">ဗျည်းတွဲ/အသတ်</button>
       </div>
-      <span style="cursor:pointer; color: #d9534f; font-weight:bold; font-size:0.85rem;" onclick="closeKeypad()">✕ ပိတ်</span>
+      <span style="cursor:pointer; color: #d9534f; font-weight:bold; font-size:0.82rem;" onclick="closeKeypad()">✕ ပိတ်</span>
     </div>
 
     <div class="kb-scroll-container">
       <div id="kbNumbers" class="kb-layout active">
-        <!-- Number Row HTML omitted for brevity, same as before -->
         <div class="kb-row">
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၁')">၁</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၂')">၂</div>
@@ -285,11 +289,11 @@
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('8')">8</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('9')">9</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('0')">0</div>
-          <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫</div>
+          <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫ ဖျက်</div>
         </div>
       </div>
+
       <div id="kbMyanmar" class="kb-layout">
-        <!-- Myanmar Row HTML omitted for brevity, same as before -->
         <div class="kb-row">
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('က')">က</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ခ')">ခ</div>
@@ -334,12 +338,12 @@
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဤ')">ဤ</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဥ')">ဥ</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဧ')">ဧ</div>
-          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဪ')">ဪ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဩ')">ဩ</div>
           <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫</div>
         </div>
       </div>
+
       <div id="kbComplex" class="kb-layout">
-        <!-- Complex Row HTML omitted for brevity, same as before -->
         <div class="kb-row">
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('်')">် (အသတ်)</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ျ')">ျ (ယပင့်)</div>
@@ -347,17 +351,14 @@
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ွ')">ွ (ဝဆွဲ)</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ှ')">ှ (ဟထိုး)</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('င်္')">င်္ (ကင်းစီး)</div>
-          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('္တ')">န္တ</div>
-          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('္ထ')">န္ထ</div>
         </div>
         <div class="kb-row">
-          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('္ဓ')">န္ဓ</div>
-          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('္န')">န္န</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('န္တ')">န္တ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('န္ထ')">န္ထ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('န္ဓ')">န္ဓ</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('မ္ပ')">မ္ပ</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('မ္ဘ')">မ္ဘ</div>
           <div class="key-btn" onmousedown="event.preventDefault(); appendValue('မ္မ')">မ္မ</div>
-          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဉ္ဇ')">ဉ္ဇ</div>
-          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဉ္စ')">ဉ္စ</div>
           <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫ ဖျက်</div>
         </div>
       </div>
@@ -366,29 +367,51 @@
 
   <script>
     let currentMode = 'grid'; 
-    let rowsCount = 3; let colsCount = 11;
-    let gridData = {}; let circleData = Array(16).fill('');
+    let rowsCount = 11; 
+    let colsCount = 11;
+    let gridData = {}; 
+    let cellStyles = {}; // stores: circle, hidden, shaded per cell index
+    let circleData = Array(16).fill('');
     let selectedCell = null;
-    let undoStack = []; let redoStack = [];
+    let undoStack = []; 
+    let redoStack = [];
 
-    // Local Storage Loading
-    const savedData = localStorage.getItem('amulet_grid_data_final2');
-    if (savedData) { try { gridData = JSON.parse(savedData); } catch (e) { gridData = {}; } }
-    const savedCircle = localStorage.getItem('amulet_circle_cells_final2');
-    if (savedCircle) { try { circleData = JSON.parse(savedCircle); } catch (e) { circleData = Array(16).fill(''); } }
+    const presetSizes = [
+      { r: 3, c: 3, label: '၃x၃' },
+      { r: 4, c: 4, label: '၄x၄' },
+      { r: 5, c: 5, label: '၅x၅' },
+      { r: 7, c: 7, label: '၇x၇' },
+      { r: 11, c: 11, label: '၁၁x၁၁' }
+    ];
+
+    const toolbar = document.getElementById('toolbar');
+    presetSizes.forEach(p => {
+      const btn = document.createElement('button');
+      btn.innerText = p.label;
+      if (p.r === rowsCount && p.c === colsCount) btn.classList.add('active');
+      btn.onclick = () => {
+        saveState();
+        rowsCount = p.r; colsCount = p.c;
+        document.getElementById('inputRows').value = p.r;
+        document.getElementById('inputCols').value = p.c;
+        document.querySelectorAll('.toolbar button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderGrid();
+        closeKeypad();
+      };
+      toolbar.appendChild(btn);
+    });
 
     function saveState() {
       const state = {
         mode: currentMode,
         gridData: JSON.parse(JSON.stringify(gridData)),
+        cellStyles: JSON.parse(JSON.stringify(cellStyles)),
         circleData: [...circleData],
         rows: rowsCount, cols: colsCount
       };
       if (currentMode === 'canvas') {
         state.canvasData = canvas.toDataURL();
-        state.floatingTexts = Array.from(document.querySelectorAll('.floating-text')).map(el => ({
-          left: el.style.left, top: el.style.top, text: el.innerText
-        }));
       }
       undoStack.push(state);
       if (undoStack.length > 30) undoStack.shift();
@@ -416,27 +439,30 @@
     }
 
     function getCurrentState() {
-      const state = { mode: currentMode, gridData: JSON.parse(JSON.stringify(gridData)), circleData: [...circleData], rows: rowsCount, cols: colsCount };
-      if (currentMode === 'canvas') {
-        state.canvasData = canvas.toDataURL();
-        state.floatingTexts = Array.from(document.querySelectorAll('.floating-text')).map(el => ({ left: el.style.left, top: el.style.top, text: el.innerText }));
-      }
-      return state;
+      return {
+        mode: currentMode,
+        gridData: JSON.parse(JSON.stringify(gridData)),
+        cellStyles: JSON.parse(JSON.stringify(cellStyles)),
+        circleData: [...circleData],
+        rows: rowsCount, cols: colsCount,
+        canvasData: (currentMode === 'canvas') ? canvas.toDataURL() : null
+      };
     }
 
     function applyState(state) {
-      gridData = state.gridData; circleData = state.circleData;
+      gridData = state.gridData;
+      cellStyles = state.cellStyles || {};
+      circleData = state.circleData;
       rowsCount = state.rows; colsCount = state.cols;
-      document.getElementById('inputRows').value = rowsCount; document.getElementById('inputCols').value = colsCount;
+      document.getElementById('inputRows').value = rowsCount;
+      document.getElementById('inputCols').value = colsCount;
       switchMode(state.mode, false);
       if (state.mode === 'grid') renderGrid();
       if (state.mode === 'circle') renderCircleCells();
       if (state.mode === 'canvas' && state.canvasData) {
         let img = new Image();
-        img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); };
+        img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img, 0, 0); };
         img.src = state.canvasData;
-        document.querySelectorAll('.floating-text').forEach(e => e.remove());
-        if (state.floatingTexts) state.floatingTexts.forEach(item => createFloatingText(item.left, item.top, item.text));
       }
     }
 
@@ -447,16 +473,12 @@
       document.getElementById('circleModeBtn').classList.toggle('active', mode === 'circle');
       document.getElementById('canvasModeBtn').classList.toggle('active', mode === 'canvas');
       
-      document.getElementById('gridToolbarContainer').style.display = (mode === 'grid') ? 'block' : 'none';
-      document.getElementById('canvasToolsContainer').style.display = (mode === 'canvas') ? 'flex' : 'none';
+      document.getElementById('gridToolbarContainer').style.display = (mode === 'grid') ? 'flex' : 'none';
+      document.getElementById('canvasToolsContainer').style.display = (mode === 'canvas') ? 'grid' : 'none';
       
       document.getElementById('gridDisplay').style.display = (mode === 'grid') ? 'grid' : 'none';
       document.getElementById('circleContainer').style.display = (mode === 'circle') ? 'block' : 'none';
       document.getElementById('canvasWrapper').style.display = (mode === 'canvas') ? 'block' : 'none';
-
-      document.getElementById('captureContainer').style.border = (mode === 'canvas' || mode === 'circle') ? 'none' : '4px double var(--grid-border-color)';
-      document.getElementById('captureContainer').style.boxShadow = (mode === 'canvas' || mode === 'circle') ? 'none' : '0 5px 15px rgba(0,0,0,0.08)';
-      document.getElementById('captureContainer').style.padding = (mode === 'canvas' || mode === 'circle') ? '0' : '16px';
 
       if (mode === 'grid') renderGrid();
       if (mode === 'circle') { renderCircleSVG(); renderCircleCells(); }
@@ -464,75 +486,209 @@
     }
 
     function autoFitFont(el, text) {
-      const baseSize = parseInt(document.getElementById('fontSizeRange').value, 10) || 20;
+      const baseSize = parseInt(document.getElementById('fontSizeRange').value, 10) || 18;
       const str = text || '';
-      if (str.length > 3) el.style.fontSize = Math.max(12, baseSize * 0.55) + 'px';
-      else if (str.length > 2) el.style.fontSize = Math.max(14, baseSize * 0.75) + 'px';
+      if (str.length > 3) el.style.fontSize = Math.max(9, baseSize * 0.6) + 'px';
+      else if (str.length > 2) el.style.fontSize = Math.max(11, baseSize * 0.78) + 'px';
       else el.style.fontSize = baseSize + 'px';
     }
 
     function attachEditableListeners(cell, type) {
-      cell.contentEditable = "true"; cell.setAttribute("spellcheck", "false");
-      cell.addEventListener('focus', function() { saveState(); selectedCell = this; document.getElementById('keypadModal').classList.add('show'); });
+      cell.contentEditable = "true";
+      cell.setAttribute("spellcheck", "false");
+      cell.addEventListener('focus', function() {
+        selectedCell = this;
+        document.getElementById('keypadModal').classList.add('show');
+      });
       cell.addEventListener('input', function() {
         autoFitFont(this, this.innerText);
-        if (type === 'grid') gridData[`${rowsCount}x${colsCount}`][this.dataset.index] = this.innerText;
-        else if (type === 'circle') circleData[this.dataset.index] = this.innerText;
+        const k = `${rowsCount}x${colsCount}`;
+        if (type === 'grid') {
+          if (!gridData[k]) gridData[k] = [];
+          gridData[k][this.dataset.index] = this.innerText;
+        } else if (type === 'circle') {
+          circleData[this.dataset.index] = this.innerText;
+        }
       });
-      cell.addEventListener('keydown', function(e) { if(e.key === 'Enter') { e.preventDefault(); this.blur(); closeKeypad(); } });
+      cell.addEventListener('keydown', function(e) {
+        if(e.key === 'Enter') { e.preventDefault(); this.blur(); closeKeypad(); }
+      });
     }
 
-    function appendValue(val) { if (!selectedCell) return; selectedCell.focus(); document.execCommand('insertText', false, val); selectedCell.dispatchEvent(new Event('input')); }
-    function backspaceValue() { if (!selectedCell) return; selectedCell.focus(); document.execCommand('delete', false, null); selectedCell.dispatchEvent(new Event('input')); }
-    function closeKeypad() { if (selectedCell) selectedCell.blur(); selectedCell = null; document.getElementById('keypadModal').classList.remove('show'); }
+    function appendValue(val) {
+      if (!selectedCell) return;
+      selectedCell.focus();
+      document.execCommand('insertText', false, val);
+      selectedCell.dispatchEvent(new Event('input'));
+    }
+    function backspaceValue() {
+      if (!selectedCell) return;
+      selectedCell.focus();
+      document.execCommand('delete', false, null);
+      selectedCell.dispatchEvent(new Event('input'));
+    }
+    function closeKeypad() {
+      if (selectedCell) selectedCell.blur();
+      selectedCell = null;
+      document.getElementById('keypadModal').classList.remove('show');
+    }
 
     function switchKbTab(tab) {
       document.querySelectorAll('.kb-tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.kb-layout').forEach(lay => lay.classList.remove('active'));
-      if (tab === 'numbers') { document.querySelectorAll('.kb-tab-btn')[0].classList.add('active'); document.getElementById('kbNumbers').classList.add('active'); }
-      else if (tab === 'myanmar') { document.querySelectorAll('.kb-tab-btn')[1].classList.add('active'); document.getElementById('kbMyanmar').classList.add('active'); }
-      else { document.querySelectorAll('.kb-tab-btn')[2].classList.add('active'); document.getElementById('kbComplex').classList.add('active'); }
-    }
-
-    const presetSizes = [{r: 3, c: 3, label: '၃x၃'}, {r: 3, c: 7, label: '၃x၇'}, {r: 3, c: 11, label: '၃x၁၁'}, {r: 4, c: 4, label: '၄x၄'}, {r: 5, c: 5, label: '၅x၅'}];
-    const toolbar = document.getElementById('toolbar');
-    presetSizes.forEach(p => {
-      const btn = document.createElement('button'); btn.innerText = p.label;
-      if (p.r === rowsCount && p.c === colsCount) btn.classList.add('active');
-      btn.onclick = () => { saveState(); rowsCount = p.r; colsCount = p.c; document.getElementById('inputRows').value = p.r; document.getElementById('inputCols').value = p.c; document.querySelectorAll('.toolbar button').forEach(b => b.classList.toggle('active', b.innerText.includes(`${p.r}x${p.c}`))); renderGrid(); closeKeypad(); }; toolbar.appendChild(btn);
-    });
-
-    function applyCustomGrid() {
-      const r = parseInt(document.getElementById('inputRows').value); const c = parseInt(document.getElementById('inputCols').value);
-      if (r && c && r >= 1 && r <= 30 && c >= 1 && c <= 30) { saveState(); rowsCount = r; colsCount = c; document.querySelectorAll('.toolbar button').forEach(b => b.classList.remove('active')); renderGrid(); closeKeypad(); }
-    }
-
-    function renderGrid() {
-      const grid = document.getElementById('gridDisplay'); grid.innerHTML = ''; grid.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`; grid.style.gridTemplateRows = `repeat(${rowsCount}, 1fr)`;
-      const keyStr = `${rowsCount}x${colsCount}`;
-      if (!gridData[keyStr]) gridData[keyStr] = Array(rowsCount * colsCount).fill('');
-      for (let i = 0; i < rowsCount * colsCount; i++) {
-        const cell = document.createElement('div'); cell.className = 'cell';
-        const val = gridData[keyStr][i] || ''; cell.innerText = val; autoFitFont(cell, val); cell.dataset.index = i; attachEditableListeners(cell, 'grid'); grid.appendChild(cell);
+      if (tab === 'numbers') {
+        document.querySelectorAll('.kb-tab-btn')[0].classList.add('active');
+        document.getElementById('kbNumbers').classList.add('active');
+      } else if (tab === 'myanmar') {
+        document.querySelectorAll('.kb-tab-btn')[1].classList.add('active');
+        document.getElementById('kbMyanmar').classList.add('active');
+      } else {
+        document.querySelectorAll('.kb-tab-btn')[2].classList.add('active');
+        document.getElementById('kbComplex').classList.add('active');
       }
     }
 
+    function applyCustomGrid() {
+      const r = parseInt(document.getElementById('inputRows').value);
+      const c = parseInt(document.getElementById('inputCols').value);
+      if (r && c && r >= 1 && r <= 30 && c >= 1 && c <= 30) {
+        saveState();
+        rowsCount = r; colsCount = c;
+        renderGrid();
+        closeKeypad();
+      }
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('gridDisplay');
+      grid.innerHTML = '';
+      grid.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`;
+      grid.style.gridTemplateRows = `repeat(${rowsCount}, 1fr)`;
+
+      const k = `${rowsCount}x${colsCount}`;
+      if (!gridData[k]) gridData[k] = Array(rowsCount * colsCount).fill('');
+      if (!cellStyles[k]) cellStyles[k] = {};
+
+      // Dynamic sizing based on col count so 11x11 fits smoothly
+      const cellSize = colsCount > 9 ? 34 : (colsCount > 6 ? 40 : 45);
+
+      for (let i = 0; i < rowsCount * colsCount; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.style.width = cellSize + 'px';
+        cell.style.height = cellSize + 'px';
+        cell.dataset.index = i;
+
+        const val = gridData[k][i] || '';
+        cell.innerText = val;
+        autoFitFont(cell, val);
+
+        // Apply custom cell styling
+        const st = cellStyles[k][i];
+        if (st) {
+          if (st.circle) cell.classList.add('circle-marked');
+          if (st.hidden) cell.classList.add('hidden-cell');
+          if (st.shaded) cell.classList.add('shaded-cell');
+        }
+
+        attachEditableListeners(cell, 'grid');
+        grid.appendChild(cell);
+      }
+    }
+
+    /* Cell Special Manipulations */
+    function toggleCellCircle() {
+      if (!selectedCell || currentMode !== 'grid') return;
+      saveState();
+      const idx = selectedCell.dataset.index;
+      const k = `${rowsCount}x${colsCount}`;
+      if (!cellStyles[k]) cellStyles[k] = {};
+      if (!cellStyles[k][idx]) cellStyles[k][idx] = {};
+      cellStyles[k][idx].circle = !cellStyles[k][idx].circle;
+      selectedCell.classList.toggle('circle-marked', cellStyles[k][idx].circle);
+    }
+
+    function toggleCellHide() {
+      if (!selectedCell || currentMode !== 'grid') return;
+      saveState();
+      const idx = selectedCell.dataset.index;
+      const k = `${rowsCount}x${colsCount}`;
+      if (!cellStyles[k]) cellStyles[k] = {};
+      if (!cellStyles[k][idx]) cellStyles[k][idx] = {};
+      cellStyles[k][idx].hidden = !cellStyles[k][idx].hidden;
+      selectedCell.classList.toggle('hidden-cell', cellStyles[k][idx].hidden);
+    }
+
+    function toggleCellShade() {
+      if (!selectedCell || currentMode !== 'grid') return;
+      saveState();
+      const idx = selectedCell.dataset.index;
+      const k = `${rowsCount}x${colsCount}`;
+      if (!cellStyles[k]) cellStyles[k] = {};
+      if (!cellStyles[k][idx]) cellStyles[k][idx] = {};
+      cellStyles[k][idx].shaded = !cellStyles[k][idx].shaded;
+      selectedCell.classList.toggle('shaded-cell', cellStyles[k][idx].shaded);
+    }
+
+    /* Circle Inn Logic */
     function renderCircleSVG() {
-      const svg = document.getElementById('circleSvg'); svg.innerHTML = ''; const stroke = getComputedStyle(document.documentElement).getPropertyValue('--grid-border-color').trim() || '#4a3b32'; const cx = 190, cy = 190, rOuter = 170, rInner = 98;
-      let markup = `<circle cx="${cx}" cy="${cy}" r="${rOuter}" stroke="${stroke}" stroke-width="2.5" fill="none" /><circle cx="${cx}" cy="${cy}" r="${rInner}" stroke="${stroke}" stroke-width="2.5" fill="none" /><line x1="${cx}" y1="${cy - rInner}" x2="${cx}" y2="${cy + rInner}" stroke="${stroke}" stroke-width="2" /><line x1="${cx - rInner}" y1="${cy}" x2="${cx + rInner}" y2="${cy}" stroke="${stroke}" stroke-width="2" />`;
-      for (let i = 0; i < 12; i++) { let angle = (i * 30) * Math.PI / 180; markup += `<line x1="${cx + rInner * Math.cos(angle)}" y1="${cy + rInner * Math.sin(angle)}" x2="${cx + rOuter * Math.cos(angle)}" y2="${cy + rOuter * Math.sin(angle)}" stroke="${stroke}" stroke-width="2" />`; }
+      const svg = document.getElementById('circleSvg');
+      svg.innerHTML = '';
+      const stroke = getComputedStyle(document.documentElement).getPropertyValue('--grid-border-color').trim() || '#4a3b32';
+      const cx = 180, cy = 180, rOuter = 160, rInner = 90;
+      let markup = `
+        <circle cx="${cx}" cy="${cy}" r="${rOuter}" stroke="${stroke}" stroke-width="2.5" fill="none" />
+        <circle cx="${cx}" cy="${cy}" r="${rInner}" stroke="${stroke}" stroke-width="2.5" fill="none" />
+        <line x1="${cx}" y1="${cy - rInner}" x2="${cx}" y2="${cy + rInner}" stroke="${stroke}" stroke-width="2" />
+        <line x1="${cx - rInner}" y1="${cy}" x2="${cx + rInner}" y2="${cy}" stroke="${stroke}" stroke-width="2" />
+      `;
+      for (let i = 0; i < 12; i++) {
+        let angle = (i * 30) * Math.PI / 180;
+        markup += `<line x1="${cx + rInner * Math.cos(angle)}" y1="${cy + rInner * Math.sin(angle)}" x2="${cx + rOuter * Math.cos(angle)}" y2="${cy + rOuter * Math.sin(angle)}" stroke="${stroke}" stroke-width="2" />`;
+      }
       svg.innerHTML = markup;
     }
 
     function renderCircleCells() {
-      const container = document.getElementById('circleCellsContainer'); container.innerHTML = ''; const cx = 190, cy = 190;
-      const innerOffsets = [{ idx: 0, x: cx - 50, y: cy - 50 }, { idx: 1, x: cx + 5, y: cy - 50 }, { idx: 2, x: cx - 50, y: cy + 5 }, { idx: 3, x: cx + 5, y: cy + 5 }];
-      innerOffsets.forEach(pos => { const cell = document.createElement('div'); cell.className = 'circle-cell'; cell.style.width = '45px'; cell.style.height = '45px'; cell.style.left = pos.x + 'px'; cell.style.top = pos.y + 'px'; const val = circleData[pos.idx] || ''; cell.innerText = val; autoFitFont(cell, val); cell.dataset.index = pos.idx; attachEditableListeners(cell, 'circle'); container.appendChild(cell); });
-      const rOuterMid = (98 + 170) / 2;
-      for (let i = 0; i < 12; i++) { let midAngle = (i * 30 + 15) * Math.PI / 180; const cell = document.createElement('div'); cell.className = 'circle-cell'; cell.style.width = '44px'; cell.style.height = '44px'; cell.style.left = (cx + rOuterMid * Math.cos(midAngle) - 22) + 'px'; cell.style.top = (cy + rOuterMid * Math.sin(midAngle) - 22) + 'px'; const val = circleData[4 + i] || ''; cell.innerText = val; autoFitFont(cell, val); cell.dataset.index = 4 + i; attachEditableListeners(cell, 'circle'); container.appendChild(cell); }
+      const container = document.getElementById('circleCellsContainer');
+      container.innerHTML = '';
+      const cx = 180, cy = 180;
+      const innerOffsets = [
+        { idx: 0, x: cx - 45, y: cy - 45 },
+        { idx: 1, x: cx + 5, y: cy - 45 },
+        { idx: 2, x: cx - 45, y: cy + 5 },
+        { idx: 3, x: cx + 5, y: cy + 5 }
+      ];
+      innerOffsets.forEach(pos => {
+        const cell = document.createElement('div');
+        cell.className = 'circle-cell';
+        cell.style.width = '40px'; cell.style.height = '40px';
+        cell.style.left = pos.x + 'px'; cell.style.top = pos.y + 'px';
+        const val = circleData[pos.idx] || '';
+        cell.innerText = val;
+        autoFitFont(cell, val);
+        cell.dataset.index = pos.idx;
+        attachEditableListeners(cell, 'circle');
+        container.appendChild(cell);
+      });
+      const rOuterMid = (90 + 160) / 2;
+      for (let i = 0; i < 12; i++) {
+        let midAngle = (i * 30 + 15) * Math.PI / 180;
+        const cell = document.createElement('div');
+        cell.className = 'circle-cell';
+        cell.style.width = '38px'; cell.style.height = '38px';
+        cell.style.left = (cx + rOuterMid * Math.cos(midAngle) - 19) + 'px';
+        cell.style.top = (cy + rOuterMid * Math.sin(midAngle) - 19) + 'px';
+        const val = circleData[4 + i] || '';
+        cell.innerText = val;
+        autoFitFont(cell, val);
+        cell.dataset.index = 4 + i;
+        attachEditableListeners(cell, 'circle');
+        container.appendChild(cell);
+      }
     }
 
-    /* Virtual Graph Paper / Smart Canvas Engine */
+    /* Canvas Drawing Engine */
     const canvas = document.getElementById('drawCanvas');
     const ctx = canvas.getContext('2d');
     let canvasTool = 'pen';
@@ -540,7 +696,7 @@
     let startPos = null;
     let savedImageData = null;
     let snapToGrid = false;
-    const SNAP_SIZE = 30; // 30px grid intervals
+    const SNAP_SIZE = 30;
 
     function initCanvas() { clearCanvasBackground(); }
 
@@ -549,23 +705,20 @@
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-border-color').trim() || '#4a3b32';
       ctx.lineWidth = 2.5;
-      ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+      ctx.strokeRect(8, 8, canvas.width - 16, canvas.height - 16);
     }
 
     function setCanvasTool(tool) {
       canvasTool = tool;
-      document.getElementById('toolPen').classList.toggle('active', tool === 'pen');
-      document.getElementById('toolLine').classList.toggle('active', tool === 'line');
-      document.getElementById('toolRect').classList.toggle('active', tool === 'rect');
-      document.getElementById('toolCircle').classList.toggle('active', tool === 'circle');
-      document.getElementById('toolText').classList.toggle('active', tool === 'text');
-      document.getElementById('toolEraser').classList.toggle('active', tool === 'eraser');
+      ['pen','line','rect','circle','text','eraser'].forEach(t => {
+        const el = document.getElementById('tool' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (el) el.classList.toggle('active', tool === t);
+      });
     }
 
     function toggleCanvasGrid() {
-      const btn = document.getElementById('toggleGridBtn');
       canvas.classList.toggle('show-grid');
-      btn.classList.toggle('active');
+      document.getElementById('toggleGridBtn').classList.toggle('active');
     }
 
     function toggleSnapToGrid() {
@@ -577,11 +730,8 @@
       const rect = canvas.getBoundingClientRect();
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
-      let x = (clientX - rect.left) * scaleX;
-      let y = (clientY - rect.top) * scaleY;
-      
+      let x = (clientX - rect.left) * (canvas.width / rect.width);
+      let y = (clientY - rect.top) * (canvas.height / rect.height);
       if (snapToGrid) {
         x = Math.round(x / SNAP_SIZE) * SNAP_SIZE;
         y = Math.round(y / SNAP_SIZE) * SNAP_SIZE;
@@ -592,17 +742,8 @@
     document.getElementById('canvasWrapper').addEventListener('click', function(e) {
       if (canvasTool === 'text' && e.target.id === 'drawCanvas') {
         saveState();
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
-        let x = (e.clientX - rect.left) * scaleX;
-        let y = (e.clientY - rect.top) * scaleY;
-        
-        if(snapToGrid) {
-           x = Math.round(x / SNAP_SIZE) * SNAP_SIZE;
-           y = Math.round(y / SNAP_SIZE) * SNAP_SIZE;
-        }
-        createFloatingText(x + 'px', y + 'px', 'က');
+        const pos = getCanvasPos(e);
+        createFloatingText(pos.x + 'px', pos.y + 'px', '၁');
       }
     });
 
@@ -610,8 +751,7 @@
       const wrapper = document.getElementById('canvasWrapper');
       const txt = document.createElement('div');
       txt.className = 'floating-text';
-      txt.style.left = left;
-      txt.style.top = top;
+      txt.style.left = left; txt.style.top = top;
       txt.innerText = initialText;
       attachEditableListeners(txt, 'floating');
       makeDraggable(txt);
@@ -621,135 +761,268 @@
 
     function makeDraggable(elmnt) {
       let startX = 0, startY = 0, origX = 0, origY = 0;
-      let hasDragged = false;
-      elmnt.addEventListener('mousedown', dragStart); elmnt.addEventListener('touchstart', dragStart, { passive: false });
+      elmnt.addEventListener('mousedown', dragStart);
+      elmnt.addEventListener('touchstart', dragStart, { passive: false });
 
       function dragStart(e) {
-        if (canvasTool === 'text' && document.activeElement === elmnt) return;
-        hasDragged = false;
+        if (document.activeElement === elmnt) return;
         startX = e.touches ? e.touches[0].clientX : e.clientX;
         startY = e.touches ? e.touches[0].clientY : e.clientY;
         origX = elmnt.offsetLeft; origY = elmnt.offsetTop;
-        document.addEventListener('mousemove', dragMove); document.addEventListener('mouseup', dragEnd);
-        document.addEventListener('touchmove', dragMove, { passive: false }); document.addEventListener('touchend', dragEnd);
+        document.addEventListener('mousemove', dragMove);
+        document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('touchmove', dragMove, { passive: false });
+        document.addEventListener('touchend', dragEnd);
       }
 
       function dragMove(e) {
-        const curX = e.touches ? e.touches[0].clientX : e.clientX; const curY = e.touches ? e.touches[0].clientY : e.clientY;
-        const dx = curX - startX; const dy = curY - startY;
-        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
-          hasDragged = true; elmnt.classList.add('dragging');
-          let newLeft = origX + dx; let newTop = origY + dy;
-          if (snapToGrid) {
-            newLeft = Math.round(newLeft / SNAP_SIZE) * SNAP_SIZE;
-            newTop = Math.round(newTop / SNAP_SIZE) * SNAP_SIZE;
-          }
-          elmnt.style.left = newLeft + 'px'; elmnt.style.top = newTop + 'px';
+        const curX = e.touches ? e.touches[0].clientX : e.clientX;
+        const curY = e.touches ? e.touches[0].clientY : e.clientY;
+        let newLeft = origX + (curX - startX);
+        let newTop = origY + (curY - startY);
+        if (snapToGrid) {
+          newLeft = Math.round(newLeft / SNAP_SIZE) * SNAP_SIZE;
+          newTop = Math.round(newTop / SNAP_SIZE) * SNAP_SIZE;
         }
+        elmnt.style.left = newLeft + 'px';
+        elmnt.style.top = newTop + 'px';
         if (e.cancelable) e.preventDefault();
       }
-      function dragEnd() { document.removeEventListener('mousemove', dragMove); document.removeEventListener('mouseup', dragEnd); document.removeEventListener('touchmove', dragMove); document.removeEventListener('touchend', dragEnd); elmnt.classList.remove('dragging'); if (hasDragged) saveState(); }
+
+      function dragEnd() {
+        document.removeEventListener('mousemove', dragMove);
+        document.removeEventListener('mouseup', dragEnd);
+        document.removeEventListener('touchmove', dragMove);
+        document.removeEventListener('touchend', dragEnd);
+      }
     }
 
-    canvas.addEventListener('mousedown', startDraw); canvas.addEventListener('mousemove', draw); canvas.addEventListener('mouseup', stopDraw); canvas.addEventListener('mouseleave', stopDraw);
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDraw);
     canvas.addEventListener('touchstart', (e) => { if(canvasTool !== 'text') { startDraw(e); e.preventDefault(); } }, { passive: false });
     canvas.addEventListener('touchmove', (e) => { if(canvasTool !== 'text') { draw(e); e.preventDefault(); } }, { passive: false });
     canvas.addEventListener('touchend', stopDraw);
 
     function startDraw(e) {
       if (canvasTool === 'text') return;
-      saveState(); isDrawing = true; startPos = getCanvasPos(e);
+      saveState();
+      isDrawing = true;
+      startPos = getCanvasPos(e);
       savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      ctx.beginPath(); ctx.moveTo(startPos.x, startPos.y);
+      ctx.beginPath();
+      ctx.moveTo(startPos.x, startPos.y);
     }
 
     function draw(e) {
       if (!isDrawing || canvasTool === 'text') return;
       const pos = getCanvasPos(e);
-      ctx.putImageData(savedImageData, 0, 0); // Restore to clear shape previews
+      ctx.putImageData(savedImageData, 0, 0);
       
       ctx.strokeStyle = (canvasTool === 'eraser') ? (getComputedStyle(document.documentElement).getPropertyValue('--cell-bg-color').trim() || '#faf8f5') : document.getElementById('textColorSelect').value;
-      ctx.lineWidth = (canvasTool === 'eraser') ? 20 : 2.5;
+      ctx.lineWidth = (canvasTool === 'eraser') ? 18 : 2.5;
       ctx.lineCap = 'round';
 
       if (canvasTool === 'pen' || canvasTool === 'eraser') {
-        ctx.lineTo(pos.x, pos.y); ctx.stroke();
-        savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height); // Commit stroke for continuous drawing
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       } else if (canvasTool === 'line') {
         ctx.beginPath(); ctx.moveTo(startPos.x, startPos.y); ctx.lineTo(pos.x, pos.y); ctx.stroke();
       } else if (canvasTool === 'rect') {
         ctx.beginPath(); ctx.strokeRect(startPos.x, startPos.y, pos.x - startPos.x, pos.y - startPos.y);
       } else if (canvasTool === 'circle') {
         ctx.beginPath();
-        let radius = Math.sqrt(Math.pow(pos.x - startPos.x, 2) + Math.pow(pos.y - startPos.y, 2));
-        ctx.arc(startPos.x, startPos.y, radius, 0, 2 * Math.PI); ctx.stroke();
+        let r = Math.sqrt(Math.pow(pos.x - startPos.x, 2) + Math.pow(pos.y - startPos.y, 2));
+        ctx.arc(startPos.x, startPos.y, r, 0, 2 * Math.PI); ctx.stroke();
       }
     }
+
     function stopDraw() { isDrawing = false; }
 
+    /* Templates Collection with Image 1 & 2 Inscriptions */
     function openTemplatePicker() {
       Swal.fire({
-        title: 'ရိုးရာအင်း ၅ မျိုး (နမူနာ)', input: 'select',
-        inputOptions: { 'thambuddhe': '၁။ သမ္ဗုဒ္ဓေ ၄x၄ ရိုးရိုးအင်း', 'datkyi': '၂။ ဓာတ်ကြီး ၄ ပါး ၃x၃ အင်း', 'sittakan': '၃။ စိတ္တကံ စက်ဝိုင်းအင်း', 'navagraha': '၄။ နဝင်း ၃x၃ အင်းကွက်', 'triangle': '၅။ သုံးမြှောင့်/တြိဂံ အင်းကွက် (Canvas)' },
-        inputPlaceholder: 'နမူနာတစ်ခု ရွေးချယ်ပါ', showCancelButton: true, confirmButtonText: 'ဖန်တီးမည်', confirmButtonColor: '#8b0000'
-      }).then((result) => { if (result.isConfirmed && result.value) applyPresetTemplate(result.value); });
+        title: 'ရိုးရာအင်းစံများ ရွေးချယ်ပါ',
+        input: 'select',
+        inputOptions: {
+          'photo_11x11': '၁။ ၁၁x၁၁ ဆက်တိုက်ပတ်လည် အင်းကြီး',
+          'cross_inn': '၂။ ကြက်ခြေခတ်ပုံစံ (အလယ်မည်းခြစ်/စက်ဝိုင်းဝန်း) အင်း',
+          'diamond_inn': '၃။  ထောင့်ဖြတ်စိန်တုံးပုံစံ အင်းကွက်',
+          'thambuddhe': '၄။ သမ္ဗုဒ္ဓေ ၄x၄ အင်း',
+          'sittakan': '၅။ စိတ္တကံ စက်ဝိုင်းအင်း'
+        },
+        inputPlaceholder: 'နမူနာတစ်ခု ရွေးချယ်ပါ',
+        showCancelButton: true,
+        confirmButtonText: 'ပုံစံသွင်းမည်',
+        confirmButtonColor: '#8b0000'
+      }).then((result) => {
+        if (result.isConfirmed && result.value) applyPresetTemplate(result.value);
+      });
     }
 
     function applyPresetTemplate(key) {
       saveState();
-      if (key === 'thambuddhe') { switchMode('grid'); switchGridSize(4, 4); gridData['4x4'] = ['သ', 'ဓု', 'အ', 'သု', 'န', 'မော', 'ဗု', 'ဒ္ဓံ', 'ဇ', 'ယ', 'မံ', 'ဂ', 'လံ', 'ပု', 'တ္တံ', 'သိ']; renderGrid(); }
-      else if (key === 'datkyi') { switchMode('grid'); switchGridSize(3, 3); gridData['3x3'] = ['ပ', 'ထ', 'ဝီ', 'တေ', 'ဇော', 'အာ', 'ပေါ', 'ဝါ', 'ယော']; renderGrid(); }
-      else if (key === 'navagraha') { switchMode('grid'); switchGridSize(3, 3); gridData['3x3'] = ['၄', '၉', '၂', '၃', '၅', '၇', '၈', '၁', '၆']; renderGrid(); }
-      else if (key === 'sittakan') { switchMode('circle'); circleData = ['န', 'ရ', 'ဓ', 'မ', 'စ', '၀', 'ည', 'ဝ', 'င', 'သ', 'မ', 'ဂ', 'ဂ', 'ဉ', 'ဒ', 'ပ']; renderCircleCells(); }
-      else if (key === 'triangle') {
-        switchMode('canvas'); initCanvas();
-        ctx.strokeStyle = document.getElementById('borderColorSelect').value; ctx.lineWidth = 2.5;
-        ctx.beginPath(); ctx.moveTo(225, 40); ctx.lineTo(50, 400); ctx.lineTo(400, 400); ctx.closePath(); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(137, 220); ctx.lineTo(313, 220); ctx.moveTo(94, 310); ctx.lineTo(356, 310); ctx.moveTo(225, 40); ctx.lineTo(225, 400); ctx.stroke();
-        createFloatingText('225px', '140px', 'ဗု'); createFloatingText('180px', '265px', 'ဒ္ဓ'); createFloatingText('270px', '265px', 'န'); createFloatingText('130px', '355px', 'မော'); createFloatingText('225px', '355px', 'သ'); createFloatingText('320px', '355px', 'တ');
+      if (key === 'photo_11x11') {
+        // Complete 11x11 Grid from User Photo 2
+        switchMode('grid');
+        rowsCount = 11; colsCount = 11;
+        document.getElementById('inputRows').value = 11;
+        document.getElementById('inputCols').value = 11;
+        const k = '11x11';
+        
+        // Exact matrix representation of 121 cells from the handwritten sheet
+        const m = [
+          'စ','ခ','စ','၀','စ','ခ','စ','၀','စ','ခ','စ',
+          '၀','၂','၇','၆','၁၅','၇၈','၇၄','၆','၇','၂','၀',
+          'စ','၅','၈','၃','၃၇','','၂၄','၃','၈','၅','စ',
+          'ခ','၄','၃','၁','၃၆','၂၈','၁၆','၁','၃','၄','ခ',
+          'စ','၁၅','၇၈','၇၄','၃၅၇၆','၃၈၂၄','၃၉၅၂','၁၅','၇၈','၇၄','စ',
+          '၀','၃၇','','၂၄','၄၈၃၂','၅၀၀၀','၄၁၆၀','၃၇','','၂၄','၀',
+          'စ','၃၆','၂၈','၁၆','၄၆၆၄','၄၄၉၆','၄၃၁၈','၃၆','၂၈','၁၆','စ',
+          'ခ','၄','၃','၁','၁၅','၇၈','၇၄','၁','၃','၄','ခ',
+          'စ','၅','၈','၃','၃၇','','၂၄','၃','၈','၅','စ',
+          '၀','၂','၇','၆','၃၆','၂၈','၁၆','၆','၇','၂','၀',
+          'စ','ခ','စ','၀','စ','ခ','စ','၀','စ','ခ','စ'
+        ];
+        gridData[k] = m;
+        cellStyles[k] = {};
+        renderGrid();
+      } 
+      else if (key === 'cross_inn') {
+        // Cross / Plus Shape Inn from Photo 1
+        switchMode('grid');
+        rowsCount = 5; colsCount = 5;
+        document.getElementById('inputRows').value = 5;
+        document.getElementById('inputCols').value = 5;
+        const k = '5x5';
+        gridData[k] = [
+          '','','၁','','',
+          '','၄','၉','၂','',
+          '၃','၅','၇','၈','၁',
+          '','၆','၂','၅','',
+          '','','၁၀','',''
+        ];
+        cellStyles[k] = {
+          0: { hidden: true }, 1: { hidden: true }, 3: { hidden: true }, 4: { hidden: true },
+          5: { hidden: true }, 9: { hidden: true },
+          15: { hidden: true }, 19: { hidden: true },
+          20: { hidden: true }, 21: { hidden: true }, 23: { hidden: true }, 24: { hidden: true },
+          2: { circle: true }, 12: { shaded: true }
+        };
+        renderGrid();
+      }
+      else if (key === 'diamond_inn') {
+        // Diamond shaped Inn from Photo 1
+        switchMode('grid');
+        rowsCount = 7; colsCount = 7;
+        document.getElementById('inputRows').value = 7;
+        document.getElementById('inputCols').value = 7;
+        const k = '7x7';
+        gridData[k] = Array(49).fill('');
+        cellStyles[k] = {};
+        
+        // Hide corners to form diamond
+        const hideIndexes = [
+          0,1,2, 4,5,6,
+          7,8, 12,13,
+          14, 20,
+          28, 34,
+          35,36, 40,41,
+          42,43,44, 46,47,48
+        ];
+        hideIndexes.forEach(idx => { cellStyles[k][idx] = { hidden: true }; });
+        gridData[k][3] = '၁';
+        gridData[k][24] = '၅';
+        cellStyles[k][24] = { circle: true };
+        renderGrid();
+      }
+      else if (key === 'thambuddhe') {
+        switchMode('grid');
+        rowsCount = 4; colsCount = 4;
+        document.getElementById('inputRows').value = 4;
+        document.getElementById('inputCols').value = 4;
+        gridData['4x4'] = ['သ', 'ဓု', 'အ', 'သု', 'န', 'မော', 'ဗု', 'ဒ္ဓံ', 'ဇ', 'ယ', 'မံ', 'ဂ', 'လံ', 'ပု', 'တ္တံ', 'သိ'];
+        cellStyles['4x4'] = {};
+        renderGrid();
+      }
+      else if (key === 'sittakan') {
+        switchMode('circle');
+        circleData = ['န', 'ရ', 'ဓ', 'မ', 'စ', '၀', 'ည', 'ဝ', 'င', 'သ', 'မ', 'ဂ', 'ဂ', 'ဉ', 'ဒ', 'ပ'];
+        renderCircleCells();
       }
     }
 
     function clearCurrentMode() {
-      Swal.fire({ title: 'ရှင်းလင်းမည်လား?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#8b0000', confirmButtonText: 'ဖျက်မည်' }).then((result) => {
-        if (result.isConfirmed) { saveState(); if (currentMode === 'grid') { gridData[`${rowsCount}x${colsCount}`] = Array(rowsCount * colsCount).fill(''); renderGrid(); } else if (currentMode === 'circle') { circleData = Array(16).fill(''); renderCircleCells(); } else { initCanvas(); } }
+      Swal.fire({
+        title: 'အင်းကွက်ကို ရှင်းလင်းမည်လား?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#8b0000',
+        confirmButtonText: 'ဖျက်မည်'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          saveState();
+          if (currentMode === 'grid') {
+            const k = `${rowsCount}x${colsCount}`;
+            gridData[k] = Array(rowsCount * colsCount).fill('');
+            cellStyles[k] = {};
+            renderGrid();
+          } else if (currentMode === 'circle') {
+            circleData = Array(16).fill('');
+            renderCircleCells();
+          } else {
+            initCanvas();
+            document.querySelectorAll('.floating-text').forEach(e => e.remove());
+          }
+        }
       });
     }
 
-    function loadLocalFont(input) {
-      const file = input.files[0]; if (!file) return;
-      const fontName = 'CustomUserFont_' + Date.now(); const reader = new FileReader();
-      reader.onload = function(e) {
-        const font = new FontFace(fontName, e.target.result);
-        font.load().then(loadedFont => {
-          document.fonts.add(loadedFont); document.documentElement.style.setProperty('--selected-font', `'${fontName}', sans-serif`);
-          const opt = document.createElement('option'); opt.value = `'${fontName}', sans-serif`; opt.innerText = `တင်ထားသော Font (${file.name})`; opt.selected = true; document.getElementById('fontSelect').prepend(opt);
-          Swal.fire({ toast: true, position: 'top', icon: 'success', title: 'Font တင်သွင်းပြီးပါပြီ', showConfirmButton: false, timer: 1500 });
-        }).catch(() => { Swal.fire('အမှား', 'Font ဖိုင် ဖတ်မရပါ၊ မှန်ကန်သော TTF/OTF ဖြစ်ပါသလား စစ်ဆေးပါ။', 'error'); });
-      };
-      reader.readAsArrayBuffer(file);
+    function changeFontFamily() {
+      document.documentElement.style.setProperty('--selected-font', document.getElementById('fontSelect').value);
     }
-
-    function changeFontFamily() { document.documentElement.style.setProperty('--selected-font', document.getElementById('fontSelect').value); }
-    function changeTextColor() { document.documentElement.style.setProperty('--cell-text-color', document.getElementById('textColorSelect').value); }
-    function changeBgColor() { const color = document.getElementById('bgColorSelect').value; document.documentElement.style.setProperty('--bg', color); document.documentElement.style.setProperty('--cell-bg-color', (color==='#f5f2eb') ? '#faf8f5' : color); if (currentMode === 'canvas') clearCanvasBackground(); }
-    function changeBorderColor() { document.documentElement.style.setProperty('--grid-border-color', document.getElementById('borderColorSelect').value); if (currentMode === 'circle') renderCircleSVG(); if (currentMode === 'canvas') clearCanvasBackground(); }
-    function changeFontSize(size) { document.documentElement.style.setProperty('--font-size', size + 'px'); document.getElementById('fontSizeVal').innerText = size + 'px'; if (currentMode === 'grid') renderGrid(); if (currentMode === 'circle') renderCircleCells(); }
+    function changeTextColor() {
+      document.documentElement.style.setProperty('--cell-text-color', document.getElementById('textColorSelect').value);
+    }
+    function changeBgColor() {
+      const col = document.getElementById('bgColorSelect').value;
+      document.documentElement.style.setProperty('--bg', col);
+      document.documentElement.style.setProperty('--cell-bg-color', (col==='#f5f2eb') ? '#faf8f5' : col);
+      if (currentMode === 'canvas') clearCanvasBackground();
+    }
+    function changeFontSize(size) {
+      document.documentElement.style.setProperty('--font-size', size + 'px');
+      document.getElementById('fontSizeVal').innerText = size + 'px';
+      if (currentMode === 'grid') renderGrid();
+      if (currentMode === 'circle') renderCircleCells();
+    }
 
     function saveAsImage() {
-      closeKeypad(); document.querySelectorAll('.floating-text').forEach(t => t.blur());
-      const captureElement = document.getElementById('captureArea');
+      closeKeypad();
+      document.querySelectorAll('.floating-text').forEach(t => t.blur());
+      const el = document.getElementById('captureArea');
       const cvs = document.getElementById('drawCanvas');
       const hasGrid = cvs.classList.contains('show-grid');
-      if(hasGrid) cvs.classList.remove('show-grid'); // Hide Graph Grid for export
+      if (hasGrid) cvs.classList.remove('show-grid');
 
-      html2canvas(captureElement, { scale: 3, backgroundColor: document.getElementById('bgColorSelect').value, useCORS: true }).then(canvasImg => {
-        if(hasGrid) cvs.classList.add('show-grid'); // Restore Graph Grid
-        const link = document.createElement('a'); link.download = `amulet-${currentMode}-${Date.now()}.png`; link.href = canvasImg.toDataURL('image/png'); link.click();
-      }).catch(() => { Swal.fire('အမှား', 'ပုံထုတ်ယူရာတွင် အမှားအယွင်းရှိခဲ့ပါသည်။', 'error'); });
+      html2canvas(el, {
+        scale: 3,
+        backgroundColor: document.getElementById('bgColorSelect').value,
+        useCORS: true
+      }).then(canvasImg => {
+        if (hasGrid) cvs.classList.add('show-grid');
+        const link = document.createElement('a');
+        link.download = `myanmar-amulet-${rowsCount}x${colsCount}-${Date.now()}.png`;
+        link.href = canvasImg.toDataURL('image/png');
+        link.click();
+      }).catch(() => {
+        Swal.fire('အမှား', 'ပုံထုတ်ယူရာတွင် အမှားအယွင်းရှိခဲ့ပါသည်။', 'error');
+      });
     }
 
-    switchMode('grid', false);
+    // Default bootstrap 11x11 Grid
+    renderGrid();
   </script>
 </body>
 </html>
