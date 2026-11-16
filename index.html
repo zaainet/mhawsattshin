@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>မြန်မာ့ရိုးရာ အင်းကွက် ဖန်တီးရေးစနစ် (Master Pro Edition)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+  <div class="header-container">
+    <h2><i class="fa-solid fa-compass-drafting"></i> မြန်မာ့ရိုးရာ အင်းကွက်ဖန်တီးရေး (Master Pro)</h2>
+  </div>
+
+  <div class="mode-switcher">
+    <button id="gridModeBtn" class="active" onclick="switchMode('grid')">ဇယားကွက်</button>
+    <button id="circleModeBtn" onclick="switchMode('circle')">စက်ဝိုင်းအင်း</button>
+    <button id="complexModeBtn" onclick="switchMode('complex')">ဗိမာန်/ပြာသာဒ်အင်း</button>
+    <button id="canvasModeBtn" onclick="switchMode('canvas')">Virtual Canvas</button>
+  </div>
+
+  <div id="gridToolbarContainer" style="width:100%; max-width:650px;">
+    <div class="toolbar" id="toolbar"></div>
+    <div class="custom-grid-box">
+      <label>အတန်း:</label>
+      <input type="number" id="inputRows" min="1" max="25" value="3">
+      <label>အတိုင်:</label>
+      <input type="number" id="inputCols" min="1" max="30" value="11">
+      <button onclick="applyCustomGrid()">ဖန်တီး</button>
+      <button onclick="toggleVectorLine()" id="btnVectorLine" style="background:#555; margin-left:6px;"><i class="fa-solid fa-route"></i> အင်းသွားမျဉ်း</button>
+    </div>
+  </div>
+
+  <div id="canvasToolsContainer" class="canvas-tools" style="display: none;">
+    <button id="toolPen" class="active" onclick="setCanvasTool('pen')"><i class="fa-solid fa-pen"></i> လက်ဆွဲ</button>
+    <button id="toolLine" onclick="setCanvasTool('line')"><i class="fa-solid fa-minus"></i> မျဉ်းဖြောင့်</button>
+    <button id="toolRect" onclick="setCanvasTool('rect')"><i class="fa-regular fa-square"></i> လေးထောင့်</button>
+    <button id="toolCircle" onclick="setCanvasTool('circle')"><i class="fa-regular fa-circle"></i> စက်ဝိုင်း</button>
+    <button id="toolText" onclick="setCanvasTool('text')"><i class="fa-solid fa-font"></i> စာလုံးချရန်</button>
+    <button id="toolEraser" onclick="setCanvasTool('eraser')"><i class="fa-solid fa-eraser"></i> ဖျက်ဆေး</button>
+  </div>
+
+  <div class="customization-panel">
+    <div class="custom-control">
+      <label>အင်းကွက်သုံး ဖောင့်အလှ:</label>
+      <select id="fontSelect" onchange="changeFontFamily()">
+        <option value="'BolFont', 'Padauk', sans-serif" selected>Bol Font (Default)</option>
+        <option value="'CalligraphrRegular', sans-serif">Calligraphr Font</option>
+        <option value="'Padauk', sans-serif">Padauk (Standard)</option>
+      </select>
+    </div>
+    <div class="custom-control">
+      <label>Font ဖိုင် တင်ရန် (TTF):</label>
+      <input type="file" id="fontFileInput" accept=".ttf,.otf,.woff" onchange="loadLocalFont(this)">
+    </div>
+    <div class="custom-control">
+      <label>စာသား/မျဉ်းအရောင်:</label>
+      <select id="textColorSelect" onchange="changeTextColor()">
+        <option value="#8b0000" selected>အနီရောင် (Default မဟာအင်း)</option>
+        <option value="#2c221e">အနက်/အညို</option>
+        <option value="#10b981">အစိမ်းရောင်</option>
+      </select>
+    </div>
+    <div class="custom-control">
+      <label>ဘောင်အရောင်:</label>
+      <select id="borderColorSelect" onchange="changeBorderColor()">
+        <option value="#8b0000" selected>အနီရောင် (Traditional Red)</option>
+        <option value="#4a3b32">ကြေးညိုရောင်</option>
+        <option value="#d4af37">ရွှေရောင်</option>
+      </select>
+    </div>
+    <div class="custom-control">
+      <label>စာလုံးအရွယ်: <span id="fontSizeVal">18px</span></label>
+      <input type="range" id="fontSizeRange" min="10" max="32" value="18" oninput="changeFontSize(this.value)">
+    </div>
+    <div class="custom-control">
+      <label>အကွက်တည်းဖြတ် Tool:</label>
+      <select id="cellToolMode">
+        <option value="edit">စာသားရိုက်သွင်းမည် (Default)</option>
+        <option value="circle">စက်ဝိုင်းဝိုင်း/ဖြုတ်မည်</option>
+        <option value="shade">မည်းခြစ်/ဖျက်မည်</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="utility-bar">
+    <div style="display:flex; gap:6px;">
+      <button id="undoBtn" onclick="undoAction()" disabled><i class="fa-solid fa-rotate-left"></i> Undo</button>
+      <button id="redoBtn" onclick="redoAction()" disabled><i class="fa-solid fa-rotate-right"></i> Redo</button>
+    </div>
+    <button onclick="openTemplatePicker()"><i class="fa-solid fa-scroll"></i> မဟာအင်းစံများ (Templates)</button>
+  </div>
+
+  <!-- Capture Area containing Title, Grid/Canvas, and Note Box -->
+  <div id="captureArea">
+    <!-- Editable Inn Title in Calligraphy / Selected Font -->
+    <div class="export-inn-title" id="exportInnTitle" contenteditable="true" spellcheck="false">အင်းနာမည် (ဥပမာ- ရေယဉ်ကတော်အင်း)</div>
+
+    <div class="grid-container" id="captureContainer">
+      
+      <!-- Standard Grid with Zig-zag Line Support -->
+      <div class="grid-wrapper" id="gridWrapper">
+        <div class="grid" id="gridDisplay"></div>
+        <svg id="vectorSvg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+      </div>
+
+      <!-- Circle Grid -->
+      <div id="circleContainer">
+        <svg id="circleSvg" viewBox="0 0 380 380"></svg>
+        <div id="circleCellsContainer"></div>
+      </div>
+
+      <!-- Complex Tower / Stupa Shrine Layout -->
+      <div id="complexContainer">
+        <div class="complex-canvas-box" id="complexGridDisplay"></div>
+      </div>
+
+      <!-- Virtual Canvas -->
+      <div id="canvasWrapper">
+        <canvas id="drawCanvas" width="450" height="450"></canvas>
+      </div>
+
+    </div>
+
+    <!-- Editable Note Box Below Inn -->
+    <div class="export-note-box" id="exportNoteBox" contenteditable="true" spellcheck="false"></div>
+  </div>
+
+  <div class="action-buttons">
+    <button onclick="clearCurrentMode()" class="clear-btn"><i class="fa-solid fa-trash"></i> ရှင်းမည်</button>
+    <button onclick="saveAsTemplate()" class="save-template-btn"><i class="fa-solid fa-bookmark"></i> Template အဖြစ် သိမ်းမည်</button>
+    <button onclick="saveAsImage()" class="img-btn"><i class="fa-solid fa-image"></i> ပုံထုတ်မည် (Export PNG)</button>
+  </div>
+
+  <!-- Keypad Modal -->
+  <div class="keypad-modal" id="keypadModal">
+    <div class="keypad-header">
+      <span id="activeCellInfo" style="font-size:0.8rem; font-weight:bold; color:var(--primary);">ကွက်လပ်ရွေးချယ်ထားသည်</span>
+      <div class="kb-tabs">
+        <button class="kb-tab-btn active" onclick="switchKbTab('numbers')">ဂဏန်း</button>
+        <button class="kb-tab-btn" onclick="switchKbTab('myanmar')">က-အ</button>
+        <button class="kb-tab-btn" onclick="switchKbTab('complex')">ဗျည်းတွဲ</button>
+      </div>
+      <span style="cursor:pointer; color: #d9534f; font-weight:bold; font-size:0.82rem;" onclick="closeKeypad()">✕ ပိတ်</span>
+    </div>
+
+    <div class="kb-scroll-container">
+      <div id="kbNumbers" class="kb-layout active">
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၁')">၁</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၂')">၂</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၃')">၃</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၄')">၄</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၅')">၅</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၆')">၆</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၇')">၇</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၈')">၈</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၉')">၉</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('၀')">၀</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('1')">1</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('2')">2</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('3')">3</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('4')">4</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('5')">5</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('6')">6</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('7')">7</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('8')">8</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('9')">9</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('0')">0</div>
+          <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫</div>
+        </div>
+      </div>
+
+      <div id="kbMyanmar" class="kb-layout">
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('က')">က</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ခ')">ခ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဂ')">ဂ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဃ')">ဃ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('င')">င</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('စ')">စ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဆ')">ဆ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဇ')">ဇ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဉ')">ဉ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ည')">ည</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဋ')">ဋ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဌ')">ဌ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဍ')">ဍ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဎ')">ဎ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဏ')">ဏ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('တ')">တ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ထ')">ထ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဒ')">ဒ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဓ')">ဓ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('န')">န</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ပ')">ပ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဖ')">ဖ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဗ')">ဗ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဘ')">ဘ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('မ')">မ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ယ')">ယ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ရ')">ရ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('လ')">လ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဝ')">ဝ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('သ')">သ</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဟ')">ဟ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဠ')">ဠ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('အ')">အ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဣ')">ဣ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဤ')">ဤ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဥ')">ဥ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဧ')">ဧ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဪ')">ဪ</div>
+          <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫</div>
+        </div>
+      </div>
+
+      <div id="kbComplex" class="kb-layout">
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('်')">် (အသတ်)</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ျ')">ျ (ယပင့်)</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ြ')">ြ (ရရစ်)</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ွ')">ွ (ဝဆွဲ)</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ှ')">ှ (ဟထိုး)</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('င်္')">င်္ (ကင်းစီး)</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('္တ')">န္တ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('္ထ')">န္ထ</div>
+        </div>
+        <div class="kb-row">
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('္ဓ')">န္ဓ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('္န')">န္န</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('မ္ပ')">မ္ပ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('မ္ဘ')">မ္ဘ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('မ္မ')">မ္မ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဉ္ဇ')">ဉ္ဇ</div>
+          <div class="key-btn" onmousedown="event.preventDefault(); appendValue('ဉ္စ')">ဉ္စ</div>
+          <div class="key-btn backspace-key" onmousedown="event.preventDefault(); backspaceValue()">⌫ ဖျက်</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
